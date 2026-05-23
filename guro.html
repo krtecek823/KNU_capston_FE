@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#1a4f8a",
+                        "secondary-fixed": "#dce3ed",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#a5c8ff",
+                        "inverse-on-surface": "#f0f0f6",
+                        "background": "#f9f9ff",
+                        "surface-variant": "#e2e2e8",
+                        "on-secondary-container": "#5e656d",
+                        "primary": "#00386b",
+                        "outline-variant": "#c2c6d1",
+                        "surface-container-highest": "#e2e2e8",
+                        "surface-container": "#ededf3",
+                        "secondary-container": "#dce3ed",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#2f5f9b",
+                        "surface-container-low": "#f3f3f9",
+                        "on-secondary-fixed": "#151c23",
+                        "on-primary-fixed": "#001c3a",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-surface": "#1a1c20",
+                        "on-secondary-fixed-variant": "#40474f",
+                        "primary-fixed": "#d4e3ff",
+                        "on-tertiary-container": "#ffae6b",
+                        "on-surface-variant": "#424750",
+                        "on-error": "#ffffff",
+                        "on-background": "#1a1c20",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#0d4782",
+                        "inverse-surface": "#2e3035",
+                        "tertiary-fixed-dim": "#ffb77e",
+                        "secondary": "#585f67",
+                        "on-tertiary-fixed": "#2f1500",
+                        "tertiary": "#582c00",
+                        "surface-container-high": "#e8e8ed",
+                        "on-primary-container": "#9ac2ff",
+                        "surface-dim": "#d9dadf",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "tertiary-container": "#793f00",
+                        "secondary-fixed-dim": "#c0c7d1",
+                        "outline": "#737781",
+                        "error-container": "#ffdad6",
+                        "cta": "#F5A623",
+                        "brand-navy": "#1A4F8A",
+                        "primary-light": "#EAF1FB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "nav-padding-horiz": "40px",
+                        "section-gap": "48px",
+                        "card-padding": "16px",
+                        "nav-height": "64px",
+                        "gutter": "24px",
+                        "max-width": "1200px"
+                    },
+                    "fontFamily": {
+                        "section-title": ["Manrope"],
+                        "page-title": ["Manrope"],
+                        "body-main": ["Manrope"],
+                        "price-highlight": ["Manrope"],
+                        "helper-text": ["Manrope"],
+                        "card-title": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .custom-shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 h-nav-height bg-surface-container-lowest dark:bg-surface flex justify-between items-center px-nav-padding-horiz max-w-full border-b border-outline-variant">
+<div class="flex items-center gap-10">
+<span onclick="location.href='index.html'" class="text-page-title font-bold text-primary dark:text-primary-fixed-dim">HoverStay</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy transition-colors" href="#">숙소</a>
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy transition-colors" href="#">항공권</a>
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy transition-colors" href="#">렌터카</a>
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy transition-colors" href="#">패키지</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface font-body-main hover:underline">숙소 등록</button>
+<button class="text-on-surface font-body-main hover:underline">로그인</button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">account_circle</span>
+</div>
+</header>
+<main class="mt-nav-height pt-4">
+<!-- Search Bar Section -->
+<section class="bg-primary-light py-8">
+<div class="max-w-max-width mx-auto px-4 flex items-center gap-3">
+<div class="flex-1 bg-white border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-main text-on-surface" type="text" value="신라스테이 구로"/>
+</div>
+<div class="flex-[0.6] bg-white border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">calendar_month</span>
+<span class="font-body-main text-on-surface">2024.11.20 - 2024.11.21</span>
+</div>
+<div class="flex-[0.4] bg-white border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">person</span>
+<span class="font-body-main text-on-surface">성인 2명</span>
+</div>
+<button class="bg-cta text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-all">확인</button>
+</div>
+</section>
+<!-- Tab Menu -->
+<nav class="sticky top-[64px] z-40 bg-white border-b border-outline-variant">
+<div class="max-w-max-width mx-auto px-4 flex items-center justify-between h-14">
+<ul class="flex gap-8 h-full">
+<li class="flex items-center border-b-2 border-brand-navy h-full">
+<a class="text-brand-navy font-bold font-body-main" href="#">개요</a>
+</li>
+<li class="flex items-center h-full">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy" href="#">객실</a>
+</li>
+<li class="flex items-center h-full">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy" href="#">편의시설</a>
+</li>
+<li class="flex items-center h-full">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy" href="#">이용후기</a>
+</li>
+<li class="flex items-center h-full">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy" href="#">위치</a>
+</li>
+<li class="flex items-center h-full">
+<a class="text-on-surface-variant font-body-main hover:text-brand-navy" href="#">정책</a>
+</li>
+</ul>
+<div class="flex items-center gap-4">
+<span class="text-on-surface font-bold text-price-highlight">₩302,720부터</span>
+<button onclick="location.href='booking.html'" data-hover-event="add_to_cart" data-hover-product-id="guro-room" data-hover-cart-count="1" class="bg-cta text-white font-bold py-2 px-6 rounded-lg hover:opacity-90 transition-all text-body-main">객실 상품 보기</button>
+</div>
+</div>
+</nav>
+<!-- Photo Gallery -->
+<section class="max-w-max-width mx-auto px-4 mt-8">
+<div class="flex gap-2 h-[480px]">
+<div class="w-[60%] overflow-hidden rounded-xl">
+<img alt="Main Hotel View" class="w-full h-full object-cover" data-alt="A high-end, contemporary business hotel exterior featuring sleek glass architecture and warm ambient interior lighting visible through large windows. The shot is taken during the golden hour, casting a soft, professional glow across the building. The surrounding landscape is clean and minimalist, reflecting a corporate modern aesthetic with deep blue and white accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnw3UV-tQ6aiVSAcWxHxu4cbxhvQw802P_bN4lc5Z1oTaLGNAAdc_zbE2lkakas9qyCGGeMYJb1nzIJouLtrdSPgKQd12fbPQDfmYszw1EBgYIn8LXxSd7quHduSLRgcSCNm5LKTZUK7fj4WLPmiq9obLCdQRp7WgjfD07iiHGPA95cZdSCujoFPiwcRqVVX6sUirACObhIW9lDTvsjUBHvq6747NOOMXdc7HBElmydkeARjpcS9_pa7rhQR-0SqwcKZSjMMRPcwBx"/>
+</div>
+<div class="w-[40%] flex flex-col gap-2">
+<div class="h-1/2 overflow-hidden rounded-xl">
+<img alt="Luxury Room" class="w-full h-full object-cover" data-alt="A sophisticated business hotel guest room with a minimalist interior design. The room features a plush king-sized bed with crisp white linens, dark wood furniture, and a large window overlooking a modern city skyline. The lighting is soft and recessed, creating a serene and productive environment. The color palette consists of neutral grays, deep navy, and warm wood tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATnz4Yun5T8s6ZgY0E0NCBUjhsgCIOw4bxPNSQq-Wr5KDJcChdq10Z7sEeqWOfHg-LravgHHrWzvil1f0VuzH0PiC6hurx5BjBWxqJqqh_1Yl2ChuGDgH2m-s18Ee-FVMpmLETh27TnWmnqVUXESynAY7gMzjI9xPExn8MEV1qxAcdLuwrSnO-LeQA3Ph5msOLGiX8f25aG28q1bQ7gEJiDfwBQYlXno3HuxB-lILqhnDlv-yjHxLmV0TTJIMP2POppvzi6esjvbee"/>
+</div>
+<div class="h-1/2 overflow-hidden rounded-xl">
+<img alt="Hotel Lobby" class="w-full h-full object-cover" data-alt="A bright and spacious corporate hotel lobby with high ceilings and polished marble floors. Minimalist lounge furniture in navy blue and charcoal gray is arranged in clean clusters. Large floor-to-ceiling windows allow for natural daylight, creating a light-mode aesthetic. The space is professional, uncluttered, and features subtle gold accents for a premium touch." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs8DGZDvfb2vIW5WAAfvC6Zz_KFbWvjoYb81-zDqRHElAnqtcanlG_SWypeEOKygQRDCF3IUNzh03OT56WH5rse3-xP_1DPKN8yx8UR3ysxlO27wqY9l3Q0_BXlNB03SOpUfJRCz2ELe9tTzODjU_JrUVjMOU5Cd00v0NvPLjz6NKwxleGvQ43PtamrLkZrbQSncUKPobJmBqACZlJU_XNye_7yUHz6XHCwWxkM2HXodBlSWk8wgv5NFvyEmWJRPw0vvGRgF-xsVmt"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Hotel Info Box -->
+<section class="max-w-max-width mx-auto px-4 -mt-16 relative z-10">
+<div class="bg-white rounded-xl p-8 custom-shadow max-w-4xl border border-outline-variant">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h1 class="text-page-title font-bold text-on-surface">신라스테이 구로</h1>
+<div class="flex text-cta">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-main">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>서울특별시 구로구 디지털로 300</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-full border border-outline-variant hover:bg-surface-container

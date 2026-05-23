@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#582c00",
+                        "inverse-primary": "#a5c8ff",
+                        "surface-dim": "#d9dadf",
+                        "surface-container-low": "#f3f3f9",
+                        "surface-container": "#ededf3",
+                        "secondary-fixed": "#dce3ed",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c20",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#793f00",
+                        "on-primary-fixed": "#001c3a",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-tint": "#2f5f9b",
+                        "on-error": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f9f9ff",
+                        "secondary": "#585f67",
+                        "inverse-surface": "#2e3035",
+                        "primary-container": "#1a4f8a",
+                        "inverse-on-surface": "#f0f0f6",
+                        "outline-variant": "#c2c6d1",
+                        "on-surface-variant": "#424750",
+                        "on-secondary-container": "#5e656d",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d4e3ff",
+                        "on-secondary": "#ffffff",
+                        "primary": "#00386b",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e2e2e8",
+                        "tertiary-fixed-dim": "#ffb77e",
+                        "surface-variant": "#e2e2e8",
+                        "on-secondary-fixed-variant": "#40474f",
+                        "on-secondary-fixed": "#151c23",
+                        "secondary-container": "#dce3ed",
+                        "on-primary-fixed-variant": "#0d4782",
+                        "surface-container-high": "#e8e8ed",
+                        "surface-bright": "#f9f9ff",
+                        "secondary-fixed-dim": "#c0c7d1",
+                        "outline": "#737781",
+                        "on-tertiary-container": "#ffae6b",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1a1c20",
+                        "on-primary-container": "#9ac2ff",
+                        "cta": "#F5A623",
+                        "brand-navy": "#1A4F8A",
+                        "success-green": "#2E7D32"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "48px",
+                        "gutter": "24px",
+                        "max-width": "1200px",
+                        "card-padding": "16px",
+                        "nav-padding-horiz": "40px",
+                        "nav-height": "64px"
+                    },
+                    "fontFamily": {
+                        "price-highlight": ["Manrope"],
+                        "body-main": ["Manrope"],
+                        "page-title": ["Manrope"],
+                        "helper-text": ["Manrope"],
+                        "card-title": ["Manrope"],
+                        "section-title": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .custom-shadow {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .modal-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[100] modal-overlay flex items-center justify-center">
+<!-- Modal Content -->
+<div class="w-[480px] bg-white rounded-xl overflow-hidden modal-shadow flex flex-col relative">
+<!-- Modal Header -->
+<div class="h-20 bg-brand-navy flex items-center justify-center relative">
+<span class="material-symbols-outlined text-white text-5xl">sell</span>
+<button class="absolute top-4 right-4 w-8 h-8 bg-surface-container-highest rounded-full flex items-center justify-center text-on-surface-variant hover:bg-outline-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="px-7 py-7 text-center">
+<span class="inline-block bg-cta text-white text-[12px] font-bold px-3 py-1 rounded-full mb-4">최저가 확인</span>
+<h2 class="text-[22px] font-bold text-[#1A1A2E] mb-2">지금 이 가격이 가장 저렴해요!</h2>
+<p class="text-on-surface-variant text-[14px] mb-6">다른 사이트와 비교해도 HoverStay가 가장 쌉니다</p>
+<!-- Comparison Box -->
+<div class="bg-[#F7F8FA] rounded-xl p-5 text-left mb-4">
+<!-- Row 1: HoverStay -->
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-brand-navy">HoverStay</span>
+<span class="bg-cta text-white text-[11px] font-bold px-2 py-0.5 rounded">최저가</span>
+</div>
+<span class="text-brand-navy font-bold text-lg">₩332,775</span>
+</div>
+<!-- Row 2 -->
+<div class="flex justify-between items-center mb-3">
+<span class="text-outline text-sm">타 사이트 A</span>
+<span class="text-outline text-sm line-through">₩364,800</span>
+</div>
+<!-- Row 3 -->
+<div class="flex justify-between items-center mb-4">
+<span class="text-outline text-sm">타 사이트 B</span>
+<span class="text-outline text-sm line-through">₩371,200</span>
+</div>
+<div class="h-px bg-outline-variant w-full mb-4"></div>
+<div class="text-center">
+<span class="text-success-green font-bold">최대 ₩38,425 절약 가능</span>
+</div>
+</div>
+<p class="text-outline text-[12px]">가격은 실시간으로 변동될 수 있습니다</p>
+</div>
+
+</body></html>
+
+<script src="hover-client.js"></script>
