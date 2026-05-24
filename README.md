@@ -8,6 +8,8 @@
 
 ### Development Server 실행
 
+cd admin-dashboard 이동 후 
+
 로컬 환경에서 개발 서버를 구동하려면 아래 명령어 중 하나를 실행하세요.
 
 ```bash
