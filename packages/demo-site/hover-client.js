@@ -10,9 +10,9 @@
       type: 'coupon_modal',
       data: {
         hotel_name: 'HoverStay',
-        room_name: '예약 중인 객실',
+        room_name: 'Selected room',
         discount_percent: 5,
-        cta_text: '쿠폰 적용하기',
+        cta_text: 'Apply coupon',
       },
     },
     S2: {
@@ -20,7 +20,7 @@
       data: {
         hotel_name: 'HoverStay',
         price_diff: 12000,
-        cta_text: '예약 계속하기',
+        cta_text: 'Continue booking',
       },
     },
   };
@@ -48,12 +48,38 @@
 
   function inferHotelContext() {
     const title = document.querySelector('h1')?.textContent?.trim() || document.title || 'HoverStay';
-    const priceText = document.body.textContent.match(/₩\s?[\d,]+/)?.[0] || '';
+    const priceText = document.body.textContent.match(/KRW|₩\s?[\d,]+/)?.[0] || '';
     const selectedCopy = document.querySelector('[data-hover-copy]')?.getAttribute('data-hover-copy') || '';
     return {
       hotel_name: title.replace(/\s+/g, ' ').slice(0, 80),
-      room_name: selectedCopy || '선택하신 객실',
+      room_name: selectedCopy || 'Selected room',
       price_text: priceText,
+    };
+  }
+
+  function mockDecisionScenario() {
+    const params = new URLSearchParams(location.search);
+    const value = params.get('mockDecision');
+    if (!value) return null;
+    const normalized = value.toLowerCase();
+    if (normalized === 'banner' || normalized === 'price' || normalized === 's2') return 'S2';
+    return 'S1';
+  }
+
+  function createMockDecision(scenarioId) {
+    const widget = JSON.parse(JSON.stringify(FALLBACK_WIDGETS[scenarioId] || FALLBACK_WIDGETS.S1));
+    widget.data = Object.assign(widget.data, inferHotelContext(), {
+      title: scenarioId === 'S2' ? 'Mock best-price banner' : 'Mock coupon modal',
+      body: scenarioId === 'S2'
+        ? 'Decision API is not running, so this banner is rendered by mock decision mode.'
+        : 'Decision API is not running, so this coupon modal is rendered by mock decision mode.',
+    });
+    return {
+      intervention_id: `mock-${scenarioId.toLowerCase()}-${Date.now()}`,
+      session_id: window.hover?.getSessionId ? window.hover.getSessionId() : 'mock-session',
+      scenario_id: scenarioId,
+      ab_group: 'treatment',
+      widgets: [widget],
     };
   }
 
@@ -80,6 +106,20 @@
     const widget = JSON.parse(JSON.stringify(FALLBACK_WIDGETS[scenarioId]));
     widget.data = Object.assign(widget.data, inferHotelContext());
     renderDecision({ ab_group: 'treatment', widgets: [widget] }, tracking);
+  }
+
+  function maybeShowMockDecision(tracking) {
+    const scenarioId = mockDecisionScenario();
+    if (!scenarioId) return;
+    const key = `hover_mock_decision_${scenarioId}_${location.pathname}_${location.search}`;
+    if (sessionStorage.getItem(key) === 'true') return;
+    sessionStorage.setItem(key, 'true');
+    const decision = createMockDecision(scenarioId);
+    tracking.track('mock_decision_shown', {
+      scenario_id: scenarioId,
+      source: 'url_param',
+    }, { flush: true });
+    renderDecision(decision, tracking);
   }
 
   function wireDemoEvents(tracking) {
@@ -152,6 +192,7 @@
       });
       wireDemoEvents(tracking);
       window.hover = tracking;
+      maybeShowMockDecision(tracking);
     }).catch((error) => {
       if (CONFIG.debug) console.warn('[Hover] SDK load failed', error);
     });
