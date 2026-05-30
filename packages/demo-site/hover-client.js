@@ -52,6 +52,74 @@
     });
   }
 
+  function isLoggedIn() {
+    try {
+      return localStorage.getItem('hover_logged_in') === 'true';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function currentPage() {
+    return location.pathname.split('/').pop() || 'index.html';
+  }
+
+  function redirectAuthenticatedAuthPage() {
+    if (!isLoggedIn()) return;
+    const page = currentPage();
+    if (page === 'signin.html' || page === 'signup.html') {
+      location.replace('index.html');
+    }
+  }
+
+  function updateAuthButtons() {
+    const loggedIn = isLoggedIn();
+    const authItems = Array.from(document.querySelectorAll('a, button')).filter((element) => {
+      const text = element.textContent.trim().toLowerCase();
+      const href = element.getAttribute('href') || '';
+      const onclick = element.getAttribute('onclick') || '';
+
+      return (
+        text === '로그인' ||
+        text === 'login' ||
+        text === '회원가입' ||
+        text === 'register' ||
+        href.includes('signin.html') ||
+        href.includes('signup.html') ||
+        onclick.includes('signin.html') ||
+        onclick.includes('signup.html')
+      );
+    });
+
+    if (!loggedIn) {
+      document.querySelectorAll('[data-hover-logout]').forEach((element) => element.remove());
+      authItems.forEach((element) => {
+        element.style.display = '';
+      });
+      return;
+    }
+
+    const parent = authItems[0] && authItems[0].parentElement;
+    authItems.forEach((element) => {
+      element.style.display = 'none';
+    });
+
+    if (!parent || parent.querySelector('[data-hover-logout]')) return;
+
+    const logoutButton = document.createElement('button');
+    logoutButton.type = 'button';
+    logoutButton.dataset.hoverLogout = 'true';
+    logoutButton.className = authItems[0] ? authItems[0].className : 'px-4 py-2 rounded-lg font-bold';
+    logoutButton.textContent = '로그아웃';
+    logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('hover_logged_in');
+      localStorage.removeItem('hover_user');
+      location.href = 'index.html';
+    });
+
+    parent.appendChild(logoutButton);
+  }
+
   function wireDemoEvents(tracking) {
     document.addEventListener('click', (event) => {
       const button = event.target.closest('[data-hover-event], [data-hover-copy]');
@@ -120,6 +188,8 @@
         },
       });
       wireDemoEvents(tracking);
+      redirectAuthenticatedAuthPage();
+      updateAuthButtons();
       window.hover = tracking;
     }).catch((error) => {
       if (CONFIG.debug) console.warn('[Hover] SDK load failed', error);
