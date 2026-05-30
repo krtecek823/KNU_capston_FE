@@ -137,6 +137,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: json,
       keepalive: useBeacon,
+      credentials: 'omit',
     }).then(() => undefined);
   }
 
@@ -200,6 +201,7 @@
       return global.fetch(decisionEndpoint(config.decisionUrl, sessionId), {
         method: 'GET',
         headers: { Accept: 'application/json' },
+        credentials: 'omit',
       })
         .then((response) => {
           if (!response || response.status === 204 || !response.ok) return null;
