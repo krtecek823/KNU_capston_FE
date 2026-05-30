@@ -1,0 +1,10 @@
+{
+  "name": "@hover/tracking-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser behavior tracking SDK for Hover demo sites.",
+  "main": "dist/hover-tracking-sdk.js",
+  "scripts": {
+    "build": "node scripts/copy-dist.mjs"
+  }
+}

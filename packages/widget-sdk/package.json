@@ -1,0 +1,10 @@
+{
+  "name": "@hover/widget-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shadow DOM intervention widgets for Hover.",
+  "main": "dist/hover-widget-sdk.js",
+  "scripts": {
+    "build": "node scripts/copy-dist.mjs"
+  }
+}
