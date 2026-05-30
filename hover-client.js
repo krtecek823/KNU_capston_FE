@@ -163,6 +163,68 @@ const DECISION_API = 'http://localhost:4001/decision';
     document.body.appendChild(banner);
   }
 
+  function showSignupCouponBanner() {
+    const isLoggedIn = localStorage.getItem('hover_logged_in') === 'true';
+    const page = location.pathname.split('/').pop() || 'index.html';
+    const allowedPage = page === 'index.html' || page === 'search.html';
+    const dismissedOnHome = sessionStorage.getItem('hover_signup_coupon_dismissed_home') === 'true';
+
+    if (isLoggedIn || !allowedPage || document.querySelector('[data-hover-signup-coupon]')) return;
+    if (page === 'index.html' && dismissedOnHome) return;
+
+    if (page === 'search.html') {
+      const params = new URLSearchParams(location.search);
+      const searchKey = params.toString() || location.href;
+      const lastShownKey = sessionStorage.getItem('hover_signup_coupon_search_key');
+      const shouldShow = lastShownKey !== searchKey && Math.random() < 0.45;
+      if (!shouldShow) return;
+      sessionStorage.setItem('hover_signup_coupon_search_key', searchKey);
+    }
+
+    const banner = document.createElement('div');
+    banner.dataset.hoverSignupCoupon = 'true';
+    banner.style.cssText = [
+      'position:fixed',
+      'top:76px',
+      'left:50%',
+      'transform:translateX(-50%)',
+      'z-index:9998',
+      'width:min(920px, calc(100vw - 32px))',
+      'background:#ffffff',
+      'border:1px solid #d6dde8',
+      'border-radius:14px',
+      'box-shadow:0 14px 40px rgba(15,23,42,.16)',
+      'font-family:Manrope, Noto Sans KR, sans-serif',
+      'overflow:hidden',
+    ].join(';');
+
+    banner.innerHTML = `
+      <div style="display:flex; align-items:center; gap:16px; padding:16px 18px;">
+        <div style="width:42px; height:42px; border-radius:12px; background:#fff5db; color:#b7791f; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900;">%</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:16px; font-weight:900; color:#00386b;">첫 가입 20% 추가 할인 쿠폰 제공</div>
+          <div style="font-size:13px; color:#424750; margin-top:2px;">회원가입하고 HoverStay 데모 예약에서 즉시 사용할 수 있는 웰컴 쿠폰을 받아보세요.</div>
+        </div>
+        <button type="button" data-hover-signup-cta style="height:40px; padding:0 16px; border:0; border-radius:9px; background:#F5A623; color:#fff; font-weight:900; cursor:pointer; white-space:nowrap;">회원가입</button>
+        <button type="button" data-hover-signup-close aria-label="닫기" style="width:34px; height:34px; border:0; border-radius:50%; background:#f3f3f9; color:#424750; font-size:20px; cursor:pointer;">×</button>
+      </div>
+    `;
+
+    banner.querySelector('[data-hover-signup-cta]').addEventListener('click', () => {
+      sendEvent('click', { target: 'signup_coupon_banner_cta' });
+      location.href = 'signup.html';
+    });
+
+    banner.querySelector('[data-hover-signup-close]').addEventListener('click', () => {
+      if (page === 'index.html') {
+        sessionStorage.setItem('hover_signup_coupon_dismissed_home', 'true');
+      }
+      banner.remove();
+    });
+
+    document.body.appendChild(banner);
+  }
+
   function bindMarkedElements() {
     document.querySelectorAll('[data-hover-event]').forEach((element) => {
       element.addEventListener('click', () => {
@@ -546,6 +608,7 @@ const DECISION_API = 'http://localhost:4001/decision';
   };
 
   updateAuthButtons();
+  showSignupCouponBanner();
   hydrateDetailSearchInfo();
   renderRoomOptions();
   sendEvent('page_view', {});
