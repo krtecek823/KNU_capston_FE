@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HoverStay - 예약 확정</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: "#00386b",
+        "primary-container": "#1a4f8a",
+        outline: "#737781",
+        "outline-variant": "#c2c6d1",
+        background: "#f9f9ff",
+        surface: "#f9f9ff",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f9",
+        "surface-container": "#ededf3",
+        "surface-container-high": "#e8e8ed",
+        "on-surface": "#1a1c20",
+        "on-surface-variant": "#424750",
+        "on-background": "#1a1c20",
+        cta: "#F5A623"
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      spacing: {
+        gutter: "24px",
+        "section-gap": "48px",
+        "card-padding": "16px",
+        "nav-padding-horiz": "40px",
+        "nav-height": "64px",
+        "max-width": "1200px"
+      },
+      fontFamily: {
+        "helper-text": ["Manrope"],
+        "body-main": ["Manrope"],
+        "section-title": ["Manrope"],
+        "page-title": ["Manrope"],
+        "price-highlight": ["Manrope"],
+        "card-title": ["Manrope"]
+      },
+      fontSize: {
+        "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+        "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+        "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+        "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+        "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+      }
+    }
+  }
+}
+</script>
+<style>
+body { font-family: 'Manrope', sans-serif; }
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+.success-checkmark { animation: scaleIn 0.5s ease-out forwards; }
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+<body class="bg-background text-on-surface">
+<header class="fixed top-0 left-0 w-full z-50 h-nav-height bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-nav-padding-horiz">
+<div class="flex items-center gap-12">
+<span onclick="location.href='index.html'" class="text-page-title font-bold text-primary cursor-pointer">HoverStay</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 transition-colors" href="#">숙소</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary transition-colors" href="#">항공권</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary transition-colors" href="#">렌터카</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary transition-colors" href="#">패키지</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant font-body-main hover:text-primary transition-colors">숙소 등록</button>
+<button onclick="location.href='signin.html'" class="text-on-surface-variant font-body-main hover:text-primary transition-colors">로그인</button>
+<span class="material-symbols-outlined text-primary cursor-pointer" style="font-size: 28px;">account_circle</span>
+</div>
+</header>
+<main class="pt-32 pb-section-gap px-gutter max-w-max-width mx-auto">
+<div class="text-center mb-12">
+<div class="success-checkmark inline-block mb-4">
+<span class="material-symbols-outlined text-green-600" style="font-size: 80px; font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-page-title text-page-title text-on-background mb-2">예약이 확정되었습니다</h1>
+<p class="font-body-main text-on-surface-variant">예약 내역을 확인해 주세요.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden max-w-3xl mx-auto">
+<div class="p-8">
+<div class="flex flex-col md:flex-row gap-6 mb-8 pb-8 border-b border-surface-container-high">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0">
+<img id="confirmHotelImage" class="w-full h-full object-cover" alt="예약 호텔 이미지" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80"/>
+</div>
+<div class="flex flex-col justify-center">
+<span id="confirmReservationNo" class="font-helper-text text-primary-container mb-1">예약 확정 번호: #HS-20240530A1</span>
+<h2 class="font-page-title text-section-title text-primary mb-2" id="confirmHotelName">글래드 마포</h2>
+<div class="flex items-center text-on-surface-variant gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span id="confirmHotelAddress" class="font-body-main">서울특별시 마포구 마포대로 92</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+<div class="space-y-6">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">calendar_today</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">숙박 일정</p>
+<span class="font-body-main font-semibold" id="confirmDates">2026.06.01 - 2026.06.03 (2박)</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">person</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">예약 인원 및 객실</p>
+<span class="font-body-main font-semibold" id="confirmGuests">성인 2명, 객실 1개</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">badge</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">예약자명</p>
+<span class="font-body-main font-semibold" id="confirmGuestName">홍길동</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">mail</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">이메일</p>
+<span class="font-body-main font-semibold" id="confirmEmail">hong@example.com</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">call</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">연락처</p>
+<span class="font-body-main font-semibold" id="confirmPhone">010-1234-5678</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">comment</span>
+<div>
+<p class="font-helper-text text-on-surface-variant">특별 요청사항</p>
+<span class="font-body-main font-semibold" id="confirmRequest">요청 사항 없음</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 pt-8 border-t border-surface-container-high flex justify-between items-end">
+<div>
+<p class="font-helper-text text-on-surface-variant">결제 정보 (VAT 포함)</p>
+<p class="font-body-main">신용카드 결제 완료</p>
+</div>
+<div class="text-right">
+<p class="font-helper-text text-on-surface-variant mb-1">총 결제 금액</p>
+<span class="font-price-highlight text-cta text-[28px]" id="confirmTotal">₩451,534</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 flex flex-col sm:flex-row gap-4 justify-center border-t border-outline-variant">
+<a class="flex-1 max-w-[240px] py-4 bg-cta text-white font-semibold rounded-lg text-center hover:opacity-90 transition-opacity flex items-center justify-center gap-2" href="index.html">
+<span class="material-symbols-outlined">home</span>
+메인으로 이동
+</a>
+<button id="confirmBackHotel" class="flex-1 max-w-[240px] py-4 border-2 border-primary text-primary font-semibold rounded-lg text-center hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">info</span>
+호텔 상세로 돌아가기
+</button>
+</div>
+</div>
+<div class="max-w-3xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container rounded-lg p-5 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-3">local_printshop</span>
+<p class="font-body-main font-semibold">바우처 출력</p>
+<p class="font-helper-text text-on-surface-variant">현장에서 보여주세요</p>
+</div>
+<div class="bg-surface-container rounded-lg p-5 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-3">share</span>
+<p class="font-body-main font-semibold">일정 공유</p>
+<p class="font-helper-text text-on-surface-variant">일행에게 전달하기</p>
+</div>
+<div class="bg-surface-container rounded-lg p-5 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-3">event_repeat</span>
+<p class="font-body-main font-semibold">예약 변경/취소</p>
+<p class="font-helper-text text-on-surface-variant">마이페이지에서 가능</p>
+</div>
+</div>
+</main>
+<footer class="w-full py-section-gap px-nav-padding-horiz bg-surface-container border-t border-outline-variant mt-section-gap">
+<div class="max-w-max-width mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-4">
+<span onclick="location.href='index.html'" class="font-page-title font-bold text-primary cursor-pointer">HoverStay</span>
+<p class="font-helper-text text-on-surface-variant max-w-sm">HoverStay는 최상의 비즈니스 및 레저 숙박 경험을 위해 엄선된 프리미엄 호텔 예약 서비스를 제공합니다.</p>
+</div>
+</div>
+<div class="max-w-max-width mx-auto mt-12 pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-helper-text text-outline">© 2024 HoverStay. All rights reserved.</p>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reservation = JSON.parse(localStorage.getItem('hover_latest_reservation') || 'null');
+  if (!reservation) return;
+
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value || '-';
+  };
+
+  setText('confirmReservationNo', `예약 확정 번호: #${reservation.confirmationNo || reservation.id || 'HS-DEMO'}`);
+  setText('confirmHotelName', reservation.hotelName);
+  setText('confirmHotelAddress', reservation.hotelAddress);
+  setText('confirmDates', `${reservation.checkin} - ${reservation.checkout} (${reservation.nights || '2박'})`);
+  setText('confirmGuests', `${reservation.room || '선택 객실'} · 성인 ${reservation.adults || 2}명, 객실 ${reservation.rooms || 1}개`);
+  setText('confirmGuestName', reservation.guestName);
+  setText('confirmEmail', reservation.email);
+  setText('confirmPhone', reservation.phone);
+  setText('confirmRequest', reservation.request || '요청 사항 없음');
+  setText('confirmTotal', reservation.total);
+
+  const image = document.getElementById('confirmHotelImage');
+  if (image && reservation.hotelImage) {
+    image.src = reservation.hotelImage;
+    image.alt = reservation.hotelName;
+  }
+
+  const backButton = document.getElementById('confirmBackHotel');
+  if (backButton) {
+    backButton.addEventListener('click', () => {
+      location.href = reservation.returnUrl || 'index.html';
+    });
+  }
+
+  document.querySelectorAll('button, a').forEach((btn) => {
+    btn.addEventListener('mousedown', () => { btn.style.transform = 'scale(0.98)'; });
+    btn.addEventListener('mouseup', () => { btn.style.transform = 'scale(1)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = 'scale(1)'; });
+  });
+});
+</script>
+<script src="hover-client.js"></script>
+</body></html>
