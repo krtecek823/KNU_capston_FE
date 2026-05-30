@@ -1,7 +1,7 @@
 (function (global) {
   const DEFAULTS = {
     apiUrl: 'http://localhost:4000/events',
-    decisionUrl: 'http://localhost:4001/decide',
+    decisionUrl: 'http://localhost:4001/decision',
     appId: 'hover-demo-site',
     batchSize: 10,
     flushIntervalMs: 2000,
@@ -14,6 +14,19 @@
   const USER_KEY = 'hover_user_id';
   const CHANNEL_NAME = 'hover-tab-presence';
   const trackedFields = new WeakMap();
+
+  const EVENT_TYPE_MAP = {
+    focus_change: 'window_focus',
+    idle_return: 'idle',
+    form_focus: 'form_field',
+    form_dwell: 'form_field',
+    form_change: 'form_field',
+    form_submit: 'form_field',
+    cart_update: 'cart_change',
+    widget_action: 'click',
+    mock_decision_shown: 'click',
+    page_unload: 'page_lifecycle',
+  };
 
   function safeStorageGet(key) {
     try {
@@ -59,19 +72,57 @@
     return 'desktop';
   }
 
-  function normalizeEvent(sessionId, userId, appId, type, payload) {
+  function backendEventType(type, payload) {
+    if (type === 'cart_update' && payload && payload.action === 'add') return 'add_to_cart';
+    return EVENT_TYPE_MAP[type] || type;
+  }
+
+  function backendPayload(type, payload) {
+    const source = payload || {};
+    if (type === 'visibility_change') {
+      return {
+        hidden: source.hidden === true || source.state === 'hidden',
+        state: source.state,
+        hidden_for_ms: source.hidden_for_ms,
+      };
+    }
+    if (type === 'focus_change') {
+      return { focused: Boolean(source.focused) };
+    }
+    if (type === 'idle_return') {
+      return { idle_for_ms: source.idle_for_ms, source: source.source };
+    }
+    if (type === 'clipboard_copy') {
+      return {
+        selected_text: source.selected_text || source.text || '',
+        matches_hotel_or_room: Boolean(source.matches_hotel_or_room),
+      };
+    }
+    if (type === 'cart_update') {
+      return {
+        count: Number(source.cart_count || source.count || 0),
+        action: source.action,
+        product_id: source.product_id,
+        context: source.context || {},
+      };
+    }
+    if (type === 'page_unload') {
+      return { phase: 'hide' };
+    }
+    if (type === 'form_focus' || type === 'form_dwell' || type === 'form_change' || type === 'form_submit') {
+      return Object.assign({ field_event: type }, source);
+    }
+    return source;
+  }
+
+  function normalizeEvent(sessionId, type, payload) {
     return {
       event_id: id('event'),
-      session_id: sessionId,
-      user_id: userId,
-      app_id: appId,
-      ts: new Date().toISOString(),
-      event_type: type,
-      type,
+      ts: Date.now(),
+      type: backendEventType(type, payload),
+      payload: backendPayload(type, payload),
       page_url: global.location ? global.location.href : '',
       referrer: global.document ? global.document.referrer || '' : '',
-      device: getDevice(),
-      payload: payload || {},
     };
   }
 
@@ -87,7 +138,15 @@
       headers: { 'Content-Type': 'application/json' },
       body: json,
       keepalive: useBeacon,
+      credentials: 'omit',
     }).then(() => undefined);
+  }
+
+  function decisionEndpoint(baseUrl, sessionId) {
+    let clean = String(baseUrl || DEFAULTS.decisionUrl).replace(/\/$/, '').replace(/\/decide$/, '/decision');
+    if (/\/decision\/[^/]+$/.test(clean)) return clean;
+    if (!/\/decision$/.test(clean)) clean = `${clean}/decision`;
+    return `${clean}/${encodeURIComponent(sessionId)}`;
   }
 
   function createClient(options) {
@@ -110,7 +169,7 @@
     }
 
     function enqueue(type, payload, opts) {
-      const event = normalizeEvent(sessionId, userId, config.appId, type, payload);
+      const event = normalizeEvent(sessionId, type, payload);
       queue.push(event);
       if (queue.length >= config.batchSize || (opts && opts.flush)) {
         api.flush(Boolean(opts && opts.beacon));
@@ -129,7 +188,6 @@
       const payload = {
         session_id: sessionId,
         user_id: userId,
-        app_id: config.appId,
         device: getDevice(),
         events,
       };
@@ -139,18 +197,12 @@
       });
     };
 
-    api.requestDecision = function requestDecision(scenarioId, context) {
-      const body = {
-        session_id: sessionId,
-        user_id: userId,
-        scenario_id: scenarioId || 'auto',
-        context: context || {},
-      };
+    api.requestDecision = function requestDecision() {
       if (typeof global.fetch !== 'function') return Promise.resolve(null);
-      return global.fetch(config.decisionUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+      return global.fetch(decisionEndpoint(config.decisionUrl, sessionId), {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        credentials: 'omit',
       })
         .then((response) => {
           if (!response || response.status === 204 || !response.ok) return null;
@@ -182,7 +234,7 @@
 
       on(global.document, 'visibilitychange', () => {
         const state = global.document.visibilityState;
-        const payload = { state };
+        const payload = { state, hidden: state === 'hidden' };
         if (state === 'hidden') {
           hiddenAt = Date.now();
         } else if (hiddenAt) {
@@ -213,8 +265,8 @@
       on(global.document, 'copy', () => {
         const text = String(global.getSelection ? global.getSelection() : '').slice(0, 160);
         enqueue('clipboard_copy', {
-          text,
-          matches_hotel_or_room: /호텔|스테이|리조트|객실|룸|hotel|room|stay/i.test(text),
+          selected_text: text,
+          matches_hotel_or_room: /hotel|room|stay|resort|suite|inn|호텔|객실|리조트|숙소/i.test(text),
         }, { flush: true });
       });
 
@@ -267,7 +319,7 @@
       flushTimer = global.setInterval(() => api.flush(false), config.flushIntervalMs);
       if (config.onDecision && config.decisionIntervalMs > 0) {
         decisionTimer = global.setInterval(() => {
-          api.requestDecision('auto').then((decision) => {
+          api.requestDecision().then((decision) => {
             if (decision) config.onDecision(decision, api);
           });
         }, config.decisionIntervalMs);

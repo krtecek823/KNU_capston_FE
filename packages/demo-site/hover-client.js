@@ -1,7 +1,7 @@
 (function () {
   const CONFIG = {
     ingestionApi: window.HOVER_INGESTION_API || 'http://localhost:4000/events',
-    decisionApi: window.HOVER_DECISION_API || 'http://localhost:4001/decide',
+    decisionApi: window.HOVER_DECISION_API || 'http://localhost:4001/decision',
     debug: window.HOVER_DEBUG === true,
   };
 

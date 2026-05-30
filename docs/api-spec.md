@@ -15,21 +15,15 @@ Request shape used by FE1:
 {
   "session_id": "hover-session",
   "user_id": "anon-user",
-  "app_id": "hoverstay-demo-site",
   "device": "desktop",
   "events": [
     {
       "event_id": "uuid",
-      "session_id": "hover-session",
-      "user_id": "anon-user",
-      "app_id": "hoverstay-demo-site",
-      "ts": "2026-05-31T00:00:00.000Z",
-      "event_type": "visibility_change",
+      "ts": 1780123456789,
       "type": "visibility_change",
       "page_url": "http://localhost:3000/packages/demo-site/index.html",
       "referrer": "",
-      "device": "desktop",
-      "payload": {}
+      "payload": { "hidden": true }
     }
   ]
 }
@@ -38,22 +32,14 @@ Request shape used by FE1:
 ## Decision API
 
 - Base URL: `http://localhost:4001`
-- `POST /decide`
+- `GET /decision/:session_id`
 - Used by: `packages/tracking-sdk`, `packages/widget-sdk`, `packages/demo-site/hover-client.js`
 - Purpose: request S1/S2 intervention decisions for the current session.
 
-Request shape:
+Request:
 
-```json
-{
-  "session_id": "hover-session",
-  "user_id": "anon-user",
-  "scenario_id": "S1",
-  "context": {
-    "hotel_name": "Grand Mapo Hotel",
-    "room_name": "Deluxe Room"
-  }
-}
+```http
+GET /decision/hover-session
 ```
 
 Response shape expected by FE1:
@@ -64,18 +50,20 @@ Response shape expected by FE1:
   "session_id": "hover-session",
   "scenario_id": "S1",
   "ab_group": "treatment",
-  "widgets": [
-    {
-      "type": "coupon_modal",
-      "duration_ms": 5000,
-      "data": {
-        "hotel_name": "Grand Mapo Hotel",
-        "room_name": "Deluxe Room",
-        "discount_percent": 5,
-        "cta_text": "Apply coupon"
-      }
-    }
-  ]
+  "component": "coupon_modal",
+  "copy": {
+    "title": "Before you go",
+    "body": "Complete this booking now and keep the current benefit.",
+    "cta": "Get coupon"
+  },
+  "context": {
+    "hotel_name": "Grand Mapo Hotel",
+    "discount_percent": 10
+  },
+  "ttl_seconds": 600,
+  "intent_score": 0.8,
+  "active_boosters": ["hidden_repeated"],
+  "copy_source": "fallback"
 }
 ```
 
