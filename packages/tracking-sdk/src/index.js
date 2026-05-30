@@ -125,18 +125,14 @@
     };
   }
 
-  function postJson(url, body, useBeacon) {
+  function postJson(url, body, useKeepalive) {
     const json = JSON.stringify(body);
-    if (useBeacon && global.navigator && typeof global.navigator.sendBeacon === 'function') {
-      const blob = new Blob([json], { type: 'application/json' });
-      if (global.navigator.sendBeacon(url, blob)) return Promise.resolve();
-    }
     if (typeof global.fetch !== 'function') return Promise.resolve();
     return global.fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: json,
-      keepalive: useBeacon,
+      keepalive: Boolean(useKeepalive),
       credentials: 'omit',
     }).then(() => undefined);
   }
@@ -171,7 +167,7 @@
       const event = normalizeEvent(sessionId, type, payload);
       queue.push(event);
       if (queue.length >= config.batchSize || (opts && opts.flush)) {
-        api.flush(Boolean(opts && opts.beacon));
+        api.flush(Boolean(opts && opts.keepalive));
       }
       return event;
     }
@@ -181,7 +177,7 @@
     api.getUserId = () => userId;
     api.getConfig = () => Object.assign({}, config);
 
-    api.flush = function flush(useBeacon) {
+    api.flush = function flush(useKeepalive) {
       if (!queue.length) return Promise.resolve();
       const events = queue.splice(0, queue.length);
       const payload = {
@@ -190,7 +186,7 @@
         device: getDevice(),
         events,
       };
-      return postJson(config.apiUrl, payload, useBeacon).catch((error) => {
+      return postJson(config.apiUrl, payload, useKeepalive).catch((error) => {
         log('flush failed', error);
         queue.unshift.apply(queue, events.slice(-config.batchSize));
       });
@@ -240,7 +236,7 @@
           payload.hidden_for_ms = Date.now() - hiddenAt;
           hiddenAt = null;
         }
-        enqueue('visibility_change', payload, { flush: state === 'hidden', beacon: state === 'hidden' });
+        enqueue('visibility_change', payload, { flush: state === 'hidden', keepalive: state === 'hidden' });
       });
 
       on(global, 'focus', () => enqueue('focus_change', { focused: true }));
@@ -287,7 +283,7 @@
       });
 
       on(global, 'pagehide', () => {
-        enqueue('page_unload', {}, { flush: true, beacon: true });
+        enqueue('page_unload', {}, { flush: true, keepalive: true });
         api.flush(true);
       });
     }
