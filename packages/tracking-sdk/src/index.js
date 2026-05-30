@@ -24,7 +24,6 @@
     form_submit: 'form_field',
     cart_update: 'cart_change',
     widget_action: 'click',
-    mock_decision_shown: 'click',
     page_unload: 'page_lifecycle',
   };
 

@@ -24,13 +24,6 @@ Open:
 http://localhost:3000/packages/demo-site/index.html
 ```
 
-Mock decision UI without the backend decision-api:
-
-```text
-http://localhost:3000/packages/demo-site/index.html?mockDecision=1
-http://localhost:3000/packages/demo-site/index.html?mockDecision=banner
-```
-
 Admin dashboard:
 
 ```bash
