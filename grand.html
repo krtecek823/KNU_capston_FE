@@ -116,7 +116,7 @@
 </div>
 <div class="flex items-center gap-6">
 <button class="text-body-main text-on-surface-variant hover:text-primary transition-colors">숙소 등록</button>
-<button class="text-body-main font-bold text-primary">로그인</button>
+<button onclick="location.href='signin.html'" class="text-body-main font-bold text-primary">로그인</button>
 <span class="material-symbols-outlined text-[24px] text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
 </div>
 </nav>
@@ -267,4 +267,48 @@
 <div class="h-[1px] bg-outline-variant my-1"></div>
 <div class="flex justify-between items-end mt-2">
 <div class="flex flex-col">
-<span class="text-section-title font-section-title
+<span class="text-section-title font-section-title">총 결제 금액</span>
+<span class="text-helper-text text-outline">세금 및 수수료 포함</span>
+</div>
+<span class="text-price-highlight font-price-highlight text-primary">₩486,948</span>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-2 text-[#1B8E2B] font-bold text-body-main">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span>무료 취소 가능</span>
+</div>
+</div>
+</div>
+<!-- Help Box -->
+<div class="p-5 rounded-xl border border-outline-variant bg-surface-container-low flex flex-col gap-2">
+<p class="text-body-main font-bold">도움이 필요하신가요?</p>
+<div class="flex items-center gap-2 text-helper-text text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="call">call</span>
+<span>고객센터: 1588-1234</span>
+</div>
+<div class="flex items-center gap-2 text-helper-text text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+<span>support@hoverstay.com</span>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap px-nav-padding-horiz bg-surface-container mt-section-gap">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+<div class="flex flex-col gap-4">
+<span class="font-page-title font-bold text-primary">HoverStay</span>
+<p class="text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap gap-x-8 gap-y-4">
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">회사 소개</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">이용약관</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">개인정보처리방침</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">고객센터</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">제휴문의</a>
+</div>
+</div>
+</footer>
+</body></html>
+
+<script src="hover-client.js"></script>

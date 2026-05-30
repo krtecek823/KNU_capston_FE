@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HoverStay - 강릉 호텔 검색 결과</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary-fixed": "#001c3a",
+                  "secondary-container": "#dce3ed",
+                  "on-primary-fixed-variant": "#0d4782",
+                  "on-tertiary-fixed": "#2f1500",
+                  "surface": "#f9f9ff",
+                  "on-primary-container": "#9ac2ff",
+                  "surface-container-high": "#e8e8ed",
+                  "secondary": "#585f67",
+                  "surface-variant": "#e2e2e8",
+                  "surface-container": "#ededf3",
+                  "on-secondary": "#ffffff",
+                  "primary": "#00386b",
+                  "primary-container": "#1a4f8a",
+                  "tertiary": "#582c00",
+                  "surface-tint": "#2f5f9b",
+                  "tertiary-container": "#793f00",
+                  "outline": "#737781",
+                  "secondary-fixed": "#dce3ed",
+                  "inverse-primary": "#a5c8ff",
+                  "surface-container-highest": "#e2e2e8",
+                  "on-tertiary-container": "#ffae6b",
+                  "inverse-surface": "#2e3035",
+                  "inverse-on-surface": "#f0f0f6",
+                  "tertiary-fixed-dim": "#ffb77e",
+                  "surface-bright": "#f9f9ff",
+                  "on-tertiary-fixed-variant": "#6e3900",
+                  "on-surface": "#1a1c20",
+                  "on-error-container": "#93000a",
+                  "error": "#ba1a1a",
+                  "surface-container-lowest": "#ffffff",
+                  "outline-variant": "#c2c6d1",
+                  "on-surface-variant": "#424750",
+                  "on-background": "#1a1c20",
+                  "surface-dim": "#d9dadf",
+                  "surface-container-low": "#f3f3f9",
+                  "on-error": "#ffffff",
+                  "error-container": "#ffdad6",
+                  "background": "#f9f9ff",
+                  "on-secondary-container": "#5e656d",
+                  "on-primary": "#ffffff",
+                  "tertiary-fixed": "#ffdcc3",
+                  "primary-fixed": "#d4e3ff",
+                  "secondary-fixed-dim": "#c0c7d1",
+                  "primary-fixed-dim": "#a5c8ff",
+                  "on-tertiary": "#ffffff",
+                  "on-secondary-fixed-variant": "#40474f",
+                  "on-secondary-fixed": "#151c23"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "gutter": "24px",
+                  "card-padding": "16px",
+                  "nav-height": "64px",
+                  "nav-padding-horiz": "40px",
+                  "max-width": "1200px",
+                  "section-gap": "48px"
+          },
+          "fontFamily": {
+                  "section-title": ["Manrope"],
+                  "price-highlight": ["Manrope"],
+                  "helper-text": ["Manrope"],
+                  "body-main": ["Manrope"],
+                  "page-title": ["Manrope"],
+                  "card-title": ["Manrope"]
+          },
+          "fontSize": {
+                  "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                  "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                  "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                  "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #f9f9ff;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #1a4f8a 0%, #00386b 100%);
+    }
+    .custom-shadow {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .active-nav-border {
+      border-bottom: 2px solid #00386b;
+    }
+  </style>
+</head>
+<body class="text-on-background">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 h-nav-height bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-nav-padding-horiz max-w-full">
+<div class="flex items-center gap-10">
+<div onclick="location.href='index.html'" class="text-page-title font-bold text-primary cursor-pointer">HoverStay</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-main text-body-main transition-colors" href="#">숙소</a>
+<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">항공권</a>
+<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">렌터카</a>
+<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">패키지</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary font-body-main text-body-main hover:underline transition-all">숙소 등록</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-main text-body-main hover:bg-primary-container transition-all">로그인</button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="pt-nav-height">
+<!-- Hero Section -->
+<section class="hero-gradient py-12 px-nav-padding-horiz text-white">
+<div class="max-w-[1200px] mx-auto">
+<nav class="flex gap-2 mb-4 font-helper-text text-helper-text opacity-80">
+<span>홈</span>
+<span>&gt;</span>
+<span class="font-bold">강릉</span>
+</nav>
+<h1 class="font-page-title text-page-title mb-2">강릉 호텔</h1>
+<p class="font-body-main text-body-main opacity-90">경포대와 동해 바다를 즐길 수 있는 강릉 숙소</p>
+</div>
+</section>
+<!-- Search/Filter & Content Grid -->
+<section class="max-w-[1200px] mx-auto py-12 px-6 flex flex-col md:flex-row gap-gutter">
+<!-- Filters (Left Column) -->
+<aside class="w-full md:w-[280px] space-y-6">
+<div class="bg-surface-container-lowest p-card-padding rounded-xl border border-outline-variant custom-shadow">
+<h3 class="font-section-title text-section-title mb-4">지도에서 보기</h3>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative">
+<img alt="Map of Gangneung area" class="w-full h-full object-cover grayscale opacity-50" data-location="Gangneung" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT-XSNn7sKFtnU-Ti0uu5FE_OMULtS9-y1ecjl96moiwCHROx6L-3I9_y0w8NPcSeEAHm_-hRdP1CJXVjqoGpGEZI-cHnulBhjsmbWRWUmEU84j41AelGRi3ojYkq6lJMh4fwS3Fq8uwuH0dIwUStOdwRqsYFDdt2RfWC5cBJU3NDgvMpX18IqUVzvZk90C3Bs8T30Vn88CJDKBehFoDswfBs-LAYTGjp9u4vVXYNV_h1BbVTGtUw6I_0bDT9Cm7xhsYEYr0jw9wpU"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="bg-white text-primary font-bold px-4 py-2 rounded-lg custom-shadow text-body-main">지도 확대</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-card-padding rounded-xl border border-outline-variant custom-shadow">
+<h3 class="font-section-title text-section-title mb-4">필터</h3>
+<div class="space-y-4">
+<div>
+<p class="font-card-title text-card-title mb-2">1박당 요금</p>
+<input class="w-full accent-primary" type="range"/>
+<div class="flex justify-between font-helper-text text-helper-text text-on-surface-variant mt-1">
+<span>₩0</span>
+<span>₩500,000+</span>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<div>
+<p class="font-card-title text-card-title mb-2">인기 필터</p>
+<div class="space-y-2">
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 무료 취소
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/> 오션뷰
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 조식 포함
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 4성급 이상
+                </label>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Hotel Listings (Right Column) -->
+<div class="flex-1 space-y-6">
+<!-- Sort & Header -->
+<div class="flex justify-between items-center mb-4">
+<p class="font-body-main text-body-main text-on-surface-variant">강릉의 숙소 <span class="font-bold text-on-surface">124개</span> 검색됨</p>
+<div class="flex items-center gap-2 font-body-main text-body-main">
+<span>정렬:</span>
+<select class="bg-transparent border-none font-bold text-primary focus:ring-0 cursor-pointer">
+<option>추천순</option>
+<option>낮은 가격순</option>
+<option>높은 평점순</option>
+</select>
+</div>
+</div>
+<!-- Hotel Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col md:flex-row overflow-hidden custom-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="w-full md:w-[320px] h-[240px] relative overflow-hidden">
+<img alt="강릉 파인비치 호텔 전경" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui32iueMpeiCYMzCybNaPTIr-Cpja3wZI4yoWi35YHEJPPDbWd3lOFhA-ZV8sKYEUhckmWOWwStfAJaUSQuZrH-97jv8Dc2IF5gwEChyXkRzl2LnqegEj5PhT-0xgsnEB6_3P9s0hmDoJe3IAcBVjM5s6mOOcX35eUOPBcIdeYvp3KAICE9mG6if9xYn901V2sPNueaHlS5NwpkAGqRxLfJZF8-3wLlw8degVxM_Q17l1UY2w36_EQKR_sj"/>
+<div class="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded text-xs font-bold text-primary backdrop-blur-sm">
+              추천 숙소
+            </div>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-helper-text text-helper-text text-on-surface-variant ml-1">(4성급)</span>
+</div>
+<h2 class="font-card-title text-card-title text-xl mb-1">강릉 파인비치 호텔</h2>
+<p class="font-helper-text text-helper-text text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span> 강원특별자치도 강릉시 경포로 441
+                  </p>
+</div>
+<div class="text-right">
+<div class="bg-primary text-on-primary px-2 py-1 rounded-lg font-bold text-sm inline-block">8.7</div>
+<p class="font-helper-text text-helper-text text-primary mt-1">매우 좋음</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">후기 1,432개</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-1 rounded font-helper-text text-helper-text font-bold">✓ 무료 취소</span>
+<span class="bg-primary-fixed text-primary px-2 py-1 rounded font-helper-text text-helper-text">오션뷰</span>
+<span class="bg-primary-fixed text-primary px-2 py-1 rounded font-helper-text text-helper-text">조식 포함</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-6">
+<div class="font-helper-text text-helper-text text-on-surface-variant">
+                남은 객실 2개
+              </div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="font-price-highlight text-price-highlight text-primary">₩285,000</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">/ 1박 (세금 포함)</p>
+</div>
+<button class="bg-[#F5A623] text-white px-6 py-3 rounded-lg font-bold font-body-main text-body-main hover:brightness-105 transition-all shadow-md">상세 보기</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Hotel Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col md:flex-row overflow-hidden custom-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="w-full md:w-[320px] h-[240px] relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A modern architectural hotel building located by a serene lake in Gangneung. The exterior features clean white lines and glass balconies reflecting the soft morning light. The atmosphere is tranquil and minimalist, with a calm lake in the background under a soft blue sky, maintaining a premium and professional corporate travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiEnOuBh-FEBVe32inytYz9j3f_sMZAuU7KKi2q97N6VqdVxZxhmjxduQtiWnvh125xJWVkQNTJAM4nLcM25Ko_-YjkfIGZR0XQ6DvvV7EdGhjvLMA09PQIGcQnBO-nR2laOtRCDN8WwfH9NRKBL9TfIvmJf1nu-d93Mjxb6DnRN541PBE7Omcv37M-eX8EKUaR9qK-KPBphqZVT4MDBhz5E96ADkomkdFEkUVR7LxHnQWpGKpMVNkMGAYy_hzZ5FcBAk2T-kBo8mP"/>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-helper-text text-helper-text text-on-surface-variant ml-1">(3성급)</span>
+</div>
+<h2 class="font-card-title text-card-title text-xl mb-1">경포 레이크 스테이</h2>
+<p class="font-helper-text text-helper-text text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span> 강원특별자치도 강릉시 경포로 216
+                  </p>
+</div>
+<div class="text-right">
+<div class="bg-secondary text-white px-2 py-1 rounded-lg font-bold text-sm inline-block">8.0</div>
+<p class="font-helper-text text-helper-text text-secondary mt-1">좋음</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">후기 743개</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-1 rounded font-helper-text text-helper-text font-bold">✓ 무료 취소</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-6">
+<div class="font-helper-text text-helper-text text-on-surface-variant">
+                실속형 스테이
+              </div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="font-price-highlight text-price-highlight text-primary">₩168,000</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">/ 1박</p>
+</div>
+<button class="bg-[#F5A623] text-white px-6 py-3 rounded-lg font-bold font-body-main text-body-main hover:brightness-105 transition-all shadow-md">상세 보기</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 pt-8">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-section-gap px-nav-padding-horiz bg-surface-container mt-section-gap border-t border-outline-variant">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-xs">
+<div class="font-page-title font-bold text-primary mb-4">HoverStay</div>
+<p class="font-helper-text text-helper-text text-on-surface-variant">HoverStay는 프리미엄 숙박 경험을 제공하는 현대적인 예약 플랫폼입니다. 당신의 완벽한 여행을 함께 계획합니다.</p>
+</div>
+<div class="flex flex-wrap gap-12">
+<div class="space-y-3">
+<p class="font-bold text-on-surface">서비스</p>
+<ul class="space-y-2">
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">회사 소개</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">이용약관</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all font-bold" href="#">개인정보처리방침</a></li>
+</ul>
+</div>
+<div class="space-y-3">
+<p class="font-bold text-on-surface">고객 지원</p>
+<ul class="space-y-2">
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">고객센터</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">제휴문의</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-12 pt-8 border-t border-outline-variant/30 flex justify-between items-center">
+<p class="font-helper-text text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">camera_alt</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">mail</span>
+</div>
+</div>
+</footer>
+</body></html>

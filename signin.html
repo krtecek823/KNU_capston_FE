@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>로그인 - HoverStay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#793f00",
+                    "on-primary-container": "#9ac2ff",
+                    "on-primary-fixed": "#001c3a",
+                    "surface": "#f9f9ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "secondary-container": "#dce3ed",
+                    "surface-container-high": "#e8e8ed",
+                    "inverse-surface": "#2e3035",
+                    "surface-container-low": "#f3f3f9",
+                    "surface-container": "#ededf3",
+                    "secondary-fixed": "#dce3ed",
+                    "tertiary-fixed-dim": "#ffb77e",
+                    "secondary-fixed-dim": "#c0c7d1",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "primary": "#00386b",
+                    "outline-variant": "#c2c6d1",
+                    "on-background": "#1a1c20",
+                    "surface-variant": "#e2e2e8",
+                    "on-tertiary-container": "#ffae6b",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#a5c8ff",
+                    "secondary": "#585f67",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#151c23",
+                    "inverse-on-surface": "#f0f0f6",
+                    "tertiary-fixed": "#ffdcc3",
+                    "outline": "#737781",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#d4e3ff",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1a1c20",
+                    "tertiary": "#582c00",
+                    "background": "#f9f9ff",
+                    "surface-container-highest": "#e2e2e8",
+                    "on-secondary-container": "#5e656d",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#0d4782",
+                    "on-secondary-fixed-variant": "#40474f",
+                    "surface-tint": "#2f5f9b",
+                    "surface-dim": "#d9dadf",
+                    "on-surface-variant": "#424750",
+                    "inverse-primary": "#a5c8ff",
+                    "primary-container": "#1a4f8a",
+                    "on-error": "#ffffff",
+                    "kakao": "#FEE500",
+                    "naver": "#03C75A"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "card-padding": "16px",
+                    "nav-padding-horiz": "40px",
+                    "section-gap": "48px",
+                    "nav-height": "64px",
+                    "max-width": "1200px"
+            },
+            "fontFamily": {
+                    "section-title": ["Manrope"],
+                    "price-highlight": ["Manrope"],
+                    "body-main": ["Manrope"],
+                    "helper-text": ["Manrope"],
+                    "page-title": ["Manrope"],
+                    "card-title": ["Manrope"]
+            },
+            "fontSize": {
+                    "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                    "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                    "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f9f9ff;
+        }
+        .login-card {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface-container-lowest border-b border-outline-variant fixed top-0 left-0 right-0 z-50 h-nav-height">
+<div class="flex justify-between items-center px-nav-padding-horiz max-w-max-width mx-auto w-full h-full">
+<div onclick="location.href='index.html'" class="font-page-title text-page-title font-bold text-primary cursor-pointer">HoverStay</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors" href="search.html">호텔 검색</a>
+<a class="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors" href="#">특별 오퍼</a>
+<a class="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors" href="#">고객 지원</a>
+</nav>
+<div class="flex items-center gap-4">
+<a class="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors" href="signin.html">로그인</a>
+<a class="font-body-main text-body-main bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all" href="signup.html">회원가입</a>
+</div>
+</div>
+</header>
+<!-- Main Content: Login Page -->
+<main class="flex-grow pt-nav-height flex items-center justify-center py-20 px-4">
+<div class="login-card bg-white w-full max-w-[480px] rounded-xl p-10 flex flex-col">
+<!-- Logo & Title Section -->
+<div class="text-center mb-6">
+<div class="text-[24px] font-extrabold text-[#1A4F8A] mb-4">HoverStay</div>
+<h1 class="text-[22px] font-bold text-[#1A1A2E] mb-1">로그인</h1>
+<p class="text-sm text-[#6B7280]">HoverStay에 오신 것을 환영합니다</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-6" id="signinForm" method="POST">
+<!-- Email Field -->
+<div class="space-y-1.5">
+<label class="block text-sm font-semibold text-on-surface" for="email">이메일 주소</label>
+<input class="w-full px-4 py-3 bg-white border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline" id="email" name="email" placeholder="이메일 주소를 입력해주세요" type="email">
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<label class="block text-sm font-semibold text-on-surface" for="password">비밀번호</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-white border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline" id="password" name="password" placeholder="비밀번호를 입력해주세요" type="password">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined" id="visibility_icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Forgot Password -->
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded border-[#E5E7EB] text-primary focus:ring-primary" type="checkbox">
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">로그인 상태 유지</span>
+</label>
+<a class="text-sm font-semibold text-[#1A4F8A] hover:underline" href="#">비밀번호를 잊으셨나요?</a>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full h-12 bg-[#1A4F8A] text-white font-bold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all shadow-md" type="submit">
+                    로그인
+                </button>
+</form>
+<!-- Divider -->
+<div class="relative my-8 text-center">
+<hr class="border-outline-variant">
+<span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-sm text-outline">또는</span>
+</div>
+<!-- Social Logins -->
+<div class="space-y-3">
+<button class="w-full h-12 bg-[#FEE500] text-[#000000] font-bold rounded-lg flex items-center justify-center gap-3 hover:brightness-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                    카카오로 로그인
+                </button>
+<button class="w-full h-12 bg-[#03C75A] text-white font-bold rounded-lg flex items-center justify-center gap-3 hover:brightness-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">language</span>
+                    네이버로 로그인
+                </button>
+</div>
+<!-- Bottom Redirect -->
+<div class="mt-8 text-center text-sm text-on-surface-variant">
+                아직 회원이 아니신가요? 
+                <a class="ml-1 text-[#1A4F8A] font-bold hover:underline" href="signup.html">회원가입</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant">
+<div class="py-section-gap px-nav-padding-horiz max-w-max-width mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-card-title text-card-title text-on-surface">HoverStay</div>
+<p class="font-helper-text text-helper-text text-secondary">© 2024 HoverStay. All rights reserved.</p>
+</div>
+<nav class="flex gap-6">
+<a class="font-helper-text text-helper-text text-on-surface-variant hover:text-primary hover:underline transition-colors" href="#">이용약관</a>
+<a class="font-helper-text text-helper-text text-on-surface-variant hover:text-primary hover:underline transition-colors" href="#">개인정보처리방침</a>
+<a class="font-helper-text text-helper-text text-on-surface-variant hover:text-primary hover:underline transition-colors" href="#">고객센터</a>
+<a class="font-helper-text text-helper-text text-on-surface-variant hover:text-primary hover:underline transition-colors" href="#">사업자정보</a>
+</nav>
+</div>
+</footer>
+<script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.getElementById('visibility_icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+
+        document.getElementById('signinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value || 'demo@hoverstay.com';
+            localStorage.setItem('hover_logged_in', 'true');
+            localStorage.setItem('hover_user', JSON.stringify({
+                email,
+                name: email.split('@')[0] || 'HoverStay 회원',
+                loginAt: new Date().toISOString()
+            }));
+            location.href = 'index.html';
+        });
+
+        // Simple interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('opacity-80', 'scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('opacity-80', 'scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('opacity-80', 'scale-95'));
+        });
+    </script>
+<script src="hover-client.js"></script>
+</body></html>
