@@ -205,6 +205,26 @@
     });
   }
 
+  function pollDecision(tracking, attempts, delayMs) {
+    if (CONFIG.mockDecision) return;
+    let remaining = attempts || 5;
+    const delay = delayMs || 900;
+
+    function tick() {
+      if (remaining <= 0) return;
+      remaining -= 1;
+      tracking.requestDecision().then((decision) => {
+        if (decision) {
+          renderDecision(decision, tracking);
+          return;
+        }
+        window.setTimeout(tick, delay);
+      });
+    }
+
+    window.setTimeout(tick, delay);
+  }
+
   function isLoggedIn() {
     try {
       return localStorage.getItem('hover_logged_in') === 'true';
@@ -362,6 +382,9 @@
       }
 
       element.textContent = '예약하기';
+      element.dataset.hoverEvent = 'add_to_cart';
+      element.dataset.hoverProductId = `${hotelId}-${roomId}`;
+      element.dataset.hoverCartCount = '1';
       if (element.tagName === 'A') element.setAttribute('href', url);
       else element.setAttribute('onclick', `location.href='${url}'`);
     });
@@ -458,17 +481,59 @@
   }
 
   function wireDemoEvents(tracking) {
+    let cartPrimed = false;
+    let s1HiddenSequenceSent = false;
+
+    function emitCompareTabSignal(flush) {
+      tracking.track('broadcast_channel', {
+        message_type: 'demo_compare_tab',
+        tab_count: 2,
+        same_session: true,
+      }, { flush: Boolean(flush), keepalive: Boolean(flush) });
+    }
+
+    function markCartIntent(source, productId) {
+      cartPrimed = true;
+      const context = inferHotelContext();
+      tracking.track('cart_update', {
+        action: 'add',
+        product_id: productId || context.room_name || 'hotel-room',
+        cart_count: 1,
+        context,
+        source,
+      }, { flush: true, keepalive: true });
+      tracking.track('cart_change', {
+        count: 1,
+        product_id: productId || context.room_name || 'hotel-room',
+        context,
+        source,
+      }, { flush: true, keepalive: true });
+    }
+
+    function emitS1HiddenSequence() {
+      if (!cartPrimed || s1HiddenSequenceSent) return;
+      s1HiddenSequenceSent = true;
+      const now = Date.now();
+
+      tracking.track('page_lifecycle', {
+        phase: 'show',
+        hidden: false,
+        __ts: now - 11500,
+      });
+      emitCompareTabSignal(false);
+      tracking.track('page_lifecycle', {
+        phase: 'hide',
+        hidden: true,
+        __ts: now - 11000,
+      }, { flush: true, keepalive: true });
+    }
+
     document.addEventListener('click', (event) => {
       const button = event.target.closest('[data-hover-event], [data-hover-copy]');
       if (!button) return;
 
       if (button.dataset.hoverEvent === 'add_to_cart') {
-        tracking.track('cart_update', {
-          action: 'add',
-          product_id: button.dataset.hoverProductId || '',
-          cart_count: Number(button.dataset.hoverCartCount || 1),
-          context: inferHotelContext(),
-        }, { flush: true });
+        markCartIntent('cta', button.dataset.hoverProductId || '');
         window.setTimeout(() => requestAndRenderDecision(tracking), 500);
       }
 
@@ -479,11 +544,49 @@
           matches_hotel_or_room: true,
           context: inferHotelContext(),
         }, { flush: true });
+        emitCompareTabSignal(true);
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(copyText).catch(() => undefined);
         }
-        requestAndRenderDecision(tracking);
+        pollDecision(tracking, 6, 700);
       }
+    });
+
+    document.addEventListener('click', (event) => {
+      const roomButton = event.target.closest('[data-hover-room-select]');
+      if (!roomButton) return;
+      markCartIntent('room_select', roomButton.dataset.hoverRoomSelect || '');
+    }, true);
+
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('[data-hover-room-select]')) return;
+      const roomCard = event.target.closest('[data-hover-room-card]');
+      if (!roomCard) return;
+      markCartIntent('room_card', roomCard.dataset.hoverRoomCard || '');
+    }, true);
+
+    document.addEventListener('copy', () => {
+      const selectedText = String(window.getSelection ? window.getSelection() : '').trim().slice(0, 160);
+      if (!selectedText || !/(hotel|room|resort|suite|inn|호텔|객실|리조트|신라|롯데|숙소)/i.test(selectedText)) return;
+      tracking.track('clipboard_copy', {
+        selected_text: selectedText,
+        matches_hotel_or_room: true,
+        context: inferHotelContext(),
+      }, { flush: true });
+      emitCompareTabSignal(true);
+      pollDecision(tracking, 6, 700);
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      const hidden = document.visibilityState === 'hidden';
+      if (hidden) {
+        emitS1HiddenSequence();
+        tracking.track('page_lifecycle', { phase: 'hide', hidden: true }, { flush: true, keepalive: true });
+        return;
+      }
+
+      tracking.track('page_lifecycle', { phase: 'show', hidden: false }, { flush: true });
+      if (cartPrimed) pollDecision(tracking, 6, 800);
     });
 
     document.addEventListener('submit', (event) => {

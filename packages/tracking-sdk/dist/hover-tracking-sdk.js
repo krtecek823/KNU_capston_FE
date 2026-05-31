@@ -108,16 +108,26 @@
     if (type === 'page_unload') {
       return { phase: 'hide' };
     }
+    if (type === 'page_lifecycle') {
+      return {
+        phase: source.phase,
+        hidden: source.hidden === true || source.phase === 'hide',
+      };
+    }
     if (type === 'form_focus' || type === 'form_dwell' || type === 'form_change' || type === 'form_submit') {
       return Object.assign({ field_event: type }, source);
     }
-    return source;
+    const clean = Object.assign({}, source);
+    delete clean.__ts;
+    return clean;
   }
 
   function normalizeEvent(sessionId, type, payload) {
+    const source = payload || {};
+    const ts = Number(source.__ts);
     return {
       event_id: id('event'),
-      ts: Date.now(),
+      ts: Number.isFinite(ts) ? ts : Date.now(),
       type: backendEventType(type, payload),
       payload: backendPayload(type, payload),
       page_url: global.location ? global.location.href : '',
