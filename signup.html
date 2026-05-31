@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>회원가입 - HoverStay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e8",
+                        "surface": "#f9f9ff",
+                        "surface-container-high": "#e8e8ed",
+                        "tertiary-fixed-dim": "#ffb77e",
+                        "secondary-fixed": "#dce3ed",
+                        "primary-fixed": "#d4e3ff",
+                        "on-tertiary-container": "#ffae6b",
+                        "on-primary-container": "#9ac2ff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-surface-variant": "#424750",
+                        "inverse-surface": "#2e3035",
+                        "inverse-on-surface": "#f0f0f6",
+                        "primary-container": "#1a4f8a",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "tertiary-container": "#793f00",
+                        "outline-variant": "#c2c6d1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c20",
+                        "surface-dim": "#d9dadf",
+                        "background": "#f9f9ff",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#ededf3",
+                        "on-secondary-fixed": "#151c23",
+                        "surface-bright": "#f9f9ff",
+                        "surface-container-low": "#f3f3f9",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-secondary-container": "#5e656d",
+                        "secondary-container": "#dce3ed",
+                        "secondary": "#585f67",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-background": "#1a1c20",
+                        "inverse-primary": "#a5c8ff",
+                        "surface-tint": "#2f5f9b",
+                        "surface-container-highest": "#e2e2e8",
+                        "on-primary-fixed-variant": "#0d4782",
+                        "on-primary-fixed": "#001c3a",
+                        "tertiary": "#582c00",
+                        "secondary-fixed-dim": "#c0c7d1",
+                        "primary": "#00386b",
+                        "on-secondary-fixed-variant": "#40474f",
+                        "on-error-container": "#93000a",
+                        "outline": "#737781",
+                        "brand-gold": "#F5A623",
+                        "kakao": "#FEE500",
+                        "naver": "#03C75A"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "48px",
+                        "max-width": "1200px",
+                        "nav-height": "64px",
+                        "gutter": "24px",
+                        "nav-padding-horiz": "40px",
+                        "card-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "body-main": ["Manrope"],
+                        "price-highlight": ["Manrope"],
+                        "helper-text": ["Manrope"],
+                        "section-title": ["Manrope"],
+                        "page-title": ["Manrope"],
+                        "card-title": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                        "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-shadow {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- Top Navigation Bar -->
+<header class="bg-surface-container-lowest border-b border-outline-variant h-nav-height sticky top-0 z-50">
+<div class="flex justify-between items-center px-nav-padding-horiz max-w-max-width mx-auto w-full h-full">
+<div onclick="location.href='index.html'" class="font-page-title text-page-title font-bold text-primary cursor-pointer">HoverStay</div>
+<div class="flex items-center gap-4">
+<a class="font-body-main text-body-main text-on-surface-variant hover:text-primary transition-colors" href="signin.html">로그인</a>
+<button onclick="location.href='signup.html'" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-body-main text-body-main font-semibold hover:opacity-90 transition-all active:scale-95">회원가입</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="min-h-[calc(100vh-128px)] flex items-center justify-center py-[60px] px-4">
+<div class="w-full max-w-[520px] bg-surface-container-lowest rounded-xl custom-shadow p-10">
+<!-- Form Header -->
+<div class="text-center mb-8">
+<div class="font-page-title text-[24px] font-extrabold text-primary mb-6">HoverStay</div>
+<h1 class="text-[22px] font-bold text-[#1A1A2E] mb-2 font-page-title">회원가입</h1>
+<p class="font-body-main text-helper-text text-[#6B7280]">가입하고 특별한 혜택을 받아보세요</p>
+</div>
+<!-- Signup Form -->
+<form class="space-y-5" id="signupForm">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-body-main text-body-main font-semibold text-on-surface">성</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" placeholder="성" type="text">
+</div>
+<div class="space-y-2">
+<label class="font-body-main text-body-main font-semibold text-on-surface">이름</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" placeholder="이름" type="text">
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-body-main text-body-main font-semibold text-on-surface">이메일 주소</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" placeholder="이메일 주소를 입력해주세요" type="email">
+</div>
+<div class="space-y-2 relative">
+<label class="font-body-main text-body-main font-semibold text-on-surface">비밀번호</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" id="password" placeholder="영문, 숫자 포함 8자 이상" type="password">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePassword('password')" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-body-main text-body-main font-semibold text-on-surface">비밀번호 확인</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" placeholder="비밀번호를 다시 입력해주세요" type="password">
+</div>
+<div class="space-y-2">
+<label class="font-body-main text-body-main font-semibold text-on-surface">휴대폰 번호</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all font-body-main" placeholder="010-0000-0000" type="tel">
+</div>
+<!-- Terms Section -->
+<div class="pt-4 space-y-4">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 text-primary border-outline rounded focus:ring-primary" id="checkAll" type="checkbox">
+<label class="font-body-main text-body-main font-bold text-on-surface cursor-pointer" for="checkAll">전체 동의</label>
+</div>
+<hr class="border-outline-variant">
+<div class="space-y-3 px-1">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary border-outline rounded focus:ring-primary" id="term1" type="checkbox">
+<label class="font-body-main text-helper-text text-on-surface cursor-pointer" for="term1">[필수] 이용약관 동의</label>
+</div>
+<a class="text-helper-text text-primary font-semibold hover:underline" href="#">보기</a>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary border-outline rounded focus:ring-primary" id="term2" type="checkbox">
+<label class="font-body-main text-helper-text text-on-surface cursor-pointer" for="term2">[필수] 개인정보 처리방침 동의</label>
+</div>
+<a class="text-helper-text text-primary font-semibold hover:underline" href="#">보기</a>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary border-outline rounded focus:ring-primary" id="term3" type="checkbox">
+<label class="font-body-main text-helper-text text-on-surface cursor-pointer" for="term3">[선택] 마케팅 정보 수신 동의</label>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full h-[48px] bg-brand-gold text-white font-body-main text-body-main font-bold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all mt-4" type="submit">
+                    회원가입 완료
+                </button>
+</form>
+<!-- Social Divider -->
+<div class="flex items-center gap-4 my-8">
+<div class="flex-1 h-[1px] bg-outline-variant"></div>
+<span class="text-helper-text text-secondary font-body-main">또는</span>
+<div class="flex-1 h-[1px] bg-outline-variant"></div>
+</div>
+<!-- Social Login -->
+<div class="space-y-3">
+<button class="w-full h-[48px] bg-kakao text-black font-body-main text-body-main font-bold rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                    카카오로 시작하기
+                </button>
+<button class="w-full h-[48px] bg-naver text-white font-body-main text-body-main font-bold rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="font-extrabold text-lg">N</span>
+                    네이버로 시작하기
+                </button>
+</div>
+<!-- Footer Login Link -->
+<div class="text-center mt-10">
+<p class="font-body-main text-helper-text text-secondary">
+                    이미 회원이신가요? <a class="text-primary-container font-bold hover:underline ml-1" href="signin.html">로그인</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant">
+<div class="py-section-gap px-nav-padding-horiz max-w-max-width mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-card-title text-card-title text-on-surface font-bold">HoverStay</div>
+<p class="font-helper-text text-helper-text text-secondary">© 2024 HoverStay. All rights reserved.</p>
+</div>
+<div class="flex gap-6">
+<a class="font-helper-text text-helper-text text-secondary hover:underline hover:text-primary" href="#">이용약관</a>
+<a class="font-helper-text text-helper-text text-secondary hover:underline hover:text-primary" href="#">개인정보처리방침</a>
+<a class="font-helper-text text-helper-text text-secondary hover:underline hover:text-primary" href="#">고객센터</a>
+<a class="font-helper-text text-helper-text text-secondary hover:underline hover:text-primary" href="#">사업자정보</a>
+</div>
+</div>
+</footer>
+<script>
+        function togglePassword(id) {
+            const el = document.getElementById(id);
+            const type = el.getAttribute('type') === 'password' ? 'text' : 'password';
+            el.setAttribute('type', type);
+        }
+
+        // Simple check all logic
+        document.getElementById('checkAll').addEventListener('change', function(e) {
+            const checkboxes = ['term1', 'term2', 'term3'];
+            checkboxes.forEach(id => {
+                document.getElementById(id).checked = e.target.checked;
+            });
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputs = e.currentTarget.querySelectorAll('input');
+            const lastName = inputs[0]?.value || '';
+            const firstName = inputs[1]?.value || '';
+            const email = inputs[2]?.value || 'demo@hoverstay.com';
+            localStorage.setItem('hover_logged_in', 'true');
+            localStorage.setItem('hover_user', JSON.stringify({
+                email,
+                name: `${lastName}${firstName}`.trim() || 'HoverStay 회원',
+                phone: inputs[5]?.value || '',
+                loginAt: new Date().toISOString()
+            }));
+            location.href = 'index.html';
+        });
+
+        // Atmospheric interaction: Subtle button hover effect
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                btn.style.setProperty('--x', `${x}px`);
+                btn.style.setProperty('--y', `${y}px`);
+            });
+        });
+    </script>
+<script src="hover-client.js"></script>
+</body></html>

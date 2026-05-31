@@ -117,16 +117,9 @@
 <header class="fixed top-0 left-0 w-full z-50 h-nav-height bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-nav-padding-horiz max-w-full">
 <div class="flex items-center gap-8">
 <span onclick="location.href='index.html'" class="text-page-title font-extrabold text-primary">HoverStay</span>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-main text-body-main" href="#">숙소</a>
-<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">항공권</a>
-<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">렌터카</a>
-<a class="text-on-surface-variant font-body-main text-body-main hover:text-primary-container transition-colors" href="#">패키지</a>
-</nav>
 </div>
 <div class="flex items-center gap-4">
-<button class="font-body-main text-body-main text-primary hover:underline">숙소 등록</button>
-<button class="font-body-main text-body-main text-on-surface hover:underline">로그인</button>
+<button onclick="location.href='signin.html'" class="font-body-main text-body-main text-on-surface hover:underline">로그인</button>
 <span class="material-symbols-outlined text-outline">account_circle</span>
 </div>
 </header>
@@ -165,7 +158,7 @@
 <div class="text-right">
 <span class="text-brand-gold font-bold text-price-highlight">₩451,534부터</span>
 </div>
-<button onclick="location.href='booking.html'" data-hover-event="add_to_cart" data-hover-product-id="mapo-room" data-hover-cart-count="1" class="bg-brand-gold text-white font-bold px-6 py-2 rounded-lg font-body-main text-body-main">객실 상품 보기</button>
+<button onclick="location.href='booking.html?hotel=mapo'" data-hover-event="add_to_cart" data-hover-product-id="mapo-room" data-hover-cart-count="1" class="bg-brand-gold text-white font-bold px-6 py-2 rounded-lg font-body-main text-body-main">객실 상품 보기</button>
 </div>
 </div>
 </nav>
@@ -325,7 +318,7 @@
 </div>
 <p class="text-helper-text text-on-surface-variant">세금 포함가</p>
 </div>
-<button onclick="location.href='booking.html'" data-hover-event="add_to_cart" data-hover-product-id="mapo-room" data-hover-cart-count="1" class="w-full bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 transition-all font-section-title">객실 선택하기</button>
+<button onclick="location.href='booking.html?hotel=mapo'" data-hover-event="add_to_cart" data-hover-product-id="mapo-room" data-hover-cart-count="1" class="w-full bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 transition-all font-section-title">객실 선택하기</button>
 </div>
 <!-- Badges -->
 <div class="mt-4 flex flex-col gap-2">

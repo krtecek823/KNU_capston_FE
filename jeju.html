@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>제주 호텔 검색 결과 - HoverStay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#ededf3",
+                    "surface": "#f9f9ff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#582c00",
+                    "secondary": "#585f67",
+                    "on-tertiary-container": "#ffae6b",
+                    "error": "#ba1a1a",
+                    "primary-container": "#1a4f8a",
+                    "inverse-on-surface": "#f0f0f6",
+                    "on-primary-container": "#9ac2ff",
+                    "primary-fixed": "#d4e3ff",
+                    "on-secondary-fixed-variant": "#40474f",
+                    "secondary-fixed": "#dce3ed",
+                    "inverse-primary": "#a5c8ff",
+                    "primary-fixed-dim": "#a5c8ff",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#5e656d",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary-container": "#dce3ed",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-surface-variant": "#424750",
+                    "on-background": "#1a1c20",
+                    "on-secondary-fixed": "#151c23",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#737781",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#00386b",
+                    "tertiary-fixed": "#ffdcc3",
+                    "inverse-surface": "#2e3035",
+                    "surface-container-low": "#f3f3f9",
+                    "outline-variant": "#c2c6d1",
+                    "surface-container-highest": "#e2e2e8",
+                    "tertiary-container": "#793f00",
+                    "on-surface": "#1a1c20",
+                    "surface-tint": "#2f5f9b",
+                    "surface-container-high": "#e8e8ed",
+                    "surface-variant": "#e2e2e8",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-primary-fixed-variant": "#0d4782",
+                    "surface-dim": "#d9dadf",
+                    "secondary-fixed-dim": "#c0c7d1",
+                    "on-secondary": "#ffffff",
+                    "background": "#f9f9ff",
+                    "tertiary-fixed-dim": "#ffb77e",
+                    "brand-navy": "#1A4F8A",
+                    "brand-gold": "#F5A623"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "max-width": "1200px",
+                    "section-gap": "48px",
+                    "nav-padding-horiz": "40px",
+                    "nav-height": "64px",
+                    "card-padding": "16px"
+            },
+            "fontFamily": {
+                    "helper-text": ["Manrope"],
+                    "section-title": ["Manrope"],
+                    "page-title": ["Manrope"],
+                    "body-main": ["Manrope"],
+                    "price-highlight": ["Manrope"],
+                    "card-title": ["Manrope"]
+            },
+            "fontSize": {
+                    "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                    "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                    "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hotel-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .hotel-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center h-[64px] px-[40px] w-full max-w-[1200px] mx-auto">
+<div onclick="location.href='index.html'" class="text-page-title font-page-title text-primary dark:text-primary-fixed tracking-tight cursor-pointer active:scale-95 transition-transform">
+                HoverStay
+            </div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer text-body-main font-body-main">로그인</button>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold text-body-main cursor-pointer active:scale-95 transition-transform">회원가입</button>
+</div>
+</div>
+</header>
+<main class="mt-[64px] flex-grow">
+<!-- Hero Section -->
+<section class="bg-brand-navy py-12">
+<div class="max-w-[1200px] mx-auto px-10">
+<nav class="flex items-center text-helper-text font-helper-text text-white/80 mb-4">
+<span>홈</span>
+<span class="material-symbols-outlined text-[14px] mx-1">chevron_right</span>
+<span class="text-white">제주</span>
+</nav>
+<h1 class="font-page-title text-[40px] leading-tight font-extrabold text-white mb-2">제주 호텔</h1>
+<p class="font-body-main text-body-main text-primary-fixed opacity-90">제주도의 아름다운 자연과 함께하는 숙소</p>
+</div>
+</section>
+<!-- Search Bar (Horizontal) -->
+<section class="relative -mt-8 z-10">
+<div class="max-w-[1200px] mx-auto px-10">
+<div class="bg-white rounded-xl shadow-xl p-4 flex items-center gap-4 border border-outline-variant">
+<div class="flex-1 flex items-center gap-3 px-4 py-3 bg-surface rounded-lg border border-outline-variant focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-outline">location_on</span>
+<div class="flex flex-col">
+<span class="text-[11px] text-outline font-bold uppercase tracking-wider">위치</span>
+<input class="bg-transparent border-none p-0 text-body-main font-bold focus:ring-0 w-full" readonly="" type="text" value="제주도, 대한민국"/>
+</div>
+</div>
+<div class="flex-1 flex items-center gap-3 px-4 py-3 bg-surface rounded-lg border border-outline-variant focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-outline">calendar_today</span>
+<div class="flex flex-col">
+<span class="text-[11px] text-outline font-bold uppercase tracking-wider">체크인 - 체크아웃</span>
+<input class="bg-transparent border-none p-0 text-body-main font-bold focus:ring-0 w-full" readonly="" type="text" value="2024.06.12 - 2024.06.15"/>
+</div>
+</div>
+<div class="flex-1 flex items-center gap-3 px-4 py-3 bg-surface rounded-lg border border-outline-variant focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-outline">person</span>
+<div class="flex flex-col">
+<span class="text-[11px] text-outline font-bold uppercase tracking-wider">인원</span>
+<input class="bg-transparent border-none p-0 text-body-main font-bold focus:ring-0 w-full" readonly="" type="text" value="성인 2, 아동 0"/>
+</div>
+</div>
+<button class="bg-primary text-white h-[56px] px-8 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors active:scale-95">
+<span class="material-symbols-outlined">search</span>
+                        검색하기
+                    </button>
+</div>
+</div>
+</section>
+<!-- Hotel List Section -->
+<section class="py-section-gap max-w-[1200px] mx-auto px-10">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-section-title text-section-title text-on-surface">제주 지역 추천 숙소 <span class="text-primary font-bold">(156개)</span></h2>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container rounded-full text-helper-text font-semibold text-on-surface-variant flex items-center gap-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">sort</span> 정렬 기준
+                    </button>
+<button class="px-4 py-2 bg-surface-container rounded-full text-helper-text font-semibold text-on-surface-variant flex items-center gap-1 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> 필터
+                    </button>
+</div>
+</div>
+<!-- List of Cards -->
+<div class="space-y-6">
+<!-- Card 1 -->
+<div class="hotel-card bg-white rounded-xl border border-outline-variant overflow-hidden flex h-[240px]">
+<div class="w-1/3 relative overflow-hidden group">
+<img alt="제주 오션 스위트" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNpd43XyUgvTH9Gs4lK9HMvwrBl5TVwtKWvOMXTet6fn0-J5BKX3hoL86uu-y7NZTnhgK6M2F6S5odjU7dMHYLj3OyNxMDUpu0syX9dbOS-K2uF-4VEnwbatC0WMxdxEn1_AZoFikuw_X16EW9dA4p64iMFRZcKess4HjdQjVROR12qkNJORLPM7vHeVs-pxte8RkBmy2EH7jRmMZ1DNOemk3-9dHUPoEdqOnbhX4K-HDBlUO2b1Ux_lq1xCPeTY_rQ7XMVCdBvmrv"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[12px] font-bold text-primary">BEST</div>
+</div>
+<div class="flex-1 p-6 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-card-title text-[22px] font-bold text-on-surface mb-1">제주 오션 스위트</h3>
+<div class="flex items-center gap-1 text-brand-gold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-error transition-colors">favorite</button>
+</div>
+<div class="flex items-center text-helper-text text-on-surface-variant mb-4">
+<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
+                            제주특별자치도 제주시 애월읍 해안동길 15
+                        </div>
+<div class="flex flex-wrap gap-2 mb-auto">
+<span class="px-2 py-1 bg-green-50 text-green-700 text-[11px] font-bold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 무료 취소
+                            </span>
+<span class="px-2 py-1 bg-[#EAF1FB] text-primary text-[11px] font-bold rounded">조식 포함</span>
+<span class="px-2 py-1 border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded">오션뷰</span>
+<span class="px-2 py-1 border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded">수영장</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary px-2 py-1 rounded text-white font-bold text-[14px]">9.0</div>
+<div class="text-helper-text">
+<span class="font-bold text-primary">최고</span>
+<span class="text-outline"> • 후기 2,104개</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-price-highlight text-brand-navy mb-2">₩520,000 <span class="text-helper-text font-normal text-outline">/ 1박</span></div>
+<button class="bg-brand-gold text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-gold/90 transition-all active:scale-95 shadow-md">상세 보기</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="hotel-card bg-white rounded-xl border border-outline-variant overflow-hidden flex h-[240px]">
+<div class="w-1/3 relative overflow-hidden group">
+<img alt="서귀포 스테이" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoexnNo-wmdeNPgKpY3MbdfRpuFLNpydnjJR3ex6wpMkc1dxUVY9Y-x8UE_r2N7d3dWYtgjlCs6zNXFjRQqP2EBf6Fv2kHozjSmL5mNa1CLDT9EH47jX18yAv7GeCb0d8r9kCNGO1_ifrkDULO2dDMzS8ZjE9tbGd-FUNhRuOG5fu1iVxN_tSvZunVxQm7KaxHivl-JUATUUb0Y1voAKmffnBR3Yy0hE17O86eZx2p0ml74zbNJ7fvdd12cmVwpL7tsRmuZfapS52p"/>
+</div>
+<div class="flex-1 p-6 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-card-title text-[22px] font-bold text-on-surface mb-1">서귀포 스테이</h3>
+<div class="flex items-center gap-1 text-brand-gold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-error transition-colors">favorite</button>
+</div>
+<div class="flex items-center text-helper-text text-on-surface-variant mb-4">
+<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
+                            제주특별자치도 서귀포시 중앙로 85
+                        </div>
+<div class="flex flex-wrap gap-2 mb-auto">
+<span class="px-2 py-1 bg-green-50 text-green-700 text-[11px] font-bold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 무료 취소
+                            </span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary px-2 py-1 rounded text-white font-bold text-[14px]">8.3</div>
+<div class="text-helper-text">
+<span class="font-bold text-primary">매우 좋음</span>
+<span class="text-outline"> • 후기 987개</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-price-highlight text-brand-navy mb-2">₩298,000 <span class="text-helper-text font-normal text-outline">/ 1박</span></div>
+<button class="bg-brand-gold text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-gold/90 transition-all active:scale-95 shadow-md">상세 보기</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 flex justify-center">
+<button class="px-10 py-4 border-2 border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-all">더 많은 숙소 보기</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container border-t border-outline-variant dark:border-outline">
+<div class="flex flex-col md:flex-row justify-between items-center py-section-gap px-nav-padding-horiz max-w-max-width mx-auto">
+<div class="mb-8 md:mb-0 text-center md:text-left">
+<div class="font-page-title text-page-title text-primary mb-2">HoverStay</div>
+<p class="font-helper-text text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 font-helper-text text-helper-text">
+<a class="text-on-surface-variant hover:text-primary underline transition-all duration-200" href="#">회사 소개</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all duration-200" href="#">이용 약관</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all duration-200" href="#">개인정보 처리방침</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all duration-200" href="#">고객 센터</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for hover effects on inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.flex-1').classList.add('bg-white');
+                input.closest('.flex-1').classList.remove('bg-surface');
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.flex-1').classList.add('bg-surface');
+                input.closest('.flex-1').classList.remove('bg-white');
+            });
+        });
+    </script>
+</body></html>

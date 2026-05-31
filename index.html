@@ -111,15 +111,9 @@
 </div>
 <h1 class="text-on-surface text-xl font-bold leading-tight tracking-[-0.015em]">HoverStay</h1>
 </div>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-on-surface-variant text-sm font-medium hover:text-primary transition-colors" href="#">숙소</a>
-<a class="text-on-surface-variant text-sm font-medium hover:text-primary transition-colors" href="#">항공권</a>
-<a class="text-on-surface-variant text-sm font-medium hover:text-primary transition-colors" href="#">렌터카</a>
-<a class="text-on-surface-variant text-sm font-medium hover:text-primary transition-colors" href="#">공항 택시</a>
-</nav>
 <div class="flex gap-3">
-<button class="px-5 py-2 rounded-lg text-sm font-bold bg-primary-container text-white hover:opacity-90 transition-opacity">로그인</button>
-<button class="px-5 py-2 rounded-lg text-sm font-bold bg-secondary-container text-on-secondary-container hover:bg-outline-variant transition-colors">회원가입</button>
+<button onclick="location.href='signin.html'" class="px-5 py-2 rounded-lg text-sm font-bold bg-primary-container text-white hover:opacity-90 transition-opacity">로그인</button>
+<button onclick="location.href='signup.html'" class="px-5 py-2 rounded-lg text-sm font-bold bg-secondary-container text-on-secondary-container hover:bg-outline-variant transition-colors">회원가입</button>
 </div>
 </div>
 </header>
@@ -130,25 +124,45 @@
 <h2 class="text-white text-4xl md:text-page-title font-black mb-4">다음에 머무를 숙소를 찾아보세요</h2>
 <p class="text-white/90 text-lg md:text-body-main mb-12">호텔부터 홈까지, 다양한 숙소가 한곳에! 특가를 찾아보세요</p>
 <!-- Search Bar Container -->
-<div class="w-full max-w-[1000px] bg-white rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.15)] p-2 flex flex-col lg:flex-row items-stretch gap-2">
+<div class="w-full max-w-[1120px] bg-white rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.15)] p-2 flex flex-col lg:flex-row items-stretch gap-2">
 <!-- Location Input -->
 <div class="flex-1 flex items-center px-4 border-r border-outline-variant/30 min-h-[56px]">
 <span class="material-symbols-outlined text-outline mr-3">bed</span>
-<input class="w-full border-none focus:ring-0 text-on-surface placeholder:text-outline text-sm" placeholder="어디로 여행하세요?" type="text"/>
+<select id="homeDestination" class="w-full border-none focus:ring-0 text-on-surface text-sm bg-white">
+<option value="" disabled selected>어디로 떠나시나요?</option>
+<option value="서울">서울</option>
+<option value="부산">부산</option>
+<option value="제주">제주</option>
+<option value="강릉">강릉</option>
+</select>
 </div>
 <!-- Date Picker -->
-<div class="flex-1 flex items-center px-4 border-r border-outline-variant/30 min-h-[56px]">
+<div class="flex-[1.35] flex items-center px-4 border-r border-outline-variant/30 min-h-[56px]">
 <span class="material-symbols-outlined text-outline mr-3">calendar_today</span>
-<input class="w-full border-none focus:ring-0 text-on-surface placeholder:text-outline text-sm" placeholder="체크인 — 체크아웃" type="text"/>
+<div class="grid grid-cols-2 gap-2 w-full min-w-[260px]">
+<input id="homeCheckin" class="w-full min-w-[126px] border-none focus:ring-0 text-on-surface text-sm" type="date" value="2026-06-01"/>
+<input id="homeCheckout" class="w-full min-w-[126px] border-none focus:ring-0 text-on-surface text-sm" type="date" value="2026-06-03"/>
+</div>
 </div>
 <!-- Guests -->
 <div class="flex-1 flex items-center px-4 min-h-[56px]">
 <span class="material-symbols-outlined text-outline mr-3">person</span>
-<input class="w-full border-none focus:ring-0 text-on-surface placeholder:text-outline text-sm" placeholder="성인 2명 · 객실 1개" type="text"/>
+<div class="grid grid-cols-2 gap-2 w-full">
+<label class="flex min-w-[110px] items-center justify-center rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2 text-sm text-on-surface" for="homeAdults">
+<span class="font-semibold whitespace-nowrap">성인</span>
+<input id="homeAdults" class="mx-0.5 w-7 border-none bg-transparent p-0 text-center text-sm font-bold focus:ring-0" min="1" max="8" type="number" value="2"/>
+<span class="shrink-0 text-on-surface-variant">명</span>
+</label>
+<label class="flex min-w-[110px] items-center justify-center rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2 text-sm text-on-surface" for="homeRooms">
+<span class="font-semibold whitespace-nowrap">객실</span>
+<input id="homeRooms" class="mx-0.5 w-7 border-none bg-transparent p-0 text-center text-sm font-bold focus:ring-0" min="1" max="5" type="number" value="1"/>
+<span class="shrink-0 text-on-surface-variant">개</span>
+</label>
+</div>
 </div>
 <!-- CTA Button -->
 <button 
-  onclick="location.href='search.html'"
+  onclick="goHotelSearch()"
   class="bg-brand-cta text-white font-bold px-10 py-4 rounded-lg hover:brightness-110 transition-all text-base min-w-[120px]">
                          검색
                     </button>
@@ -207,7 +221,7 @@
 <h3 class="text-section-title text-on-surface mb-8">지금 인기 있는 여행지</h3>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
 <!-- City Card 1: Seoul -->
-<div class="group cursor-pointer">
+<div class="group cursor-pointer" onclick="goPopularDestination('서울')">
 <div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-3">
 <img alt="Seoul" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A panoramic view of Seoul city skyline at dusk with the N Seoul Tower glowing in the distance. The lighting is a blend of cool twilight blues and warm city street lights, reflecting a modern light-mode aesthetic. The composition is clean and premium, showcasing urban architecture with high-key clarity and professional photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcC8Q2xwVQg9wpojFGECa7LVLG9D-Oz1kVBMWAadmSbBia3vjUwsF5fwYUs4Yja_mGQpn0lGysgMoIWNA_-fyhFhpE1-y-IfKBPE2PrYl7rvGZjXBUXaF13cEo7INuL5W1TU2vFfnfwFR8L5oBauKNfwqchz8RqYDQKuKtZz3rnIHJs9JD3pwVqjl9Tf6wrXhU0MN700ct_ZY0KyFEOili3PHJUhMYbXGqAezrcJPGRmS1GGNLGLLBzHy9LAHy0WL7lO6WIpRi3OLi"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -216,7 +230,7 @@
 <p class="text-body-main text-on-surface-variant">₩125,000부터</p>
 </div>
 <!-- City Card 2: Busan -->
-<div class="group cursor-pointer">
+<div class="group cursor-pointer" onclick="goPopularDestination('부산')">
 <div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-3">
 <img alt="Busan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A scenic view of Haeundae Beach in Busan with high-rise luxury hotels lining the shore under a bright clear sky. The scene is bright and airy with soft natural light, maintaining a professional corporate UI aesthetic. The color palette is dominated by ocean blues and crisp architectural whites, evoking a premium travel atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2J_h4AGDB2_nfv81HcZ3J3FtBTc6KkApIow5wIGrzSDtpzZL9qgRTGl2C7_cQ-fcexRE9DO9TW6Em02HMlpjFahTZUy986ANL1QvXgoL2VwPmOr6G1SOOURHUfUFSYUy1Oq_UzpJPHKWqBdjl9zgUR2tKiMqS4KKMSjUCUr6V8Ra7uppIWlzBEXkan6Wv455-cijCERDr3hsHFR1l09xnR1fKiyjHjdz2Njes2GFlXJqUBjEeepb1zDv-c4JKk6UuhlCS3xV-dlU8"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -225,7 +239,7 @@
 <p class="text-body-main text-on-surface-variant">₩98,000부터</p>
 </div>
 <!-- City Card 3: Jeju -->
-<div class="group cursor-pointer">
+<div class="group cursor-pointer" onclick="goPopularDestination('제주')">
 <div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-3">
 <img alt="Jeju" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A tranquil Jeju Island landscape featuring volcanic rock coastlines and emerald green sea under a soft, golden morning sun. The lighting is gentle and serene, aligned with a modern light-mode design system. The scene uses natural earth tones and vibrant blues to convey a sense of peaceful premium relaxation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYxEJrPoROK27R_OGv1nQp_joOJ9eFssNYF5ktu7ezzBc2DnZL_6U96gLoxM9FV3R9cch_y8NmZmlKnECm6ZZzIT_nAKsVCQKcdTOZLpzOnuxFX2yI8OKPHf7rAU0rbLpjyt6XgCPRc0WI0fpnqxRuNdNIL-Td_6qIOKThoQ1SNEQK4pw8Wt5SZUZunchEAbVO0gGUjJT6Ux8o51rC-q9Cmj6Tqwv36NFrvhRdUehnebt-SH7s7lbddJJqXijM1v409cdnwAWoDTrh"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -233,14 +247,14 @@
 <h4 class="text-card-title text-on-surface">제주</h4>
 <p class="text-body-main text-on-surface-variant">₩110,000부터</p>
 </div>
-<!-- City Card 4: Tokyo -->
-<div class="group cursor-pointer">
+<!-- City Card 4: Gangneung -->
+<div class="group cursor-pointer" onclick="goPopularDestination('강릉')">
 <div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-3">
 <img alt="Tokyo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A vibrant night view of Tokyo's Shinjuku district with neon lights reflecting on clean streets and modern architecture. The image features a sophisticated palette of deep blues and bright neon accents, captured with high-key sharpness for a professional UI feel. The mood is energetic yet refined, perfect for a high-end booking platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWeJTIE05ePhi0-JmhFhSeMAd4oxsiCt3u--K7MqvwTN7Q-QiL2fmMTZENT25FecPzkjtmcapzPIlItroayzXs5bxxz4PYPBNE-0cm5dkz6hSNci9AeOE6V5HsJeLON67d7GTA8FXhaozCVIDff9lUXmJarDFdBG3_od9eu1jord2bYbaNYzEnzQOqnCH4h-5-mbikoNa1J-ZOJueu9lmsjyuhWr1avufkC8SVyzXy-lBZKpnvENwIB9uBhpY-kEdIZ4uS3pjo8j8n"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
-<h4 class="text-card-title text-on-surface">도쿄</h4>
-<p class="text-body-main text-on-surface-variant">₩189,000부터</p>
+<h4 class="text-card-title text-on-surface">강릉</h4>
+<p class="text-body-main text-on-surface-variant">₩92,000부터</p>
 </div>
 </div>
 </div>
@@ -289,5 +303,31 @@
 </div>
 </div>
 </footer>
+<script>
+function goHotelSearch() {
+  const destination = document.getElementById('homeDestination').value;
+  if (!destination) {
+    alert('여행할 도시를 선택해주세요.');
+    return;
+  }
+  const checkin = document.getElementById('homeCheckin').value;
+  const checkout = document.getElementById('homeCheckout').value;
+  const adults = document.getElementById('homeAdults').value || '2';
+  const rooms = document.getElementById('homeRooms').value || '1';
+  const params = new URLSearchParams({ destination, checkin, checkout, adults, rooms });
+  localStorage.setItem('hover_search_state', JSON.stringify({ destination, checkin, checkout, adults, rooms }));
+  location.href = `search.html?${params.toString()}`;
+}
+
+function goPopularDestination(destination) {
+  const checkin = document.getElementById('homeCheckin').value;
+  const checkout = document.getElementById('homeCheckout').value;
+  const adults = document.getElementById('homeAdults').value || '2';
+  const rooms = document.getElementById('homeRooms').value || '1';
+  const params = new URLSearchParams({ destination, checkin, checkout, adults, rooms });
+  localStorage.setItem('hover_search_state', JSON.stringify({ destination, checkin, checkout, adults, rooms }));
+  location.href = `search.html?${params.toString()}`;
+}
+</script>
 <script src="hover-client.js"></script>
 </body></html>
