@@ -147,7 +147,6 @@
 
   function renderDecision(decision, tracking) {
     if (!window.HoverWidget || !decision) return;
-    if (decision.ab_group === 'control') return;
     const widget = Array.isArray(decision.widgets) && decision.widgets.length ? decision.widgets[0] : decision;
     window.HoverWidget.renderWidget(null, widget, {
       onAction(action, model) {
@@ -619,6 +618,9 @@
         debug: CONFIG.debug,
         onDecision(decision, client) {
           renderDecision(decision, client);
+        },
+        onEventsAccepted(_, client) {
+          pollDecision(client, 5, 700);
         },
       };
       if (CONFIG.mockDecision) trackingOptions.decisionIntervalMs = 0;

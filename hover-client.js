@@ -29,9 +29,10 @@ const DECISION_API = 'http://localhost:4001/decision';
 
   async function sendEvent(type, payload) {
     try {
-      await fetch(INGESTION_API, {
+      const res = await fetch(INGESTION_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'omit',
         body: JSON.stringify({
           session_id: sessionId,
           device: getDevice(),
@@ -47,6 +48,7 @@ const DECISION_API = 'http://localhost:4001/decision';
           ],
         }),
       });
+      if (res.ok) pollDecision();
     } catch (error) {
       console.warn('[Hover] event send failed', error);
     }
@@ -54,12 +56,15 @@ const DECISION_API = 'http://localhost:4001/decision';
 
   async function checkDecision() {
     try {
-      const res = await fetch(`${DECISION_API}/${sessionId}`);
+      const res = await fetch(`${DECISION_API}/${encodeURIComponent(sessionId)}`, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        credentials: 'omit',
+      });
       if (res.status === 204) return;
       if (!res.ok) return;
 
       const data = await res.json();
-      if (data.ab_group === 'control') return;
 
       if (data.component === 'coupon_modal') {
         showCouponModal(data);
@@ -71,6 +76,21 @@ const DECISION_API = 'http://localhost:4001/decision';
     } catch (error) {
       console.warn('[Hover] decision check failed', error);
     }
+  }
+
+  function pollDecision(attempts = 6, delayMs = 700) {
+    let remaining = attempts;
+
+    function tick() {
+      if (remaining <= 0) return;
+      remaining -= 1;
+      checkDecision().then(() => {
+        if (document.querySelector('[data-hover-widget]')) return;
+        setTimeout(tick, delayMs);
+      });
+    }
+
+    setTimeout(tick, delayMs);
   }
 
   function removeExistingWidget() {
@@ -173,6 +193,7 @@ const DECISION_API = 'http://localhost:4001/decision';
         if (type === 'add_to_cart') {
           sendEvent('add_to_cart', { product_id: productId });
           sendEvent('cart_change', { count });
+          pollDecision();
           return;
         }
 
@@ -188,7 +209,7 @@ const DECISION_API = 'http://localhost:4001/decision';
         } catch (_) {}
         sendEvent('clipboard_copy', { selected_text: text });
         sendEvent('broadcast_channel', { tab_count: 2 });
-        setTimeout(checkDecision, 800);
+        pollDecision();
       });
     });
   }
@@ -202,7 +223,7 @@ const DECISION_API = 'http://localhost:4001/decision';
 
     sendEvent('visibility_change', { hidden: false });
     sendEvent('page_lifecycle', { phase: 'show' });
-    setTimeout(checkDecision, 800);
+    pollDecision();
   });
 
   window.HoverClient = {
@@ -214,5 +235,6 @@ const DECISION_API = 'http://localhost:4001/decision';
   };
 
   sendEvent('page_view', {});
+  pollDecision();
   bindMarkedElements();
 })();

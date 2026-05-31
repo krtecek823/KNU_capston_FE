@@ -144,7 +144,7 @@
       body: json,
       keepalive: Boolean(useKeepalive),
       credentials: 'omit',
-    }).then(() => undefined);
+    });
   }
 
   function decisionEndpoint(baseUrl, sessionId) {
@@ -196,7 +196,12 @@
         device: getDevice(),
         events,
       };
-      return postJson(config.apiUrl, payload, useKeepalive).catch((error) => {
+      return postJson(config.apiUrl, payload, useKeepalive).then((response) => {
+        if (response && !response.ok) throw new Error(`events request failed: ${response.status}`);
+        if (typeof config.onEventsAccepted === 'function') {
+          config.onEventsAccepted({ events, response, payload }, api);
+        }
+      }).catch((error) => {
         log('flush failed', error);
         queue.unshift.apply(queue, events.slice(-config.batchSize));
       });
