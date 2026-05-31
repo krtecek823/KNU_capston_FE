@@ -119,6 +119,8 @@
     }
     const clean = Object.assign({}, source);
     delete clean.__ts;
+    delete clean.__referrer;
+    delete clean.__page_url;
     return clean;
   }
 
@@ -130,8 +132,8 @@
       ts: Number.isFinite(ts) ? ts : Date.now(),
       type: backendEventType(type, payload),
       payload: backendPayload(type, payload),
-      page_url: global.location ? global.location.href : '',
-      referrer: global.document ? global.document.referrer || '' : '',
+      page_url: source.__page_url || (global.location ? global.location.href : ''),
+      referrer: source.__referrer || (global.document ? global.document.referrer || '' : ''),
     };
   }
 

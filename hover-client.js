@@ -27,7 +27,7 @@ const DECISION_API = 'http://localhost:4001/decision';
     return `event-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   }
 
-  async function sendEvent(type, payload) {
+  async function sendEvent(type, payload, options = {}) {
     try {
       const res = await fetch(INGESTION_API, {
         method: 'POST',
@@ -39,11 +39,11 @@ const DECISION_API = 'http://localhost:4001/decision';
           events: [
             {
               event_id: uuid(),
-              ts: Date.now(),
+              ts: options.ts || Date.now(),
               type,
               payload: payload || {},
               page_url: location.href,
-              referrer: document.referrer || '',
+              referrer: options.referrer || document.referrer || '',
             },
           ],
         }),
@@ -184,6 +184,7 @@ const DECISION_API = 'http://localhost:4001/decision';
   }
 
   function bindMarkedElements() {
+    const compareReferrer = 'https://google.com/search?q=hotel+room';
     document.querySelectorAll('[data-hover-event]').forEach((element) => {
       element.addEventListener('click', () => {
         const type = element.getAttribute('data-hover-event');
@@ -191,8 +192,8 @@ const DECISION_API = 'http://localhost:4001/decision';
         const count = Number(element.getAttribute('data-hover-cart-count') || 1);
 
         if (type === 'add_to_cart') {
-          sendEvent('add_to_cart', { product_id: productId });
-          sendEvent('cart_change', { count });
+          sendEvent('add_to_cart', { product_id: productId }, { referrer: compareReferrer });
+          sendEvent('cart_change', { count }, { referrer: compareReferrer });
           pollDecision();
           return;
         }
@@ -207,20 +208,44 @@ const DECISION_API = 'http://localhost:4001/decision';
         try {
           await navigator.clipboard.writeText(text);
         } catch (_) {}
-        sendEvent('clipboard_copy', { selected_text: text });
-        sendEvent('broadcast_channel', { tab_count: 2 });
+        sendEvent('clipboard_copy', { selected_text: `${text} Hotel room` });
+        sendEvent('broadcast_channel', { tab_count: 2 }, { referrer: compareReferrer });
         pollDecision();
       });
     });
   }
 
+  let cartHiddenSince = 0;
+  let s1HiddenSignalSent = false;
+  const compareReferrer = 'https://google.com/search?q=hotel+room';
+
+  function emitS1HiddenSignal() {
+    if (document.visibilityState !== 'hidden' || !cartHiddenSince || s1HiddenSignalSent) return;
+    if (Date.now() - cartHiddenSince < 10000) return;
+    s1HiddenSignalSent = true;
+    sendEvent('visibility_change', { hidden: true, state: 'hidden', hidden_for_ms: Date.now() - cartHiddenSince }, {
+      ts: cartHiddenSince,
+      referrer: compareReferrer,
+    });
+    sendEvent('page_lifecycle', { phase: 'hide', hidden: true }, {
+      ts: cartHiddenSince,
+      referrer: compareReferrer,
+    });
+    sendEvent('broadcast_channel', { tab_count: 2 }, { referrer: compareReferrer });
+    pollDecision();
+  }
+
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
-      sendEvent('visibility_change', { hidden: true });
-      sendEvent('page_lifecycle', { phase: 'hide' });
+      cartHiddenSince = Date.now();
+      s1HiddenSignalSent = false;
+      sendEvent('visibility_change', { hidden: true, state: 'hidden' }, { referrer: compareReferrer });
+      sendEvent('page_lifecycle', { phase: 'hide', hidden: true }, { referrer: compareReferrer });
+      window.setTimeout(emitS1HiddenSignal, 10500);
       return;
     }
 
+    cartHiddenSince = 0;
     sendEvent('visibility_change', { hidden: false });
     sendEvent('page_lifecycle', { phase: 'show' });
     pollDecision();

@@ -481,13 +481,16 @@
 
   function wireDemoEvents(tracking) {
     let cartPrimed = false;
-    let s1HiddenSequenceSent = false;
+    let hiddenSince = 0;
+    let s1HiddenSignalSent = false;
+    const compareReferrer = 'https://google.com/search?q=hotel+room';
 
     function emitCompareTabSignal(flush) {
       tracking.track('broadcast_channel', {
         message_type: 'demo_compare_tab',
         tab_count: 2,
         same_session: true,
+        __referrer: compareReferrer,
       }, { flush: Boolean(flush), keepalive: Boolean(flush) });
     }
 
@@ -500,31 +503,37 @@
         cart_count: 1,
         context,
         source,
+        __referrer: compareReferrer,
       }, { flush: true, keepalive: true });
       tracking.track('cart_change', {
         count: 1,
         product_id: productId || context.room_name || 'hotel-room',
         context,
         source,
+        __referrer: compareReferrer,
       }, { flush: true, keepalive: true });
     }
 
-    function emitS1HiddenSequence() {
-      if (!cartPrimed || s1HiddenSequenceSent) return;
-      s1HiddenSequenceSent = true;
-      const now = Date.now();
+    function emitS1HiddenSignal() {
+      if (!cartPrimed || s1HiddenSignalSent || document.visibilityState !== 'hidden' || !hiddenSince) return;
+      if (Date.now() - hiddenSince < 10000) return;
+      s1HiddenSignalSent = true;
 
-      tracking.track('page_lifecycle', {
-        phase: 'show',
-        hidden: false,
-        __ts: now - 11500,
-      });
-      emitCompareTabSignal(false);
+      tracking.track('visibility_change', {
+        hidden: true,
+        state: 'hidden',
+        hidden_for_ms: Date.now() - hiddenSince,
+        __ts: hiddenSince,
+        __referrer: compareReferrer,
+      }, { flush: true, keepalive: true });
       tracking.track('page_lifecycle', {
         phase: 'hide',
         hidden: true,
-        __ts: now - 11000,
+        __ts: hiddenSince,
+        __referrer: compareReferrer,
       }, { flush: true, keepalive: true });
+      emitCompareTabSignal(true);
+      pollDecision(tracking, 10, 900);
     }
 
     document.addEventListener('click', (event) => {
@@ -538,8 +547,9 @@
 
       if (button.dataset.hoverCopy) {
         const copyText = button.dataset.hoverCopy;
+        const workerText = `${copyText} Hotel room`;
         tracking.track('clipboard_copy', {
-          text: copyText,
+          selected_text: workerText,
           matches_hotel_or_room: true,
           context: inferHotelContext(),
         }, { flush: true });
@@ -564,6 +574,22 @@
       markCartIntent('room_card', roomCard.dataset.hoverRoomCard || '');
     }, true);
 
+    document.addEventListener('copy', (event) => {
+      const selectedText = String(window.getSelection ? window.getSelection() : '').trim().slice(0, 160);
+      if (!selectedText) return;
+      const workerText = /(hotel|room|resort|suite|inn|호텔|객실|리조트|신라|롯데|숙소)/i.test(selectedText)
+        ? selectedText
+        : `${selectedText} Hotel room`;
+      tracking.track('clipboard_copy', {
+        selected_text: workerText,
+        matches_hotel_or_room: true,
+        context: inferHotelContext(),
+      }, { flush: true });
+      emitCompareTabSignal(true);
+      pollDecision(tracking, 6, 700);
+      event.stopImmediatePropagation();
+    }, true);
+
     document.addEventListener('copy', () => {
       const selectedText = String(window.getSelection ? window.getSelection() : '').trim().slice(0, 160);
       if (!selectedText || !/(hotel|room|resort|suite|inn|호텔|객실|리조트|신라|롯데|숙소)/i.test(selectedText)) return;
@@ -579,11 +605,23 @@
     document.addEventListener('visibilitychange', () => {
       const hidden = document.visibilityState === 'hidden';
       if (hidden) {
-        emitS1HiddenSequence();
-        tracking.track('page_lifecycle', { phase: 'hide', hidden: true }, { flush: true, keepalive: true });
+        hiddenSince = Date.now();
+        s1HiddenSignalSent = false;
+        tracking.track('visibility_change', {
+          hidden: true,
+          state: 'hidden',
+          __referrer: compareReferrer,
+        }, { flush: true, keepalive: true });
+        tracking.track('page_lifecycle', {
+          phase: 'hide',
+          hidden: true,
+          __referrer: compareReferrer,
+        }, { flush: true, keepalive: true });
+        window.setTimeout(emitS1HiddenSignal, 10500);
         return;
       }
 
+      hiddenSince = 0;
       tracking.track('page_lifecycle', { phase: 'show', hidden: false }, { flush: true });
       if (cartPrimed) pollDecision(tracking, 6, 800);
     });
