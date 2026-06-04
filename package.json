@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "demo": "npx http-server . -p 3000 -c-1",
+    "demo": "npx http-server packages/demo-site -p 3000 -c-1 --cors",
     "admin": "pnpm --dir packages/admin-dashboard dev --port 3001"
   },
   "workspaces": [
