@@ -8,6 +8,7 @@
 git clone -b Fastly https://github.com/krtecek823/KNU_capston_FE.git
 cd KNU_capston_FE
 docker compose up -d
+docker ps
 ```
 
 브라우저에서 → **http://localhost:3000**
