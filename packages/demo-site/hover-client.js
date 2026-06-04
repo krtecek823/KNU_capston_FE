@@ -350,15 +350,29 @@
   }
 
   function scrollToReservationButton() {
-    const target = Array.from(document.querySelectorAll('button, a')).find((element) => {
+    // 사이드 카드 예약하기 버튼 우선 (id 또는 특정 구조)
+    const sideCard = document.querySelector('aside');
+    const sideBtn = sideCard && Array.from(sideCard.querySelectorAll('button, a')).find((el) => {
+      const text = el.textContent.trim();
+      return text === '예약하기' || text.includes('예약');
+    });
+    const target = sideBtn || Array.from(document.querySelectorAll('button, a')).find((element) => {
       const text = element.textContent.trim();
       const href = element.getAttribute('href') || '';
       const onclick = element.getAttribute('onclick') || '';
       return text === '예약하기' || href.includes('booking.html') || onclick.includes('booking.html');
     });
     if (!target) return;
-    const top = target.getBoundingClientRect().top + window.scrollY - Math.max(180, window.innerHeight * 0.28);
+    const top = target.getBoundingClientRect().top + window.scrollY - Math.max(80, window.innerHeight * 0.15);
     window.scrollTo({ top, behavior: 'smooth' });
+    // 시각적 강조 효과
+    target.style.transition = 'box-shadow 0.3s, transform 0.3s';
+    target.style.boxShadow = '0 0 0 4px rgba(245,166,35,0.5)';
+    target.style.transform = 'scale(1.03)';
+    setTimeout(() => {
+      target.style.boxShadow = '';
+      target.style.transform = '';
+    }, 1200);
   }
 
   function updateBookingButtons(hotelId, roomId) {
@@ -813,15 +827,17 @@
 
   // Decision API 직접 폴링 — 결과 없으면 프론트 폴백 쿠폰
   function pollDecisionDirect(attempts, delayMs, fallbackData) {
+    // 폴백이 있으면 즉시 표시 (이탈 방지 UX 최우선)
+    // 백엔드 응답이 오면 기존 모달 교체
+    if (fallbackData) {
+      showWidget(fallbackData);
+    }
+
     let remaining = attempts || 6;
-    const delay = delayMs || 800;
+    const delay = delayMs || 400;
 
     function tick() {
-      if (remaining <= 0) {
-        // 폴링 소진 → 프론트 폴백 쿠폰 표시 (백엔드 응답 없을 때도 UX 보장)
-        if (fallbackData) showWidget(fallbackData);
-        return;
-      }
+      if (remaining <= 0) return;
       remaining--;
       fetch(CONFIG.decisionApi + '/' + _sessionId)
         .then(function(res) {
@@ -830,6 +846,9 @@
         })
         .then(function(data) {
           if (data) {
+            // 백엔드 응답: 기존 폴백 모달 제거 후 백엔드 데이터로 교체
+            const existing = document.getElementById('hover-widget-overlay');
+            if (existing) existing.remove();
             showWidget(data);
           } else {
             setTimeout(tick, delay);
@@ -959,6 +978,23 @@
     redirectAuthenticatedAuthPage();
     updateAuthButtons();
     renderRoomOptions();
+
+    // 정적 HTML 객실 선택 버튼에 스크롤 이벤트 연결
+    document.querySelectorAll('[data-hover-room-select]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setTimeout(scrollToReservationButton, 50);
+      });
+    });
+    // 동적으로 삽입되는 버튼도 잡기 위해 MutationObserver 사용
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('[data-hover-room-select]:not([data-scroll-bound])').forEach((btn) => {
+        btn.dataset.scrollBound = 'true';
+        btn.addEventListener('click', () => {
+          setTimeout(scrollToReservationButton, 50);
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
     // SDK 로드 시도 (성공하면 추가 기능 활성화, 실패해도 무관)
     const base = sdkBasePath();
