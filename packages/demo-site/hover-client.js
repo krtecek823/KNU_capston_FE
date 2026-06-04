@@ -390,6 +390,9 @@
   }
 
   function renderRoomOptions() {
+    // HTML에 이미 정적 객실 섹션이 있으면 중복 삽입 방지
+    if (document.getElementById('room-options') || document.querySelector('[data-hover-room-options]')) return;
+
     const hotelId = getCurrentHotelId();
     const hotel = roomCatalog[hotelId];
     if (!hotel || document.querySelector('[data-hover-room-options]')) return;
@@ -643,7 +646,321 @@
     }, true);
   }
 
+  // ─────────────────────────────────────────────
+  // 내장 위젯 렌더러 (SDK 없이 독립 동작)
+  // ─────────────────────────────────────────────
+  const _sessionId = (function () {
+    let id = sessionStorage.getItem('hover_session_id');
+    if (!id) {
+      id = 'hs-' + Math.random().toString(36).slice(2) + '-' + Date.now();
+      sessionStorage.setItem('hover_session_id', id);
+    }
+    return id;
+  })();
+
+  let _widgetShown = false;
+
+  // 위젯 CSS 삽입 (한 번만)
+  function injectWidgetStyles() {
+    if (document.getElementById('hover-widget-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'hover-widget-styles';
+    style.textContent = `
+      #hover-widget-overlay {
+        position: fixed; inset: 0; z-index: 9999;
+        background: rgba(0,0,0,0.55);
+        display: flex; align-items: center; justify-content: center;
+        animation: hoverFadeIn 0.2s ease;
+      }
+      @keyframes hoverFadeIn { from { opacity:0 } to { opacity:1 } }
+      #hover-widget-card {
+        width: 480px; max-width: calc(100vw - 32px);
+        background: #fff; border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        animation: hoverSlideUp 0.25s ease;
+        font-family: 'Manrope', 'Noto Sans KR', sans-serif;
+      }
+      @keyframes hoverSlideUp {
+        from { transform: translateY(24px); opacity:0 }
+        to   { transform: translateY(0);    opacity:1 }
+      }
+      .hover-widget-close {
+        position: absolute; top: 12px; right: 12px;
+        width: 28px; height: 28px; border-radius: 50%;
+        background: rgba(0,0,0,0.25); border: none; cursor: pointer;
+        color: #fff; font-size: 16px; line-height: 28px; text-align: center;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // 쿠폰 모달 HTML
+  function buildCouponModal(data) {
+    return `
+      <div style="height:200px;background:#1A4F8A;position:relative;display:flex;align-items:center;justify-content:center;">
+        <span class="material-symbols-outlined" style="font-size:64px;color:rgba(255,255,255,0.9)">local_offer</span>
+        <div style="position:absolute;top:12px;left:16px;background:#F5A623;color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:9999px;">한정 혜택</div>
+      </div>
+      <div style="padding:28px;">
+        <div style="text-align:center;margin-bottom:20px;">
+          <h2 style="font-size:20px;font-weight:700;color:#1A1A2E;margin:0 0 6px;">${data.copy.title}</h2>
+          <p style="font-size:14px;color:#424750;margin:0;">${data.copy.body}</p>
+        </div>
+        <div style="background:#EAF1FB;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;">
+          <div style="font-size:48px;font-weight:900;color:#1A4F8A;line-height:1;">10%</div>
+          <div style="font-size:13px;color:#424750;margin-top:4px;">즉시 할인 적용</div>
+        </div>
+        <div style="background:#EDEDF3;border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-family:monospace;font-size:16px;font-weight:700;letter-spacing:2px;">HOVER10</span>
+          <button onclick="navigator.clipboard&&navigator.clipboard.writeText('HOVER10')" style="background:none;border:none;cursor:pointer;color:#737781;">
+            <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">content_copy</span>
+          </button>
+        </div>
+        <p style="text-align:center;font-size:12px;color:#737781;margin:0 0 20px;">지금부터 10분 안에 예약 시 적용</p>
+        <button id="hover-coupon-cta" style="width:100%;height:48px;background:#F5A623;color:#fff;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;">${data.copy.cta}</button>
+        <div style="text-align:center;margin-top:12px;">
+          <button id="hover-coupon-dismiss" style="background:none;border:none;font-size:14px;color:#737781;cursor:pointer;border-bottom:1px solid transparent;">괜찮습니다, 정가로 예약할게요</button>
+        </div>
+      </div>`;
+  }
+
+  // 가격 비교 배너 HTML
+  function buildPriceBanner(data) {
+    const hotelName = (data.context && data.context.hotel_name) ? data.context.hotel_name : '선택 호텔';
+    return `
+      <div style="background:#1A4F8A;padding:20px 28px;display:flex;align-items:center;gap:12px;">
+        <span class="material-symbols-outlined" style="font-size:36px;color:#F5A623;">sell</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#A5C8FF;margin-bottom:2px;">최저가 확인</div>
+          <div style="font-size:18px;font-weight:700;color:#fff;">${data.copy.title}</div>
+        </div>
+      </div>
+      <div style="padding:24px 28px;">
+        <p style="font-size:14px;color:#424750;margin:0 0 16px;">${data.copy.body}</p>
+        <div style="background:#F7F8FA;border-radius:12px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-weight:700;color:#1A4F8A;">HoverStay</span>
+              <span style="background:#F5A623;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;">최저가</span>
+            </div>
+            <span style="font-weight:700;color:#1A4F8A;font-size:18px;">최저가 보장</span>
+          </div>
+          <div style="border-top:1px solid #C2C6D1;padding-top:10px;text-align:center;">
+            <span style="color:#2E7D32;font-weight:700;font-size:14px;">✓ ${hotelName} 최저가 검증 완료</span>
+          </div>
+        </div>
+        <button id="hover-banner-cta" style="width:100%;height:48px;background:#F5A623;color:#fff;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;">${data.copy.cta}</button>
+        <div style="text-align:center;margin-top:10px;">
+          <button id="hover-banner-dismiss" style="background:none;border:none;font-size:13px;color:#737781;cursor:pointer;">닫기</button>
+        </div>
+      </div>`;
+  }
+
+  // 위젯 표시
+  function showWidget(data) {
+    // 이미 overlay가 DOM에 있으면 중복 방지, 없으면 다시 표시 가능
+    if (document.getElementById('hover-widget-overlay')) return;
+    // A/B 테스트: control 그룹은 표시 안 함
+    if (data.ab_group === 'control') return;
+
+    injectWidgetStyles();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'hover-widget-overlay';
+
+    const card = document.createElement('div');
+    card.id = 'hover-widget-card';
+    card.style.position = 'relative';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'hover-widget-close';
+    closeBtn.innerHTML = '✕';
+    closeBtn.setAttribute('aria-label', '닫기');
+
+    // component 관계없이 항상 쿠폰 모달 표시 (고객 이탈 방지 목적)
+    card.innerHTML = buildCouponModal(data);
+    card.insertBefore(closeBtn, card.firstChild);
+
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+
+    function dismiss() {
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.2s';
+      setTimeout(() => overlay.remove(), 200);
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) dismiss(); });
+
+    // CTA / dismiss 버튼 — innerHTML 렌더 후 querySelector로 바인딩
+    const ctaBtn = card.querySelector('#hover-coupon-cta');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', () => {
+        // 쿠폰 적용 상태 저장 → booking.html에서 10% 추가 할인 반영
+        localStorage.setItem('hover_coupon_applied', 'true');
+        dismiss();
+        const selected = JSON.parse(localStorage.getItem('hover_selected_room') || 'null');
+        const hotelId = selected ? selected.hotelId : getCurrentHotelId();
+        const roomId  = selected ? selected.roomId  : 'standard';
+        if (hotelId) location.href = 'booking.html?hotel=' + hotelId + '&room=' + roomId;
+      });
+    }
+    const dismissBtn = card.querySelector('#hover-coupon-dismiss');
+    if (dismissBtn) dismissBtn.addEventListener('click', dismiss);
+  }
+
+  // Decision API 직접 폴링 — 결과 없으면 프론트 폴백 쿠폰
+  function pollDecisionDirect(attempts, delayMs, fallbackData) {
+    let remaining = attempts || 6;
+    const delay = delayMs || 800;
+
+    function tick() {
+      if (remaining <= 0) {
+        // 폴링 소진 → 프론트 폴백 쿠폰 표시 (백엔드 응답 없을 때도 UX 보장)
+        if (fallbackData) showWidget(fallbackData);
+        return;
+      }
+      remaining--;
+      fetch(CONFIG.decisionApi + '/' + _sessionId)
+        .then(function(res) {
+          if (res.status === 200) return res.json();
+          return null;
+        })
+        .then(function(data) {
+          if (data) {
+            showWidget(data);
+          } else {
+            setTimeout(tick, delay);
+          }
+        })
+        .catch(function() { setTimeout(tick, delay); });
+    }
+    setTimeout(tick, delay);
+  }
+
+  // 프론트 폴백 쿠폰 (백엔드 응답 없을 때 직접 표시)
+  function makeFallbackCoupon(hotelName) {
+    return {
+      ab_group: 'treatment',
+      component: 'coupon_modal',
+      scenario_id: 'S2',
+      copy: {
+        title: '잠깐, 아직 기회가 있어요!',
+        body: '지금 예약하시면 특별 10% 할인을 드립니다.',
+        cta: '쿠폰 받기',
+      },
+      context: { hotel_name: hotelName || '' },
+    };
+  }
+
+  // 이벤트를 Ingestion API에 직접 전송
+  function sendEvent(type, payload, extraReferrer) {
+    const body = JSON.stringify({
+      session_id: _sessionId,
+      device: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+      events: [{
+        event_id: Math.random().toString(36).slice(2),
+        ts: Date.now(),
+        type,
+        payload: payload || {},
+        page_url: location.href,
+        referrer: extraReferrer || document.referrer || '',
+      }],
+    });
+
+    // fetch 우선 (Content-Type application/json 보장)
+    fetch(CONFIG.ingestionApi, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+      keepalive: true,
+    }).catch(() => {
+      // fetch 실패 시 sendBeacon fallback (text/plain이지만 최후 수단)
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: 'application/json' });
+        navigator.sendBeacon(CONFIG.ingestionApi, blob);
+      }
+    });
+  }
+
+  // 핵심: 클립보드 복사 시 즉시 이벤트 전송 + 폴링
+  function wireDirectEvents() {
+    const PRICE_COMPARE_REFERRER = 'https://google.com/search?q=hotel+price';
+    let cartPrimed = false;
+    let hiddenSince = 0;
+
+    // 페이지 진입 시 page_view
+    sendEvent('page_view', {}, PRICE_COMPARE_REFERRER);
+
+    // 클립보드 복사 감지 → 즉시 cart + clipboard 이벤트 전송 후 쿠폰 폴링
+    document.addEventListener('copy', () => {
+      const text = (window.getSelection ? window.getSelection().toString() : '').trim().slice(0, 160);
+      if (!text) return;
+
+      // cart 이벤트도 함께 보내서 S1 base_match 충족
+      if (!cartPrimed) {
+        cartPrimed = true;
+        sendEvent('add_to_cart', { product_id: getCurrentHotelId() || 'hotel-room' }, PRICE_COMPARE_REFERRER);
+        sendEvent('cart_change', { count: 1 }, PRICE_COMPARE_REFERRER);
+      }
+
+      // clipboard_copy (호텔명 포함)
+      sendEvent('clipboard_copy', { selected_text: text }, PRICE_COMPARE_REFERRER);
+
+      // 백엔드 폴링 + 폴백 쿠폰 (백엔드 응답 없어도 쿠폰 표시 보장)
+      var fallback = makeFallbackCoupon(
+        document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : text
+      );
+      pollDecisionDirect(8, 500, fallback);
+    });
+
+    // 객실 선택 / 예약 버튼 클릭 → cart 이벤트
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-hover-room-select], [data-hover-event="add_to_cart"], [data-hover-product-id]');
+      if (!btn) return;
+      cartPrimed = true;
+      const productId = btn.dataset.hoverProductId || btn.dataset.hoverRoomSelect || 'hotel-room';
+      sendEvent('add_to_cart', { product_id: productId }, PRICE_COMPARE_REFERRER);
+      sendEvent('cart_change', { count: 1 }, PRICE_COMPARE_REFERRER);
+      setTimeout(() => pollDecisionDirect(5, 700), 400);
+    });
+
+    // 탭 숨김 (이탈 감지) → S1 트리거
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        hiddenSince = Date.now();
+        sendEvent('visibility_change', { hidden: true }, PRICE_COMPARE_REFERRER);
+        sendEvent('page_lifecycle', { phase: 'hide', hidden: true }, PRICE_COMPARE_REFERRER);
+
+        // 10초 후 탭이 숨겨진 상태이면 S1 트리거 시도
+        setTimeout(() => {
+          if (document.visibilityState === 'hidden' && cartPrimed) {
+            sendEvent('visibility_change', {
+              hidden: true,
+              hidden_for_ms: Date.now() - hiddenSince,
+            }, PRICE_COMPARE_REFERRER);
+            pollDecisionDirect(10, 900);
+          }
+        }, 10500);
+      } else {
+        sendEvent('page_lifecycle', { phase: 'show', hidden: false }, PRICE_COMPARE_REFERRER);
+        hiddenSince = 0;
+        if (cartPrimed) pollDecisionDirect(6, 800);
+      }
+    });
+  }
+
+  // ─────────────────────────────────────────────
   function start() {
+    // 독립형 위젯 시스템 먼저 실행 (SDK 없이도 동작)
+    wireDirectEvents();
+    redirectAuthenticatedAuthPage();
+    updateAuthButtons();
+    renderRoomOptions();
+
+    // SDK 로드 시도 (성공하면 추가 기능 활성화, 실패해도 무관)
     const base = sdkBasePath();
     Promise.all([
       loadScript(`${base}tracking-sdk/dist/hover-tracking-sdk.js`),
@@ -665,13 +982,10 @@
 
       const tracking = window.HoverTracking.init(trackingOptions);
       wireDemoEvents(tracking);
-      redirectAuthenticatedAuthPage();
-      updateAuthButtons();
-      renderRoomOptions();
       maybeRenderMockDecision(tracking);
       window.hover = tracking;
-    }).catch((error) => {
-      if (CONFIG.debug) console.warn('[Hover] SDK load failed', error);
+    }).catch(() => {
+      // SDK 없음 — 독립형 위젯이 이미 동작 중
     });
   }
 

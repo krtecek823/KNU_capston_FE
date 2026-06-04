@@ -503,7 +503,16 @@ const currentBookingRoom = getSelectedRoom();
 const currentBookingNights = getNights(currentBookingState.checkin, currentBookingState.checkout);
 const currentBookingRoomCount = Number(currentBookingState.rooms || 1);
 const currentBookingBase = currentBookingRoom.oldPrice * currentBookingNights * currentBookingRoomCount;
-const currentBookingTotal = currentBookingRoom.price * currentBookingNights * currentBookingRoomCount;
+
+// 쿠폰 10% 할인 적용 여부 확인 (hover-client.js가 쿠폰 발급 시 localStorage에 저장)
+const couponApplied = localStorage.getItem('hover_coupon_applied') === 'true';
+const COUPON_DISCOUNT_RATE = 0.10;
+
+// 기본 할인: oldPrice → price (사전 프로모션 할인)
+const baseDiscountedPrice = currentBookingRoom.price * currentBookingNights * currentBookingRoomCount;
+// 쿠폰 추가 할인: 기본 할인가에서 10% 추가
+const couponDiscountAmount = couponApplied ? Math.floor(baseDiscountedPrice * COUPON_DISCOUNT_RATE) : 0;
+const currentBookingTotal = baseDiscountedPrice - couponDiscountAmount;
 const currentBookingDiscount = Math.max(currentBookingBase - currentBookingTotal, 0);
 
 function hydrateBookingSummary() {
@@ -531,7 +540,28 @@ function hydrateBookingSummary() {
     feeRows[0].querySelector('span:first-child').textContent = `객실 요금 (${currentBookingNights}박 × 객실 ${currentBookingState.rooms}개)`;
     feeRows[0].querySelector('span:last-child').textContent = money(currentBookingBase);
   }
-  if (feeRows[1]) feeRows[1].querySelector('span:last-child').textContent = `-${money(currentBookingDiscount)}`;
+  if (feeRows[1]) {
+    const discountLabel = feeRows[1].querySelector('span:first-child');
+    const discountValue = feeRows[1].querySelector('span:last-child');
+    if (couponApplied) {
+      // 기본 할인 + 쿠폰 10% 합산 표시
+      if (discountLabel) discountLabel.textContent = '프로모션 할인 + 쿠폰 10%';
+      if (discountValue) {
+        discountValue.textContent = `-${money(currentBookingDiscount)}`;
+        discountValue.className = 'font-semibold text-[#1B8E2B]';
+      }
+      // 쿠폰 배지 추가 (없는 경우만)
+      if (!feeRows[1].querySelector('.coupon-badge')) {
+        const badge = document.createElement('span');
+        badge.className = 'coupon-badge ml-2 text-[11px] font-bold bg-[#F5A623] text-white px-2 py-0.5 rounded-full';
+        badge.textContent = 'HOVER10';
+        if (discountLabel) discountLabel.appendChild(badge);
+      }
+    } else {
+      if (discountLabel) discountLabel.textContent = '프로모션 할인';
+      if (discountValue) discountValue.textContent = `-${money(currentBookingDiscount)}`;
+    }
+  }
   if (total) total.textContent = money(currentBookingTotal);
 }
 
@@ -619,13 +649,16 @@ bookingForm.addEventListener('submit', (event) => {
     phone: `${countryCode} ${phoneField.value.trim()}`,
     request,
     total: money(currentBookingTotal),
+    couponApplied: couponApplied,
+    couponDiscount: couponApplied ? money(couponDiscountAmount) : null,
     returnUrl: currentBookingHotel.returnUrl,
     createdAt: new Date().toISOString(),
   };
   reservations.push(reservation);
   localStorage.setItem('hover_reservations', JSON.stringify(reservations));
   localStorage.setItem('hover_latest_reservation', JSON.stringify(reservation));
-  alert('예약이 확정되었습니다.');
+  // 예약 완료 후 쿠폰 상태 초기화 (재사용 방지)
+  localStorage.removeItem('hover_coupon_applied');
   location.href = 'confirmation.html';
 });
 </script>
