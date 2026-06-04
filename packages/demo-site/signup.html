@@ -5,7 +5,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -259,7 +258,7 @@
             localStorage.setItem('hover_user', JSON.stringify({
                 email,
                 name: `${lastName}${firstName}`.trim() || 'HoverStay 회원',
-                phone: inputs[5]?.value || '',
+                phone: inputs[4]?.value || '',
                 loginAt: new Date().toISOString()
             }));
             location.href = 'index.html';

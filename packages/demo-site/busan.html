@@ -1,333 +1,347 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="ko"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>HoverStay - 부산 호텔 검색 결과</title>
+<title>HoverStay - 媛뺣쫱 ?명뀛 寃??寃곌낵</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "outline-variant": "#c2c6d1",
-                        "on-error-container": "#93000a",
-                        "on-secondary-container": "#5e656d",
-                        "surface-container-highest": "#e2e2e8",
-                        "surface-dim": "#d9dadf",
-                        "tertiary-container": "#793f00",
-                        "surface": "#f9f9ff",
-                        "on-surface": "#1a1c20",
-                        "surface-tint": "#2f5f9b",
-                        "on-tertiary": "#ffffff",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-bright": "#f9f9ff",
-                        "on-primary-fixed-variant": "#0d4782",
-                        "tertiary-fixed": "#ffdcc3",
-                        "error": "#ba1a1a",
-                        "surface-container-high": "#e8e8ed",
-                        "on-error": "#ffffff",
-                        "tertiary": "#582c00",
-                        "surface-container": "#ededf3",
-                        "on-primary": "#ffffff",
-                        "on-background": "#1a1c20",
-                        "tertiary-fixed-dim": "#ffb77e",
-                        "inverse-on-surface": "#f0f0f6",
-                        "secondary-fixed-dim": "#c0c7d1",
-                        "primary-fixed-dim": "#a5c8ff",
-                        "surface-variant": "#e2e2e8",
-                        "on-tertiary-fixed-variant": "#6e3900",
-                        "on-primary-fixed": "#001c3a",
-                        "surface-container-low": "#f3f3f9",
-                        "on-surface-variant": "#424750",
-                        "on-secondary": "#ffffff",
-                        "on-secondary-fixed": "#151c23",
-                        "inverse-surface": "#2e3035",
-                        "error-container": "#ffdad6",
-                        "on-secondary-fixed-variant": "#40474f",
-                        "on-tertiary-fixed": "#2f1500",
-                        "inverse-primary": "#a5c8ff",
-                        "secondary-container": "#dce3ed",
-                        "primary-container": "#1a4f8a",
-                        "outline": "#737781",
-                        "on-tertiary-container": "#ffae6b",
-                        "secondary": "#585f67",
-                        "primary-fixed": "#d4e3ff",
-                        "background": "#f9f9ff",
-                        "secondary-fixed": "#dce3ed",
-                        "on-primary-container": "#9ac2ff",
-                        "primary": "#00386b",
-                        "cta": "#F5A623"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "nav-padding-horiz": "40px",
-                        "card-padding": "16px",
-                        "nav-height": "64px",
-                        "max-width": "1200px",
-                        "section-gap": "48px",
-                        "gutter": "24px"
-                    },
-                    "fontFamily": {
-                        "page-title": ["Manrope"],
-                        "helper-text": ["Manrope"],
-                        "body-main": ["Manrope"],
-                        "section-title": ["Manrope"],
-                        "card-title": ["Manrope"],
-                        "price-highlight": ["Manrope"]
-                    },
-                    "fontSize": {
-                        "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
-                        "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
-                        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
-                        "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}],
-                        "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}]
-                    }
-                },
-            },
-        }
-    </script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary-fixed": "#001c3a",
+                  "secondary-container": "#dce3ed",
+                  "on-primary-fixed-variant": "#0d4782",
+                  "on-tertiary-fixed": "#2f1500",
+                  "surface": "#f9f9ff",
+                  "on-primary-container": "#9ac2ff",
+                  "surface-container-high": "#e8e8ed",
+                  "secondary": "#585f67",
+                  "surface-variant": "#e2e2e8",
+                  "surface-container": "#ededf3",
+                  "on-secondary": "#ffffff",
+                  "primary": "#00386b",
+                  "primary-container": "#1a4f8a",
+                  "tertiary": "#582c00",
+                  "surface-tint": "#2f5f9b",
+                  "tertiary-container": "#793f00",
+                  "outline": "#737781",
+                  "secondary-fixed": "#dce3ed",
+                  "inverse-primary": "#a5c8ff",
+                  "surface-container-highest": "#e2e2e8",
+                  "on-tertiary-container": "#ffae6b",
+                  "inverse-surface": "#2e3035",
+                  "inverse-on-surface": "#f0f0f6",
+                  "tertiary-fixed-dim": "#ffb77e",
+                  "surface-bright": "#f9f9ff",
+                  "on-tertiary-fixed-variant": "#6e3900",
+                  "on-surface": "#1a1c20",
+                  "on-error-container": "#93000a",
+                  "error": "#ba1a1a",
+                  "surface-container-lowest": "#ffffff",
+                  "outline-variant": "#c2c6d1",
+                  "on-surface-variant": "#424750",
+                  "on-background": "#1a1c20",
+                  "surface-dim": "#d9dadf",
+                  "surface-container-low": "#f3f3f9",
+                  "on-error": "#ffffff",
+                  "error-container": "#ffdad6",
+                  "background": "#f9f9ff",
+                  "on-secondary-container": "#5e656d",
+                  "on-primary": "#ffffff",
+                  "tertiary-fixed": "#ffdcc3",
+                  "primary-fixed": "#d4e3ff",
+                  "secondary-fixed-dim": "#c0c7d1",
+                  "primary-fixed-dim": "#a5c8ff",
+                  "on-tertiary": "#ffffff",
+                  "on-secondary-fixed-variant": "#40474f",
+                  "on-secondary-fixed": "#151c23"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "gutter": "24px",
+                  "card-padding": "16px",
+                  "nav-height": "64px",
+                  "nav-padding-horiz": "40px",
+                  "max-width": "1200px",
+                  "section-gap": "48px"
+          },
+          "fontFamily": {
+                  "section-title": ["Manrope"],
+                  "price-highlight": ["Manrope"],
+                  "helper-text": ["Manrope"],
+                  "body-main": ["Manrope"],
+                  "page-title": ["Manrope"],
+                  "card-title": ["Manrope"]
+          },
+          "fontSize": {
+                  "section-title": ["20px", {"lineHeight": "1.5", "fontWeight": "600"}],
+                  "price-highlight": ["22px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "helper-text": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                  "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "page-title": ["28px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                  "card-title": ["16px", {"lineHeight": "1.5", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
 <style>
-        body {
-            background-color: #f7f8fa;
-            font-family: 'Manrope', sans-serif;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-    </style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #f9f9ff;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #1a4f8a 0%, #00386b 100%);
+    }
+    .custom-shadow {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .active-nav-border {
+      border-bottom: 2px solid #00386b;
+    }
+  </style>
 </head>
-<body class="text-on-surface">
-<!-- TopNavBar -->
-<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline w-full h-[64px] sticky top-0 z-50">
-<div class="flex justify-between items-center px-nav-padding-horiz max-w-max-width mx-auto h-full">
-<div onclick="location.href='index.html'" class="text-page-title font-page-title text-primary dark:text-primary-fixed-dim cursor-pointer">HoverStay</div>
-<div class="flex items-center space-x-4">
-<button class="text-on-surface-variant hover:underline cursor-pointer font-helper-text text-helper-text">Sign In</button>
-<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-main text-body-main hover:opacity-90 transition-all">Register</button>
+<body class="text-on-background">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 h-nav-height bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-nav-padding-horiz max-w-full">
+<div class="flex items-center gap-10">
+<div onclick="location.href='index.html'" class="text-page-title font-bold text-primary cursor-pointer">HoverStay</div>
 </div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-main text-body-main hover:bg-primary-container transition-all">濡쒓렇??/button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
 </div>
 </header>
+<main class="pt-nav-height">
 <!-- Hero Section -->
-<section class="bg-primary-container py-16 text-white overflow-hidden relative">
-<div class="max-w-max-width mx-auto px-nav-padding-horiz relative z-10">
-<nav class="flex mb-4 space-x-2 font-helper-text text-helper-text opacity-90">
-<span>홈</span>
-<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span>부산</span>
+<section class="hero-gradient py-12 px-nav-padding-horiz text-white">
+<div class="max-w-[1200px] mx-auto">
+<nav class="flex gap-2 mb-4 font-helper-text text-helper-text opacity-80">
+<span>??/span>
+<span>&gt;</span>
+<span class="font-bold">媛뺣쫱</span>
 </nav>
-<h1 class="font-page-title text-page-title mb-2">부산 호텔</h1>
-<p class="font-body-main text-body-main opacity-80">해운대부터 광안리까지, 부산의 인기 숙소</p>
+<h1 class="font-page-title text-page-title mb-2">媛뺣쫱 ?명뀛</h1>
+<p class="font-body-main text-body-main opacity-90">寃쏀룷?? ?숉빐 諛붾떎瑜?利먭만 ???덈뒗 媛뺣쫱 ?숈냼</p>
 </div>
-<!-- Decorative abstract shape -->
-<div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-[#ffffff10] to-transparent transform skew-x-12 translate-x-20"></div>
 </section>
-<!-- Search/Filter Bar Container -->
-<div class="max-w-max-width mx-auto px-nav-padding-horiz -mt-8 relative z-20">
-<div class="glass-card rounded-xl p-6 flex flex-col md:flex-row gap-4 items-end">
-<div class="flex-1 w-full space-y-2">
-<label class="font-helper-text text-helper-text text-on-surface-variant">목적지</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
-<input class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-0 outline-none font-body-main text-body-main" type="text" value="부산"/>
+<!-- Search/Filter & Content Grid -->
+<section class="max-w-[1200px] mx-auto py-12 px-6 flex flex-col md:flex-row gap-gutter">
+<!-- Filters (Left Column) -->
+<aside class="w-full md:w-[280px] space-y-6">
+<div class="bg-surface-container-lowest p-card-padding rounded-xl border border-outline-variant custom-shadow">
+<h3 class="font-section-title text-section-title mb-4">吏?꾩뿉??蹂닿린</h3>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative">
+<img alt="Map of Gangneung area" class="w-full h-full object-cover grayscale opacity-50" data-location="Gangneung" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT-XSNn7sKFtnU-Ti0uu5FE_OMULtS9-y1ecjl96moiwCHROx6L-3I9_y0w8NPcSeEAHm_-hRdP1CJXVjqoGpGEZI-cHnulBhjsmbWRWUmEU84j41AelGRi3ojYkq6lJMh4fwS3Fq8uwuH0dIwUStOdwRqsYFDdt2RfWC5cBJU3NDgvMpX18IqUVzvZk90C3Bs8T30Vn88CJDKBehFoDswfBs-LAYTGjp9u4vVXYNV_h1BbVTGtUw6I_0bDT9Cm7xhsYEYr0jw9wpU"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="bg-white text-primary font-bold px-4 py-2 rounded-lg custom-shadow text-body-main">吏???뺣?</button>
 </div>
 </div>
-<div class="flex-1 w-full space-y-2">
-<label class="font-helper-text text-helper-text text-on-surface-variant">체크인/체크아웃</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">calendar_month</span>
-<input class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-0 outline-none font-body-main text-body-main" placeholder="날짜 선택" type="text"/>
 </div>
-</div>
-<div class="flex-1 w-full space-y-2">
-<label class="font-helper-text text-helper-text text-on-surface-variant">인원 및 객실</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">person</span>
-<input class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-0 outline-none font-body-main text-body-main" type="text" value="성인 2명, 객실 1개"/>
-</div>
-</div>
-<button class="bg-primary text-on-primary px-8 py-2.5 rounded-lg font-section-title text-section-title hover:opacity-90 transition-all h-[45px] flex items-center justify-center">
-                검색
-            </button>
-</div>
-</div>
-<!-- Main Content -->
-<main class="max-w-max-width mx-auto px-nav-padding-horiz py-section-gap">
-<div class="flex flex-col md:flex-row gap-8">
-<!-- Side Filters -->
-<aside class="w-full md:w-64 space-y-6 shrink-0">
+<div class="bg-surface-container-lowest p-card-padding rounded-xl border border-outline-variant custom-shadow">
+<h3 class="font-section-title text-section-title mb-4">?꾪꽣</h3>
 <div class="space-y-4">
-<h3 class="font-section-title text-section-title border-b border-outline-variant pb-2">필터</h3>
-<div class="space-y-3">
-<p class="font-card-title text-card-title">예산 (1박 기준)</p>
+<div>
+<p class="font-card-title text-card-title mb-2">1諛뺣떦 ?붽툑</p>
+<input class="w-full accent-primary" type="range"/>
+<div class="flex justify-between font-helper-text text-helper-text text-on-surface-variant mt-1">
+<span>??</span>
+<span>??00,000+</span>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<div>
+<p class="font-card-title text-card-title mb-2">?멸린 ?꾪꽣</p>
 <div class="space-y-2">
-<label class="flex items-center space-x-2 font-body-main text-body-main cursor-pointer">
-<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
-<span>₩0 - ₩100,000</span>
-</label>
-<label class="flex items-center space-x-2 font-body-main text-body-main cursor-pointer">
-<input class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
-<span>₩100,000 - ₩300,000</span>
-</label>
-<label class="flex items-center space-x-2 font-body-main text-body-main cursor-pointer">
-<input checked="" class="rounded text-primary focus:ring-primary border-outline" type="checkbox"/>
-<span>₩300,000+</span>
-</label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 臾대즺 痍⑥냼
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/> ?ㅼ뀡酉?
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 議곗떇 ?ы븿
+                </label>
+<label class="flex items-center gap-2 font-body-main text-body-main">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> 4?깃툒 ?댁긽
+                </label>
 </div>
-</div>
-<div class="space-y-3 pt-4">
-<p class="font-card-title text-card-title">숙소 성급</p>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1 border border-outline-variant rounded-full text-helper-text font-helper-text hover:border-primary">3성급</button>
-<button class="px-3 py-1 border border-primary bg-primary-fixed text-primary rounded-full text-helper-text font-helper-text">4성급</button>
-<button class="px-3 py-1 border border-outline-variant rounded-full text-helper-text font-helper-text hover:border-primary">5성급</button>
 </div>
 </div>
 </div>
 </aside>
-<!-- Results List -->
+<!-- Hotel Listings (Right Column) -->
 <div class="flex-1 space-y-6">
+<!-- Sort & Header -->
 <div class="flex justify-between items-center mb-4">
-<span class="font-body-main text-body-main text-on-surface-variant">총 2개의 검색 결과</span>
-<div class="flex items-center space-x-2 cursor-pointer group">
-<span class="font-body-main text-body-main">추천순</span>
-<span class="material-symbols-outlined group-hover:rotate-180 transition-transform">expand_more</span>
+<p class="font-body-main text-body-main text-on-surface-variant">媛뺣쫱???숈냼 <span class="font-bold text-on-surface">124媛?/span> 寃?됰맖</p>
+<div class="flex items-center gap-2 font-body-main text-body-main">
+<span>?뺣젹:</span>
+<select class="bg-transparent border-none font-bold text-primary focus:ring-0 cursor-pointer">
+<option>異붿쿇??/option>
+<option>??? 媛寃⑹닚</option>
+<option>?믪? ?됱젏??/option>
+</select>
 </div>
 </div>
 <!-- Hotel Card 1 -->
-<div class="bg-white rounded-xl border border-outline-variant overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow duration-300">
-<div class="md:w-1/3 h-64 md:h-auto relative overflow-hidden group">
-<img alt="해운대 블루 호텔" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A luxurious hotel swimming pool area in Busan with a stunning panoramic view of Haeundae Beach and the turquoise ocean during a clear sunny day. Modern white lounge chairs are arranged neatly by the poolside, which features clear glass railings. The atmosphere is upscale, serene, and bright, using a sophisticated palette of whites, ocean blues, and deep navy accents to reflect a premium corporate travel identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx_OCgk0nq-Ryo49x-pcDN6chACESnergT6boyDAR_afS_87x_SpjtdNc7IqDZuS3QRmwygvFITeSO2W_W3hNtuxduxLpS_GmKshxigh0c2Vs2z0Yuualdn_iEl2-ozzeoX2D-HAGQN2uxnaVkK51JLEj3N_B4i4YmZ-WF6oTwGETGisyR-N17jzqHO6SZqAWO2Za5MtMiO1HUQIPUhDBtTtqcoeqC1ltQp0Rf8T8_Qft27D9cmFIWP0sWRan0qNqZo9XX4xio1tJs"/>
-<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-md flex items-center shadow-sm">
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col md:flex-row overflow-hidden custom-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="w-full md:w-[320px] h-[240px] relative overflow-hidden">
+<img alt="媛뺣쫱 ?뚯씤鍮꾩튂 ?명뀛 ?꾧꼍" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui32iueMpeiCYMzCybNaPTIr-Cpja3wZI4yoWi35YHEJPPDbWd3lOFhA-ZV8sKYEUhckmWOWwStfAJaUSQuZrH-97jv8Dc2IF5gwEChyXkRzl2LnqegEj5PhT-0xgsnEB6_3P9s0hmDoJe3IAcBVjM5s6mOOcX35eUOPBcIdeYvp3KAICE9mG6if9xYn901V2sPNueaHlS5NwpkAGqRxLfJZF8-3wLlw8degVxM_Q17l1UY2w36_EQKR_sj"/>
+<div class="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded text-xs font-bold text-primary backdrop-blur-sm">
+              異붿쿇 ?숈냼
+            </div>
 </div>
-</div>
-<div class="flex-1 p-6 flex flex-col">
-<div class="flex justify-between items-start mb-2">
+<div class="flex-1 p-6 flex flex-col justify-between">
 <div>
-<h2 class="font-section-title text-section-title mb-1">해운대 블루 호텔</h2>
-<p class="flex items-center text-helper-text font-helper-text text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
-                                    부산광역시 해운대구 해운대해변로 30
-                                </p>
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-helper-text text-helper-text text-on-surface-variant ml-1">(4?깃툒)</span>
+</div>
+<h2 class="font-card-title text-card-title text-xl mb-1">媛뺣쫱 ?뚯씤鍮꾩튂 ?명뀛</h2>
+<p class="font-helper-text text-helper-text text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span> 媛뺤썝?밸퀎?먯튂??媛뺣쫱??寃쏀룷濡?441
+                  </p>
 </div>
 <div class="text-right">
-<div class="bg-primary-container text-on-primary-container px-2 py-1 rounded-lg inline-block font-bold text-[14px]">8.5</div>
-<p class="text-[12px] text-on-surface-variant font-helper-text">매우 좋음 (1,876 후기)</p>
+<div class="bg-primary text-on-primary px-2 py-1 rounded-lg font-bold text-sm inline-block">8.7</div>
+<p class="font-helper-text text-helper-text text-primary mt-1">留ㅼ슦 醫뗭쓬</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">?꾧린 1,432媛?/p>
 </div>
 </div>
-<div class="flex flex-wrap gap-2 mt-2 mb-4">
-<span class="bg-[#E8F5E9] text-[#2E7D32] px-2 py-1 rounded font-helper-text text-helper-text flex items-center">
-<span class="material-symbols-outlined text-[14px] mr-1">check</span> 무료 취소
-                            </span>
-<span class="bg-primary-fixed text-primary px-2 py-1 rounded font-helper-text text-helper-text">조식 포함</span>
-<span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded font-helper-text text-helper-text">오션뷰</span>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-1 rounded font-helper-text text-helper-text font-bold">??臾대즺 痍⑥냼</span>
+<span class="bg-primary-fixed text-primary px-2 py-1 rounded font-helper-text text-helper-text">?ㅼ뀡酉?/span>
+<span class="bg-primary-fixed text-primary px-2 py-1 rounded font-helper-text text-helper-text">議곗떇 ?ы븿</span>
 </div>
-<div class="mt-auto flex justify-between items-end">
-<div>
-<p class="text-on-surface-variant font-helper-text text-helper-text">인기 급상승 중</p>
 </div>
+<div class="flex justify-between items-end mt-6">
+<div class="font-helper-text text-helper-text text-on-surface-variant">
+                ?⑥? 媛앹떎 2媛?
+              </div>
+<div class="flex items-center gap-4">
 <div class="text-right">
-<div class="font-price-highlight text-price-highlight text-primary mb-1">₩385,000 / 1박</div>
-<button class="bg-cta text-white px-8 py-2 rounded-lg font-card-title text-card-title hover:opacity-90 transition-all shadow-md">상세 보기</button>
+<p class="font-price-highlight text-price-highlight text-primary">??85,000</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">/ 1諛?(?멸툑 ?ы븿)</p>
+</div>
+<button class="bg-[#F5A623] text-white px-6 py-3 rounded-lg font-bold font-body-main text-body-main hover:brightness-105 transition-all shadow-md">?곸꽭 蹂닿린</button>
 </div>
 </div>
 </div>
-</div>
+</article>
 <!-- Hotel Card 2 -->
-<div class="bg-white rounded-xl border border-outline-variant overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow duration-300">
-<div class="md:w-1/3 h-64 md:h-auto relative overflow-hidden group">
-<img alt="마린시티 호텔" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern architectural marvel of a high-rise luxury hotel in Busan's Marine City district at dusk. The building features sleek glass curves illuminated by warm interior lights, overlooking a harbor filled with white yachts. In the background, the iconic Gwangan Bridge is brightly lit against a twilight sky with a crescent moon. The visual style is premium and corporate, capturing the vibrant yet peaceful nightlife of Busan with deep blues and golden highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGkjErmZY5TyT6cel8K_ZUeIltg11w7W806vRp_OKo6y6FEtWCK2wi-Nc0ALdPrZiqX5GQy6OiqcY7NUuko1DPLyYaaUt3JBs-f3BVqxyyxzpe7pKyDMn6Od9CEOQtue1eo921sX8qQA3Chevg3G73zRRmZKEN6K2mLT03KpBu1jLQBnXydrGCLs9Mzjok4YwJl0XLJgZaffhooZ736gpw7da_yBsyrJSAaOn7XuC4oYqTeFSygRNs8CiCo-FxOetebaJruw_o3GQi"/>
-<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-md flex items-center shadow-sm">
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-cta text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<article class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col md:flex-row overflow-hidden custom-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="w-full md:w-[320px] h-[240px] relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A modern architectural hotel building located by a serene lake in Gangneung. The exterior features clean white lines and glass balconies reflecting the soft morning light. The atmosphere is tranquil and minimalist, with a calm lake in the background under a soft blue sky, maintaining a premium and professional corporate travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiEnOuBh-FEBVe32inytYz9j3f_sMZAuU7KKi2q97N6VqdVxZxhmjxduQtiWnvh125xJWVkQNTJAM4nLcM25Ko_-YjkfIGZR0XQ6DvvV7EdGhjvLMA09PQIGcQnBO-nR2laOtRCDN8WwfH9NRKBL9TfIvmJf1nu-d93Mjxb6DnRN541PBE7Omcv37M-eX8EKUaR9qK-KPBphqZVT4MDBhz5E96ADkomkdFEkUVR7LxHnQWpGKpMVNkMGAYy_hzZ5FcBAk2T-kBo8mP"/>
 </div>
-</div>
-<div class="flex-1 p-6 flex flex-col">
-<div class="flex justify-between items-start mb-2">
+<div class="flex-1 p-6 flex flex-col justify-between">
 <div>
-<h2 class="font-section-title text-section-title mb-1">마린시티 호텔</h2>
-<p class="flex items-center text-helper-text font-helper-text text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px] mr-1">location_on</span>
-                                    부산광역시 해운대구 마린시티1로 25
-                                </p>
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-helper-text text-helper-text text-on-surface-variant ml-1">(3?깃툒)</span>
+</div>
+<h2 class="font-card-title text-card-title text-xl mb-1">寃쏀룷 ?덉씠???ㅽ뀒??/h2>
+<p class="font-helper-text text-helper-text text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span> 媛뺤썝?밸퀎?먯튂??媛뺣쫱??寃쏀룷濡?216
+                  </p>
 </div>
 <div class="text-right">
-<div class="bg-primary-container text-on-primary-container px-2 py-1 rounded-lg inline-block font-bold text-[14px]">8.2</div>
-<p class="text-[12px] text-on-surface-variant font-helper-text">매우 좋음 (1,243 후기)</p>
+<div class="bg-secondary text-white px-2 py-1 rounded-lg font-bold text-sm inline-block">8.0</div>
+<p class="font-helper-text text-helper-text text-secondary mt-1">醫뗭쓬</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">?꾧린 743媛?/p>
 </div>
 </div>
-<div class="flex flex-wrap gap-2 mt-2 mb-4">
-<span class="bg-[#E8F5E9] text-[#2E7D32] px-2 py-1 rounded font-helper-text text-helper-text flex items-center">
-<span class="material-symbols-outlined text-[14px] mr-1">check</span> 무료 취소
-                            </span>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="bg-[#e8f5e9] text-[#2e7d32] px-2 py-1 rounded font-helper-text text-helper-text font-bold">??臾대즺 痍⑥냼</span>
 </div>
-<div class="mt-auto flex justify-between items-end">
-<div>
-<p class="text-error font-helper-text text-helper-text flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">warning</span> 마지막 객실 2개!
-                                </p>
 </div>
+<div class="flex justify-between items-end mt-6">
+<div class="font-helper-text text-helper-text text-on-surface-variant">
+                ?ㅼ냽???ㅽ뀒??
+              </div>
+<div class="flex items-center gap-4">
 <div class="text-right">
-<div class="font-price-highlight text-price-highlight text-primary mb-1">₩312,000 / 1박</div>
-<button class="bg-cta text-white px-8 py-2 rounded-lg font-card-title text-card-title hover:opacity-90 transition-all shadow-md">상세 보기</button>
+<p class="font-price-highlight text-price-highlight text-primary">??68,000</p>
+<p class="font-helper-text text-helper-text text-on-surface-variant">/ 1諛?/p>
+</div>
+<button class="bg-[#F5A623] text-white px-6 py-3 rounded-lg font-bold font-body-main text-body-main hover:brightness-105 transition-all shadow-md">?곸꽭 蹂닿린</button>
 </div>
 </div>
 </div>
+</article>
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 pt-8">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors font-body-main">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
 </div>
 </div>
-</div>
+</section>
 </main>
-<!-- Footer -->
-<footer class="bg-surface-container dark:bg-surface-container border-t border-outline-variant dark:border-outline w-full">
-<div class="flex flex-col md:flex-row justify-between items-center py-gutter px-nav-padding-horiz max-w-max-width mx-auto">
-<div class="mb-6 md:mb-0">
-<div class="font-page-title text-card-title text-primary dark:text-primary-fixed-dim mb-2">HoverStay</div>
-<p class="font-helper-text text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</p>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-section-gap px-nav-padding-horiz bg-surface-container mt-section-gap border-t border-outline-variant">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-xs">
+<div class="font-page-title font-bold text-primary mb-4">HoverStay</div>
+<p class="font-helper-text text-helper-text text-on-surface-variant">HoverStay???꾨━誘몄뾼 ?숇컯 寃쏀뿕???쒓났?섎뒗 ?꾨??곸씤 ?덉빟 ?뚮옯?쇱엯?덈떎. ?뱀떊???꾨꼍???ы뻾???④퍡 怨꾪쉷?⑸땲??</p>
 </div>
-<div class="flex flex-wrap justify-center gap-6">
-<a class="font-helper-text text-helper-text text-on-surface-variant hover:underline transition-all" href="#">About Us</a>
-<a class="font-helper-text text-helper-text text-on-surface-variant hover:underline transition-all" href="#">Terms of Service</a>
-<a class="font-helper-text text-helper-text text-on-surface-variant hover:underline transition-all" href="#">Privacy Policy</a>
-<a class="font-helper-text text-helper-text text-on-surface-variant hover:underline transition-all" href="#">Customer Support</a>
-<a class="font-helper-text text-helper-text text-on-surface-variant hover:underline transition-all" href="#">Partner With Us</a>
+<div class="flex flex-wrap gap-12">
+<div class="space-y-3">
+<p class="font-bold text-on-surface">?쒕퉬??/p>
+<ul class="space-y-2">
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">?뚯궗 ?뚭컻</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">?댁슜?쎄?</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all font-bold" href="#">媛쒖씤?뺣낫泥섎━諛⑹묠</a></li>
+</ul>
 </div>
-<div class="flex space-x-4 mt-6 md:mt-0">
-<span class="material-symbols-outlined text-primary cursor-pointer">language</span>
-<span class="material-symbols-outlined text-primary cursor-pointer">help</span>
+<div class="space-y-3">
+<p class="font-bold text-on-surface">怨좉컼 吏??/p>
+<ul class="space-y-2">
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">怨좉컼?쇳꽣</a></li>
+<li><a class="font-body-main text-body-main text-on-surface-variant hover:text-primary underline transition-all" href="#">?쒗쑕臾몄쓽</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-12 pt-8 border-t border-outline-variant/30 flex justify-between items-center">
+<p class="font-helper-text text-helper-text text-on-surface-variant">짤 2024 HoverStay. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">camera_alt</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">mail</span>
 </div>
 </div>
 </footer>
-<script>
-        // Simple interactive effect for hotel cards
-        document.querySelectorAll('.bg-white.rounded-xl').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-4px)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
-        });
-    </script>
+<script src="hover-client.js"></script>
 </body></html>

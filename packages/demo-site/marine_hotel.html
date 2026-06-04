@@ -132,6 +132,70 @@ body { font-family: 'Manrope', sans-serif; background-color: #f9f9ff; }
 </button>
 </div>
 </div>
+<!-- 객실 선택 섹션 -->
+<section id="room-options" class="bg-white rounded-xl border border-outline-variant/60 shadow-[0_4px_18px_rgba(0,0,0,0.08)] overflow-hidden mb-8">
+  <div class="p-6 border-b border-outline-variant/60 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+    <div>
+      <h2 class="text-section-title font-bold text-on-surface">객실 선택</h2>
+      <p class="text-helper-text text-on-surface-variant mt-1">원하는 객실을 선택하면 예약 요약 가격이 함께 변경됩니다.</p>
+    </div>
+    <span class="text-helper-text text-primary font-bold">검색 조건: 성인 2명 · 객실 1개</span>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 p-6">
+    <!-- 스탠다드 시티룸 -->
+    <article id="room-standard" data-hover-room-card="standard" class="rounded-lg border-2 border-primary ring-2 ring-primary/15 bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">스탠다드 시티룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 2명 · 더블베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">시티뷰</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">루프탑 바</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩172,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩136,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="standard" onclick="selectRoom('marine','standard',136000,172000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+    <!-- 브릿지뷰 더블룸 -->
+    <article id="room-bridge" data-hover-room-card="bridge" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">브릿지뷰 더블룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 2명 · 퀸베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">광안대교 전망</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">조식 포함</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩226,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩178,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="bridge" onclick="selectRoom('marine','bridge',178000,226000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+    <!-- 마린 스위트룸 -->
+    <article id="room-suite" data-hover-room-card="suite" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">마린 스위트룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 3명 · 킹베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">라운지 혜택</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">넓은 객실</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩318,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩252,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="suite" onclick="selectRoom('marine','suite',252000,318000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+  </div>
+</section>
+
 <div class="grid grid-cols-1 md:grid-cols-10 gap-8">
 <div class="md:col-span-6 space-y-10">
 <section>
@@ -183,10 +247,13 @@ body { font-family: 'Manrope', sans-serif; background-color: #f9f9ff; }
 </div>
 <div class="border-t border-outline-variant pt-6">
 <div class="flex justify-between items-end mb-4">
-<div><p class="text-helper-text text-on-surface-variant line-through">₩172,000</p><p class="font-bold text-brand-navy text-price-highlight">₩136,000 / 1박</p></div>
+<div>
+  <p id="side-old-price" class="text-helper-text text-on-surface-variant line-through">₩172,000</p>
+  <p id="side-price" class="font-bold text-brand-navy text-price-highlight">₩136,000 / 1박</p>
+</div>
 <p class="text-helper-text text-on-surface-variant">세금 포함가</p>
 </div>
-<button onclick="location.href='booking.html?hotel=marine'" data-hover-event="add_to_cart" data-hover-product-id="busan-marine-city" data-hover-cart-count="1" class="w-full bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 transition-all font-section-title">객실 선택하기</button>
+<a id="side-book-btn" href="booking.html?hotel=marine&room=standard" data-hover-event="add_to_cart" data-hover-product-id="busan-marine-city" data-hover-cart-count="1" class="block w-full text-center bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 transition-all font-section-title">예약하기</a>
 </div>
 <div class="mt-4 flex flex-col gap-2">
 <div class="flex items-center gap-1 text-[#2D8C3C] font-bold text-helper-text"><span class="material-symbols-outlined text-[18px]">check_circle</span> 최저가 보장</div>
@@ -203,5 +270,36 @@ body { font-family: 'Manrope', sans-serif; background-color: #f9f9ff; }
 <span class="font-helper-text text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</span>
 </div>
 </footer>
+<script>
+function money(v){ return '₩' + Number(v).toLocaleString('ko-KR'); }
+
+const roomData = {
+  standard: { name:'스탠다드 시티룸',   price:136000, oldPrice:172000 },
+  bridge:   { name:'브릿지뷰 더블룸',   price:178000, oldPrice:226000 },
+  suite:    { name:'마린 스위트룸',     price:252000, oldPrice:318000 },
+};
+
+function selectRoom(hotelId, roomId, price, oldPrice, btn) {
+  document.querySelectorAll('[data-hover-room-card]').forEach(function(card) {
+    const isSelected = card.dataset.hoverRoomCard === roomId;
+    card.classList.toggle('border-2', isSelected);
+    card.classList.toggle('border-primary', isSelected);
+    card.classList.toggle('ring-2', isSelected);
+    card.classList.toggle('ring-primary/15', isSelected);
+    card.classList.toggle('border', !isSelected);
+    card.classList.toggle('border-outline-variant', !isSelected);
+  });
+  const sidePrice    = document.getElementById('side-price');
+  const sideOldPrice = document.getElementById('side-old-price');
+  const sideBookBtn  = document.getElementById('side-book-btn');
+  if (sidePrice)    sidePrice.textContent    = money(price) + ' / 1박';
+  if (sideOldPrice) sideOldPrice.textContent = money(oldPrice);
+  if (sideBookBtn)  sideBookBtn.href         = 'booking.html?hotel=' + hotelId + '&room=' + roomId;
+  const room = roomData[roomId];
+  if (room) {
+    localStorage.setItem('hover_selected_room', JSON.stringify({ hotelId, roomId, name: room.name, price, oldPrice }));
+  }
+}
+</script>
 <script src="hover-client.js"></script>
 </body></html>

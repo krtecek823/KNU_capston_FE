@@ -466,12 +466,12 @@
                     price.innerHTML = `${hotel.price} <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span>`;
                 }
                 if (detailLink) {
-                    const params = new URLSearchParams(location.search);
+                    const searchParams = new URLSearchParams(window.location.search);
                     const detailParams = new URLSearchParams({
-                        checkin: params.get('checkin') || '2026-06-01',
-                        checkout: params.get('checkout') || '2026-06-03',
-                        adults: params.get('adults') || '2',
-                        rooms: params.get('rooms') || '1',
+                        checkin: searchParams.get('checkin') || '2026-06-01',
+                        checkout: searchParams.get('checkout') || '2026-06-03',
+                        adults: searchParams.get('adults') || '2',
+                        rooms: searchParams.get('rooms') || '1',
                     });
                     detailLink.href = `${hotel.href}?${detailParams.toString()}`;
                 }

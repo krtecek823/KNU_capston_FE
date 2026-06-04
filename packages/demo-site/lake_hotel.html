@@ -22,9 +22,109 @@ tailwind.config = { theme: { extend: { colors: { primary:'#00386b','primary-cont
 <main class="max-w-[1200px] mx-auto px-4 py-8">
 <div class="grid grid-cols-10 gap-2 h-[480px] rounded-xl overflow-hidden mb-6"><div class="col-span-6 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80" alt="경포 레이크 스테이"/></div><div class="col-span-4 flex flex-col gap-2"><div class="h-1/2 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" alt="경포 레이크 객실"/></div><div class="h-1/2 overflow-hidden"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80" alt="경포 레이크 로비"/></div></div></div>
 <div class="bg-white p-6 rounded-lg card-shadow mb-8 border border-outline-variant/30"><div class="flex items-start justify-between"><div><div class="flex items-center gap-2 mb-1"><h1 class="text-page-title font-bold text-[#1A1A2E]">경포 레이크 스테이</h1><div class="flex text-brand-gold"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span></div></div><div class="flex items-center gap-1 text-on-surface-variant text-body-main"><span class="material-symbols-outlined text-[18px]">location_on</span>강원특별자치도 강릉시 경포로 216</div></div><button class="border border-outline p-2 rounded-lg hover:bg-surface-container" data-hover-copy="경포 레이크 스테이 레이크뷰룸"><span class="material-symbols-outlined">share</span></button></div></div>
+<!-- 객실 선택 섹션 -->
+<section id="room-options" class="bg-white rounded-xl border border-outline-variant/60 shadow-[0_4px_18px_rgba(0,0,0,0.08)] overflow-hidden mb-8">
+  <div class="p-6 border-b border-outline-variant/60 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+    <div>
+      <h2 class="text-section-title font-bold text-on-surface">객실 선택</h2>
+      <p class="text-helper-text text-on-surface-variant mt-1">원하는 객실을 선택하면 예약 요약 가격이 함께 변경됩니다.</p>
+    </div>
+    <span class="text-helper-text text-primary font-bold">검색 조건: 성인 2명 · 객실 1개</span>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 p-6">
+    <!-- 스탠다드 더블룸 -->
+    <article id="room-standard" data-hover-room-card="standard" class="rounded-lg border-2 border-primary ring-2 ring-primary/15 bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">스탠다드 더블룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 2명 · 더블베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">경포호 근처</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">주차 가능</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩168,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩106,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="standard" onclick="selectRoom('lake','standard',106000,168000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+    <!-- 레이크뷰 더블룸 -->
+    <article id="room-lake" data-hover-room-card="lake" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">레이크뷰 더블룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 2명 · 퀸베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">레이크뷰</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">조식 포함</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩188,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩138,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="lake" onclick="selectRoom('lake','lake',138000,188000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+    <!-- 레이크 스위트룸 -->
+    <article id="room-suite" data-hover-room-card="suite" class="rounded-lg border border-outline-variant bg-surface-container-lowest p-5 flex flex-col gap-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-[0_10px_28px_rgba(0,56,107,0.14)]">
+      <div>
+        <h3 class="font-bold text-primary text-[18px]">레이크 스위트룸</h3>
+        <p class="text-helper-text text-on-surface-variant mt-1">성인 3명 · 킹베드 1개</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">무료 취소</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">거실 공간</span>
+        <span class="text-[12px] font-bold bg-[#d4e3ff] text-primary px-2 py-1 rounded">프리미엄 뷰</span>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant/70">
+        <p class="text-helper-text text-on-surface-variant line-through">₩258,000</p>
+        <p class="text-price-highlight font-bold text-primary">₩204,000 <span class="text-body-main font-normal text-on-surface-variant">/ 1박</span></p>
+        <button type="button" data-hover-room-select="suite" onclick="selectRoom('lake','suite',204000,258000,this)" class="mt-4 w-full bg-[#F5A623] text-white font-bold py-3 rounded-lg hover:brightness-105 transition-all">이 객실 선택</button>
+      </div>
+    </article>
+  </div>
+</section>
+
 <div class="grid grid-cols-1 md:grid-cols-10 gap-8"><div class="md:col-span-6 space-y-10"><section><h2 class="text-section-title font-bold mb-6">주요 특징</h2><div class="grid grid-cols-2 gap-4"><div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-brand-navy">water</span><span class="text-body-main">경포호수 전망</span></div><div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-brand-navy">park</span><span class="text-body-main">경포대 도보 5분</span></div><div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-brand-navy">restaurant</span><span class="text-body-main">조식 포함</span></div><div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-brand-navy">directions_bike</span><span class="text-body-main">호수 산책로</span></div></div><div class="mt-4 p-4 bg-primary-container/10 border-l-4 border-brand-navy rounded-r-lg"><span class="text-brand-navy font-bold text-body-main">경포호와 동해 여행 동선을 함께 잡기 좋은 조용한 호수 전망 숙소입니다.</span></div></section><section><h2 class="text-section-title font-bold mb-6">편의 시설/서비스</h2><div class="grid grid-cols-3 gap-y-8"><div class="space-y-4"><h3 class="font-bold text-on-surface-variant text-body-main">식음료</h3><ul class="space-y-3 text-body-main"><li>조식 레스토랑</li><li>카페</li><li>룸서비스</li></ul></div><div class="space-y-4"><h3 class="font-bold text-on-surface-variant text-body-main">휴식</h3><ul class="space-y-3 text-body-main"><li>호수 전망 객실</li><li>산책로</li><li>가족 객실</li></ul></div><div class="space-y-4"><h3 class="font-bold text-on-surface-variant text-body-main">기타</h3><ul class="space-y-3 text-body-main"><li>무료 와이파이</li><li>무료 주차</li><li>24시간 프런트</li></ul></div></div></section><hr class="border-outline-variant"/><section class="bg-surface-container-low rounded-xl p-6 text-body-main text-on-surface-variant">객실에서 경포호의 잔잔한 풍경을 감상할 수 있고, 경포대와 해변까지 이동이 편리합니다. 여유로운 강릉 여행과 조용한 휴식을 원하는 사용자에게 잘 맞는 숙소입니다.</section></div>
-<div class="md:col-span-4"><div class="sticky top-[144px] bg-white rounded-xl card-shadow border border-outline-variant/30 overflow-hidden"><div class="p-6"><div class="flex items-center justify-between mb-6"><div class="flex items-center gap-3"><div class="bg-brand-navy text-white text-page-title font-bold px-3 py-1 rounded-lg">8.4</div><div><p class="font-bold text-on-surface text-body-main">매우 좋음</p><p class="text-helper-text text-on-surface-variant">후기 531개</p></div></div><span class="material-symbols-outlined text-outline">favorite</span></div><div class="space-y-3 mb-6 text-body-main text-on-surface-variant"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[20px]">location_on</span><span>경포호 산책로 인근</span></div><div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[20px]">directions_car</span><span>무료 주차 가능</span></div></div><div class="bg-surface-container-low rounded-lg p-4 mb-6"><h4 class="font-bold mb-3 text-body-main">주변 랜드마크</h4><ul class="space-y-2 text-body-main"><li class="flex justify-between"><span>경포호</span><span class="text-on-surface-variant">120m</span></li><li class="flex justify-between"><span>경포대</span><span class="text-on-surface-variant">450m</span></li><li class="flex justify-between"><span>경포해변</span><span class="text-on-surface-variant">900m</span></li></ul></div><div class="border-t border-outline-variant pt-6"><div class="flex justify-between items-end mb-4"><div><p class="text-helper-text text-on-surface-variant line-through">₩168,000</p><p class="font-bold text-brand-navy text-price-highlight">₩106,000 / 1박</p></div><p class="text-helper-text text-on-surface-variant">세금 포함가</p></div><button onclick="location.href='booking.html?hotel=lake'" data-hover-event="add_to_cart" data-hover-product-id="gangneung-lake-room" data-hover-cart-count="1" class="w-full bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 text-section-title">객실 선택하기</button></div><div class="mt-4 flex flex-col gap-2 text-helper-text font-bold text-[#2D8C3C]"><div><span class="material-symbols-outlined text-[18px]">check_circle</span> 최저가 보장</div><div><span class="material-symbols-outlined text-[18px]">check_circle</span> 무료 취소 가능</div></div></div></div></div></div>
+<div class="md:col-span-4"><div class="sticky top-[144px] bg-white rounded-xl card-shadow border border-outline-variant/30 overflow-hidden"><div class="p-6"><div class="flex items-center justify-between mb-6"><div class="flex items-center gap-3"><div class="bg-brand-navy text-white text-page-title font-bold px-3 py-1 rounded-lg">8.4</div><div><p class="font-bold text-on-surface text-body-main">매우 좋음</p><p class="text-helper-text text-on-surface-variant">후기 531개</p></div></div><span class="material-symbols-outlined text-outline">favorite</span></div><div class="space-y-3 mb-6 text-body-main text-on-surface-variant"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[20px]">location_on</span><span>경포호 산책로 인근</span></div><div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-[20px]">directions_car</span><span>무료 주차 가능</span></div></div><div class="bg-surface-container-low rounded-lg p-4 mb-6"><h4 class="font-bold mb-3 text-body-main">주변 랜드마크</h4><ul class="space-y-2 text-body-main"><li class="flex justify-between"><span>경포호</span><span class="text-on-surface-variant">120m</span></li><li class="flex justify-between"><span>경포대</span><span class="text-on-surface-variant">450m</span></li><li class="flex justify-between"><span>경포해변</span><span class="text-on-surface-variant">900m</span></li></ul></div><div class="border-t border-outline-variant pt-6"><div class="flex justify-between items-end mb-4"><div>
+  <p id="side-old-price" class="text-helper-text text-on-surface-variant line-through">₩168,000</p>
+  <p id="side-price" class="font-bold text-brand-navy text-price-highlight">₩106,000 / 1박</p>
+</div><p class="text-helper-text text-on-surface-variant">세금 포함가</p></div>
+<a id="side-book-btn" href="booking.html?hotel=lake&room=standard" data-hover-event="add_to_cart" data-hover-product-id="gangneung-lake-room" data-hover-cart-count="1" class="block w-full text-center bg-brand-gold text-white font-bold py-4 rounded-lg hover:brightness-110 transition-all font-section-title">예약하기</a>
+</div><div class="mt-4 flex flex-col gap-2 text-helper-text font-bold text-[#2D8C3C]"><div><span class="material-symbols-outlined text-[18px]">check_circle</span> 최저가 보장</div><div><span class="material-symbols-outlined text-[18px]">check_circle</span> 무료 취소 가능</div></div></div></div></div></div>
 </main>
 <footer class="w-full py-section-gap px-nav-padding-horiz bg-surface-container mt-section-gap border-t border-outline-variant"><div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-start gap-8"><div><span class="font-page-title font-bold text-primary block mb-4">HoverStay</span><p class="text-helper-text text-outline max-w-xs">신뢰와 전문성을 바탕으로 최고의 숙박 경험을 제공합니다.</p></div><div class="flex flex-wrap gap-x-8 gap-y-4 text-body-main text-on-surface-variant"><a href="#">회사 소개</a><a href="#">이용약관</a><a href="#">개인정보처리방침</a><a href="#">고객센터</a></div></div></footer>
+<script>
+function money(v){ return '₩' + Number(v).toLocaleString('ko-KR'); }
+
+const roomData = {
+  standard: { name:'스탠다드 더블룸', price:106000, oldPrice:168000 },
+  lake:     { name:'레이크뷰 더블룸', price:138000, oldPrice:188000 },
+  suite:    { name:'레이크 스위트룸', price:204000, oldPrice:258000 },
+};
+
+function selectRoom(hotelId, roomId, price, oldPrice, btn) {
+  document.querySelectorAll('[data-hover-room-card]').forEach(function(card) {
+    const isSelected = card.dataset.hoverRoomCard === roomId;
+    card.classList.toggle('border-2', isSelected);
+    card.classList.toggle('border-primary', isSelected);
+    card.classList.toggle('ring-2', isSelected);
+    card.classList.toggle('ring-primary/15', isSelected);
+    card.classList.toggle('border', !isSelected);
+    card.classList.toggle('border-outline-variant', !isSelected);
+  });
+  const sidePrice    = document.getElementById('side-price');
+  const sideOldPrice = document.getElementById('side-old-price');
+  const sideBookBtn  = document.getElementById('side-book-btn');
+  if (sidePrice)    sidePrice.textContent    = money(price) + ' / 1박';
+  if (sideOldPrice) sideOldPrice.textContent = money(oldPrice);
+  if (sideBookBtn)  sideBookBtn.href         = 'booking.html?hotel=' + hotelId + '&room=' + roomId;
+  const room = roomData[roomId];
+  if (room) {
+    localStorage.setItem('hover_selected_room', JSON.stringify({ hotelId, roomId, name: room.name, price, oldPrice }));
+  }
+}
+</script>
 <script src="hover-client.js"></script>
 </body></html>

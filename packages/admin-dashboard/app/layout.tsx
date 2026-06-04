@@ -1,1 +1,77 @@
-﻿import type { Metadata } from 'next'; import { Geist, Geist_Mono } from 'next/font/google'; import Link from 'next/link'; import './globals.css'; const geistSans = Geist({ subsets: ['latin'] }); const geistMono = Geist_Mono({ subsets: ['latin'] }); export const metadata: Metadata = { title: 'Hover Analytics 어드민 대시보드', description: '프로젝트 성과 시각화 관리자 시스템' }; export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return ( <html lang='ko'><body className={geistSans.className + ' ' + geistMono.className + ' antialiased bg-slate-50 text-slate-900'}><div className='flex min-h-screen'><aside className='w-64 bg-slate-900 text-white flex flex-col justify-between p-4 shadow-xl select-none'><div><div className='text-xl font-black tracking-wider text-indigo-400 mb-8 p-2 border-b border-slate-800'>🌐 HOVER ADMIN</div><nav className='space-y-1.5'><Link href='/' className='block p-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center justify-between'><span>🔴 Live 화면</span><span className='bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse'>Live</span></Link><Link href='/scenarios' className='block p-3 rounded-lg hover:bg-slate-800 transition font-medium'><span>📊 Scenarios 화면</span></Link><Link href='/ab-test' className='block p-3 rounded-lg hover:bg-slate-800 transition font-medium'><span>🎯 A/B Test 화면</span></Link><Link href='/signals' className='block p-3 rounded-lg hover:bg-slate-800 transition font-medium'><span>📡 Signals 화면</span></Link></nav></div><div className='text-xs text-slate-500 p-2 border-t border-slate-800'>© 2026 Hover Analytics System</div></aside><main className='flex-1 bg-slate-50 min-h-screen overflow-y-auto'>{children}</main></div></body></html> ); }
+﻿import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import Link from 'next/link';
+import './globals.css';
+
+const geistSans = Geist({ subsets: ['latin'] });
+const geistMono = Geist_Mono({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Hover Analytics 어드민 대시보드',
+  description: '프로젝트 성과 시각화 관리자 시스템',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="ko">
+      <body
+        className={
+          geistSans.className +
+          ' ' +
+          geistMono.className +
+          ' antialiased bg-slate-50 text-slate-900'
+        }
+      >
+        <div className="flex min-h-screen">
+          {/* Sidebar */}
+          <aside className="w-64 bg-slate-900 text-white flex flex-col justify-between p-4 shadow-xl select-none">
+            <div>
+              <div className="text-xl font-black tracking-wider text-indigo-400 mb-8 p-2 border-b border-slate-800">
+                🌐 HOVER ADMIN
+              </div>
+              <nav className="space-y-1.5">
+                <Link
+                  href="/"
+                  className="block p-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center justify-between"
+                >
+                  <span>🔴 Live 화면</span>
+                  <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse">
+                    Live
+                  </span>
+                </Link>
+                <Link
+                  href="/scenarios"
+                  className="block p-3 rounded-lg hover:bg-slate-800 transition font-medium"
+                >
+                  <span>📊 Scenarios 화면</span>
+                </Link>
+                <Link
+                  href="/ab-test"
+                  className="block p-3 rounded-lg hover:bg-slate-800 transition font-medium"
+                >
+                  <span>🎯 A/B Test 화면</span>
+                </Link>
+                <Link
+                  href="/signals"
+                  className="block p-3 rounded-lg hover:bg-slate-800 transition font-medium"
+                >
+                  <span>📡 Signals 화면</span>
+                </Link>
+              </nav>
+            </div>
+            <div className="text-xs text-slate-500 p-2 border-t border-slate-800">
+              © 2026 Hover Analytics System
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 bg-slate-50 min-h-screen overflow-y-auto">
+            {children}
+          </main>
+        </div>
+      </body>
+    </html>
+  );
+}

@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="ko"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>HoverStay - 예약 정보 입력</title>
+<title>HoverStay - ?�약 ?�보 ?�력</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -109,7 +108,7 @@
 <span onclick="location.href='index.html'" class="text-[24px] font-extrabold text-primary tracking-tight">HoverStay</span>
 </div>
 <div class="flex items-center gap-6">
-<button onclick="location.href='signin.html'" class="text-body-main font-bold text-primary">로그인</button>
+<button onclick="location.href='signin.html'" class="text-body-main font-bold text-primary">로그??/button>
 <span class="material-symbols-outlined text-[24px] text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
 </div>
 </nav>
@@ -121,17 +120,17 @@
 <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
 <span class="material-symbols-outlined text-[18px]" data-icon="check" data-weight="fill">check</span>
 </div>
-<span class="text-helper-text font-helper-text text-primary font-bold">옵션 선택</span>
+<span class="text-helper-text font-helper-text text-primary font-bold">?�션 ?�택</span>
 </div>
 <div class="w-24 h-[2px] bg-primary-container mb-6"></div>
 <div class="flex flex-col items-center gap-2">
 <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">2</div>
-<span class="text-helper-text font-helper-text text-primary font-bold">내 정보</span>
+<span class="text-helper-text font-helper-text text-primary font-bold">???�보</span>
 </div>
 <div class="w-24 h-[2px] bg-outline-variant mb-6"></div>
 <div class="flex flex-col items-center gap-2">
 <div class="w-8 h-8 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline-variant font-bold">3</div>
-<span class="text-helper-text font-helper-text text-outline">예약 확정</span>
+<span class="text-helper-text font-helper-text text-outline">?�약 ?�정</span>
 </div>
 </div>
 </div>
@@ -141,41 +140,41 @@
 <!-- Left Column: Booking Info Form -->
 <section class="flex flex-col gap-6">
 <div class="bg-surface-container-lowest p-10 rounded-xl border border-outline-variant shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
-<h1 class="font-page-title text-page-title text-on-surface mb-6">예약자 정보를 입력해 주세요</h1>
+<h1 class="font-page-title text-page-title text-on-surface mb-6">?�약???�보�??�력??주세??/h1>
 <!-- Login Alert Box -->
 <div class="bg-[#EAF1FB] p-4 rounded-lg flex items-center gap-3 mb-8">
 <span class="material-symbols-outlined text-primary" data-icon="info" data-weight="fill">info</span>
-<p class="text-body-main text-primary font-semibold">로그인하시면 저장된 정보로 빠르게 예약할 수 있어요</p>
+<p class="text-body-main text-primary font-semibold">로그?�하?�면 ?�?�된 ?�보�?빠르�??�약?????�어??/p>
 </div>
 <!-- Form -->
 <form class="flex flex-col gap-6">
 <div class="grid grid-cols-2 gap-4">
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">성(영문)*</label>
+<label class="text-helper-text font-bold text-on-surface-variant">???�문)*</label>
 <input class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white" placeholder="GILDONG" type="text"/>
 </div>
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">이름(영문)*</label>
+<label class="text-helper-text font-bold text-on-surface-variant">?�름(?�문)*</label>
 <input class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white" placeholder="HONG" type="text"/>
 </div>
 </div>
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">이메일 주소*</label>
+<label class="text-helper-text font-bold text-on-surface-variant">?�메??주소*</label>
 <input class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white" placeholder="example@email.com" type="email"/>
-<p class="text-helper-text text-outline">예약 확인 메일이 발송되므로 정확한 주소를 입력해 주세요.</p>
+<p class="text-helper-text text-outline">?�약 ?�인 메일??발송?��?�??�확??주소�??�력??주세??</p>
 </div>
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">국가/지역*</label>
+<label class="text-helper-text font-bold text-on-surface-variant">�??/지??</label>
 <select class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white appearance-none">
-<option>대한민국</option>
+<option>?�?��?�?/option>
 <option>미국</option>
-<option>일본</option>
+<option>?�본</option>
 <option>중국</option>
 </select>
 </div>
 <div class="grid grid-cols-[120px_1fr] gap-4">
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">국가번호</label>
+<label class="text-helper-text font-bold text-on-surface-variant">�??번호</label>
 <select class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white">
 <option>+82</option>
 <option>+1</option>
@@ -183,35 +182,35 @@
 </select>
 </div>
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">휴대전화 번호*</label>
+<label class="text-helper-text font-bold text-on-surface-variant">?��??�화 번호*</label>
 <input class="w-full h-12 px-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white" placeholder="010-1234-5678" type="tel"/>
 </div>
 </div>
 <label class="flex items-center gap-3 cursor-pointer">
 <input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
-<span class="text-body-main text-on-surface-variant">무료 SMS 알림 서비스 수신 동의</span>
+<span class="text-body-main text-on-surface-variant">무료 SMS ?�림 ?�비???�신 ?�의</span>
 </label>
 <div class="h-[1px] bg-outline-variant my-4"></div>
 <div class="flex flex-col gap-2">
-<label class="text-helper-text font-bold text-on-surface-variant">특별 요청 사항 (선택)</label>
-<textarea class="w-full h-32 p-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white resize-none" placeholder="요청 사항을 영문으로 입력해 주세요. (예: 얼리 체크인, 고층 객실 등)"></textarea>
+<label class="text-helper-text font-bold text-on-surface-variant">?�별 ?�청 ?�항 (?�택)</label>
+<textarea class="w-full h-32 p-4 rounded border border-outline-variant focus:border-primary focus:ring-0 text-body-main bg-white resize-none" placeholder="?�청 ?�항???�문?�로 ?�력??주세?? (?? ?�리 체크?? 고층 객실 ??"></textarea>
 </div>
 <div class="h-[1px] bg-outline-variant my-4"></div>
 <div class="flex flex-col gap-4">
-<p class="text-body-main font-bold text-on-surface">실제 투숙자가 예약자 본인이신가요?</p>
+<p class="text-body-main font-bold text-on-surface">?�제 ?�숙?��? ?�약??본인?�신가??</p>
 <div class="flex gap-8">
 <label class="flex items-center gap-2 cursor-pointer">
 <input checked="" class="w-5 h-5 border-outline-variant text-primary focus:ring-primary" name="self" type="radio"/>
-<span class="text-body-main text-on-surface-variant">예</span>
+<span class="text-body-main text-on-surface-variant">??/span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer">
 <input class="w-5 h-5 border-outline-variant text-primary focus:ring-primary" name="self" type="radio"/>
-<span class="text-body-main text-on-surface-variant">아니요</span>
+<span class="text-body-main text-on-surface-variant">?�니??/span>
 </label>
 </div>
 </div>
 <button class="mt-8 w-full h-14 bg-[#F5A623] text-white font-bold text-[18px] rounded-lg shadow-md hover:bg-[#e0961e] transition-all flex items-center justify-center" type="submit">
-                        예약 확정하기
+                        ?�약 ?�정?�기
                     </button>
 </form>
 </div>
@@ -229,55 +228,55 @@
 <span class="material-symbols-outlined text-[16px] text-[#F5A623]" data-icon="star" data-weight="fill">star</span>
 <span class="material-symbols-outlined text-[16px] text-[#F5A623]" data-icon="star" data-weight="fill">star</span>
 </div>
-<h2 class="text-section-title font-section-title text-on-surface mb-1">글래드 마포</h2>
-<p class="text-helper-text text-outline mb-4">서울 마포구 마포대로 92</p>
+<h2 class="text-section-title font-section-title text-on-surface mb-1">글?�드 마포</h2>
+<p class="text-helper-text text-outline mb-4">?�울 마포�?마포?��?92</p>
 <div class="h-[1px] bg-outline-variant my-4"></div>
 <div class="grid grid-cols-2 gap-4 mb-4">
 <div class="flex flex-col gap-1">
-<span class="text-helper-text text-outline">체크인</span>
-<p class="text-body-main font-bold">2026년 6월 1일 (월)</p>
-<p class="text-helper-text text-on-surface-variant">오후 3:00 이후</p>
+<span class="text-helper-text text-outline">체크??/span>
+<p class="text-body-main font-bold">2026??6??1??(??</p>
+<p class="text-helper-text text-on-surface-variant">?�후 3:00 ?�후</p>
 </div>
 <div class="flex flex-col gap-1">
-<span class="text-helper-text text-outline">체크아웃</span>
-<p class="text-body-main font-bold">2026년 6월 3일 (수)</p>
-<p class="text-helper-text text-on-surface-variant">오전 11:00 이전</p>
+<span class="text-helper-text text-outline">체크?�웃</span>
+<p class="text-body-main font-bold">2026??6??3??(??</p>
+<p class="text-helper-text text-on-surface-variant">?�전 11:00 ?�전</p>
 </div>
 </div>
 <p class="text-body-main text-on-surface-variant mb-4">
-<span class="font-bold">스탠다드 더블룸</span> · 성인 2명
+<span class="font-bold">?�탠?�드 ?�블�?/span> · ?�인 2�?
                     </p>
 <div class="h-[1px] bg-outline-variant my-4"></div>
 <div class="flex flex-col gap-3">
 <div class="flex justify-between items-center text-body-main">
-<span class="text-on-surface-variant">객실 요금 (2박)</span>
-<span class="font-semibold text-on-surface">₩785,400</span>
+<span class="text-on-surface-variant">객실 ?�금 (2�?</span>
+<span class="font-semibold text-on-surface">??85,400</span>
 </div>
 <div class="flex justify-between items-center text-body-main">
-<span class="text-on-surface-variant">프로모션 할인</span>
-<span class="font-semibold text-[#1B8E2B]">-₩298,452</span>
+<span class="text-on-surface-variant">?�로모션 ?�인</span>
+<span class="font-semibold text-[#1B8E2B]">-??98,452</span>
 </div>
 <div class="h-[1px] bg-outline-variant my-1"></div>
 <div class="flex justify-between items-end mt-2">
 <div class="flex flex-col">
-<span class="text-section-title font-section-title">총 결제 금액</span>
-<span class="text-helper-text text-outline">세금 및 수수료 포함</span>
+<span class="text-section-title font-section-title">�?결제 금액</span>
+<span class="text-helper-text text-outline">?�금 �??�수�??�함</span>
 </div>
-<span class="text-price-highlight font-price-highlight text-primary">₩486,948</span>
+<span class="text-price-highlight font-price-highlight text-primary">??86,948</span>
 </div>
 </div>
 <div class="mt-6 flex items-center gap-2 text-[#1B8E2B] font-bold text-body-main">
 <span class="material-symbols-outlined text-[18px]" data-icon="check_circle" data-weight="fill">check_circle</span>
-<span>무료 취소 가능</span>
+<span>무료 취소 가??/span>
 </div>
 </div>
 </div>
 <!-- Help Box -->
 <div class="p-5 rounded-xl border border-outline-variant bg-surface-container-low flex flex-col gap-2">
-<p class="text-body-main font-bold">도움이 필요하신가요?</p>
+<p class="text-body-main font-bold">?��????�요?�신가??</p>
 <div class="flex items-center gap-2 text-helper-text text-on-surface-variant">
 <span class="material-symbols-outlined text-[18px]" data-icon="call">call</span>
-<span>고객센터: 1588-1234</span>
+<span>고객?�터: 1588-1234</span>
 </div>
 <div class="flex items-center gap-2 text-helper-text text-on-surface-variant">
 <span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
@@ -294,14 +293,13 @@
 <p class="text-helper-text text-on-surface-variant">© 2024 HoverStay. All rights reserved.</p>
 </div>
 <div class="flex flex-wrap gap-x-8 gap-y-4">
-<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">회사 소개</a>
-<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">이용약관</a>
-<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">개인정보처리방침</a>
-<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">고객센터</a>
-<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">제휴문의</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">?�사 ?�개</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">?�용?��?</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">개인?�보처리방침</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">고객?�터</a>
+<a class="text-on-surface-variant font-body-main hover:text-primary underline transition-all" href="#">?�휴문의</a>
 </div>
 </div>
 </footer>
-</body></html>
-
 <script src="hover-client.js"></script>
+</body></html>
