@@ -350,29 +350,50 @@
   }
 
   function scrollToReservationButton() {
-    // 사이드 카드 예약하기 버튼 우선 (id 또는 특정 구조)
-    const sideCard = document.querySelector('aside');
-    const sideBtn = sideCard && Array.from(sideCard.querySelectorAll('button, a')).find((el) => {
-      const text = el.textContent.trim();
-      return text === '예약하기' || text.includes('예약');
-    });
-    const target = sideBtn || Array.from(document.querySelectorAll('button, a')).find((element) => {
-      const text = element.textContent.trim();
-      const href = element.getAttribute('href') || '';
-      const onclick = element.getAttribute('onclick') || '';
-      return text === '예약하기' || href.includes('booking.html') || onclick.includes('booking.html');
-    });
+    // 1순위: id="side-book-btn" (모든 호텔 HTML 공통)
+    let target = document.getElementById('side-book-btn');
+
+    // 2순위: sticky 사이드 카드 안의 예약하기 버튼
+    if (!target) {
+      const sideCard = document.querySelector('.sticky');
+      if (sideCard) {
+        target = Array.from(sideCard.querySelectorAll('a, button')).find((el) => {
+          const text = el.textContent.trim();
+          const href = el.getAttribute('href') || '';
+          return text === '예약하기' || href.includes('booking.html');
+        });
+      }
+    }
+
+    // 3순위: booking.html 링크 중 y좌표가 가장 큰(아래에 있는) 버튼
+    if (!target) {
+      const bookingBtns = Array.from(document.querySelectorAll('a[href*="booking.html"], button[onclick*="booking.html"]'))
+        .filter((el) => !el.closest('nav')); // nav 상단 버튼 제외
+      if (bookingBtns.length > 0) {
+        target = bookingBtns.reduce((a, b) =>
+          (a.getBoundingClientRect().top > b.getBoundingClientRect().top ? a : b)
+        );
+      }
+    }
+
     if (!target) return;
-    const top = target.getBoundingClientRect().top + window.scrollY - Math.max(80, window.innerHeight * 0.15);
-    window.scrollTo({ top, behavior: 'smooth' });
+
+    // 버튼이 화면 중앙에 오도록 스크롤
+    const rect = target.getBoundingClientRect();
+    const absoluteTop = rect.top + window.scrollY;
+    const scrollTo = absoluteTop - (window.innerHeight / 2) + (rect.height / 2);
+    window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+
     // 시각적 강조 효과
-    target.style.transition = 'box-shadow 0.3s, transform 0.3s';
-    target.style.boxShadow = '0 0 0 4px rgba(245,166,35,0.5)';
-    target.style.transform = 'scale(1.03)';
     setTimeout(() => {
-      target.style.boxShadow = '';
-      target.style.transform = '';
-    }, 1200);
+      target.style.transition = 'box-shadow 0.3s, transform 0.3s';
+      target.style.boxShadow = '0 0 0 4px rgba(245,166,35,0.6)';
+      target.style.transform = 'scale(1.04)';
+      setTimeout(() => {
+        target.style.boxShadow = '';
+        target.style.transform = '';
+      }, 1400);
+    }, 500);
   }
 
   function updateBookingButtons(hotelId, roomId) {
