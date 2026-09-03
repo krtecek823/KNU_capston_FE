@@ -9,7 +9,7 @@ export const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedCategory] = useState('전체');
 
-  // Dynamic Date Formatter (e.g. 09.03(목) ~ 09.04(금) (1박))
+  // Dynamic Real Date Formatter (e.g. 09.03(목) ~ 09.04(금) (1박))
   const getFormattedDates = () => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const today = new Date();
@@ -48,28 +48,28 @@ export const HomePage: React.FC = () => {
     return true;
   });
 
-  const featuredMagazineStay = hotels[0];
-  const editorialCollection = hotels.slice(1, 4);
+  const featuredStay = hotels[0];
+  const recommendedStays = hotels.slice(1, 4);
 
   return (
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
-      {/* 1. Full-bleed Stayfolio Curation Hero with Floating Glass Dock */}
+      {/* 1. Domestic Luxury Hotel Curation Hero with Floating Glass Search Dock */}
       <section className="relative h-[540px] sm:h-[600px] w-full overflow-hidden bg-slate-950 flex flex-col justify-center p-6 sm:p-12 text-white">
-        {/* Background Curated Image */}
-        {featuredMagazineStay && (
+        {/* Background Hotel Image */}
+        {featuredStay && (
           <img
-            src={featuredMagazineStay.imageUrl}
+            src={featuredStay.imageUrl}
             alt="Hero Stay"
             className="absolute inset-0 w-full h-full object-cover opacity-60 scale-105 transition-transform duration-1000"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/30"></div>
 
-        {/* Center Editorial Magazine Title */}
+        {/* Center Title & Subtitle */}
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4 my-auto">
           <p className="text-xs sm:text-sm font-extrabold text-blue-300 tracking-widest">
-            비일상의 온전한 휴식
+            국내 단독 최저가 프리미엄 스테이
           </p>
           <h1 className="text-3xl sm:text-5xl sm:leading-tight font-black tracking-tight text-white">
             당신의 특별한 날을 완성하는 <br />
@@ -94,7 +94,7 @@ export const HomePage: React.FC = () => {
                 <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
                 <input
                   type="text"
-                  placeholder="어디로 떠나시나요? (예: 광진구, 워커힐, 한강뷰)"
+                  placeholder="어디로 떠나시나요? (예: 광진구, 워커힐, 해운대, 북촌)"
                   className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none placeholder-slate-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -119,25 +119,25 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. Magazine Editorial Collection Section */}
+      {/* 2. Recommended Stays Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <span className="text-xs font-extrabold text-blue-600 uppercase tracking-widest block mb-1">
-              CURATED STAY
+              BEST SELECTION
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              이번 주 매거진 추천 컬렉션 🌿
+              이번 주 인기 추천 숙소 🔥
             </h2>
           </div>
           <p className="text-xs text-slate-500 font-medium max-w-xs">
-            공간의 미학, 최고급 편의시설, 그리고 단독 최저가 혜택을 갖춘 공간만을 매주 엄선합니다.
+            뛰어난 만족도, 최고급 시설, 회원 단독 최저가 혜택을 갖춘 인기 숙소를 엄선했습니다.
           </p>
         </div>
 
-        {/* Magazine Grid */}
+        {/* Recommended Hotel Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {editorialCollection.map((stay, index) => (
+          {recommendedStays.map((stay, index) => (
             <div
               key={stay.id}
               className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
@@ -150,7 +150,7 @@ export const HomePage: React.FC = () => {
                 />
                 <div className="absolute top-4 left-4 bg-slate-900/90 text-white text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>추천 스테이 0{index + 1}</span>
+                  <span>인기 추천 0{index + 1}</span>
                 </div>
                 <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-sm">
                   100% 최저가 보장
@@ -205,10 +205,10 @@ export const HomePage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <span className="text-xs font-extrabold text-blue-600 uppercase tracking-widest block mb-1">
-              ALL STAYS
+              ALL DOMESTIC STAYS
             </span>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-              전체 큐레이션 공간 탐색
+              국내 전체 최저가 숙소
             </h2>
           </div>
 
