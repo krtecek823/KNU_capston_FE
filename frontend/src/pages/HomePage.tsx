@@ -14,7 +14,8 @@ export const HomePage: React.FC = () => {
   const tomorrow = new Date(Date.now() + 86400000);
 
   const [checkIn, setCheckIn] = useState<Date>(today);
-  const [checkOut, setCheckOut] = useState<Date>(tomorrow);
+  const [checkOut, setCheckOut] = useState<Date | null>(tomorrow);
+  const [isSelectingCheckOut, setIsSelectingCheckOut] = useState(false);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
 
   // Month navigation in calendar
@@ -47,8 +48,6 @@ export const HomePage: React.FC = () => {
   // Calculate Night & Format String
   const getFormattedDates = () => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
-    const diffTime = Math.max(86400000, checkOut.getTime() - checkIn.getTime());
-    const nights = Math.round(diffTime / 86400000);
 
     const format = (d: Date) => {
       const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -56,6 +55,13 @@ export const HomePage: React.FC = () => {
       const dayName = days[d.getDay()];
       return `${m}.${date}(${dayName})`;
     };
+
+    if (!checkOut) {
+      return `${format(checkIn)} ~ 체크아웃 날짜 선택`;
+    }
+
+    const diffTime = Math.max(86400000, checkOut.getTime() - checkIn.getTime());
+    const nights = Math.round(diffTime / 86400000);
 
     return `${format(checkIn)} ~ ${format(checkOut)} (${nights}박)`;
   };
@@ -69,23 +75,29 @@ export const HomePage: React.FC = () => {
     return new Date(year, month, 1).getDay();
   };
 
+  // Interactive Multi-Night Date Click Handler
   const handleDateClick = (dayDate: Date) => {
-    // If no checkIn or both checkIn & checkOut are set, reset checkIn
-    if (!checkIn || (checkIn && checkOut)) {
+    if (!isSelectingCheckOut) {
+      // First Click: Set Check-In
       setCheckIn(dayDate);
-      const nextDay = new Date(dayDate.getTime() + 86400000);
-      setCheckOut(nextDay);
-    } else if (checkIn && !checkOut) {
+      setCheckOut(null);
+      setIsSelectingCheckOut(true);
+    } else {
+      // Second Click: Set Check-Out
       if (dayDate.getTime() > checkIn.getTime()) {
         setCheckOut(dayDate);
+        setIsSelectingCheckOut(false);
       } else {
+        // If clicked date is earlier or same, reset Check-In to clicked date
         setCheckIn(dayDate);
-        setCheckOut(new Date(dayDate.getTime() + 86400000));
+        setCheckOut(null);
+        setIsSelectingCheckOut(true);
       }
     }
   };
 
-  const isSameDay = (d1: Date, d2: Date) => {
+  const isSameDay = (d1: Date | null, d2: Date | null) => {
+    if (!d1 || !d2) return false;
     return (
       d1.getFullYear() === d2.getFullYear() &&
       d1.getMonth() === d2.getMonth() &&
@@ -104,11 +116,9 @@ export const HomePage: React.FC = () => {
     const weekHeaders = ['일', '월', '화', '수', '목', '금', '토'];
 
     const daysArray = [];
-    // Padding blanks
     for (let i = 0; i < firstDay; i++) {
       daysArray.push(null);
     }
-    // Actual days
     for (let d = 1; d <= totalDays; d++) {
       daysArray.push(new Date(year, month, d));
     }
@@ -138,13 +148,13 @@ export const HomePage: React.FC = () => {
             const inBetween = isInRange(d);
             const isPast = d.getTime() < new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 
-            let btnStyle = 'hover:bg-slate-100 text-slate-800 font-bold';
+            let btnStyle = 'hover:bg-slate-100 text-slate-800 font-bold rounded-xl';
             if (isPast) {
               btnStyle = 'text-slate-300 pointer-events-none';
             } else if (isStart || isEnd) {
-              btnStyle = 'bg-blue-600 text-white font-black shadow-xs rounded-xl';
+              btnStyle = 'bg-blue-600 text-white font-black shadow-sm rounded-xl';
             } else if (inBetween) {
-              btnStyle = 'bg-blue-50 text-blue-900 font-bold rounded-lg';
+              btnStyle = 'bg-blue-100 text-blue-900 font-extrabold rounded-none';
             }
 
             return (
@@ -241,10 +251,10 @@ export const HomePage: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
                 <h4 className="text-base font-black text-slate-900 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-blue-600" /> 여행 날짜 선택
+                  <Calendar className="w-5 h-5 text-blue-600" /> 체크인 & 체크아웃 일정 선택
                 </h4>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">
-                  체크인 날짜와 체크아웃 날짜를 달력에서 직접 클릭해주세요.
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                  1차 클릭으로 <span className="font-bold text-blue-600">체크인</span>을, 2차 클릭으로 <span className="font-bold text-blue-600">체크아웃</span> 날짜를 자유롭게 지정해 주세요 (2박, 3박, 5박 이상 연박 가능).
                 </p>
               </div>
 
@@ -273,7 +283,7 @@ export const HomePage: React.FC = () => {
                   <ChevronLeft className="w-5 h-5" />
                 </button>
 
-                <span className="text-xs font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                <span className="text-xs font-black text-blue-600 bg-blue-50 px-3.5 py-1.5 rounded-full">
                   {getFormattedDates()}
                 </span>
 
@@ -311,15 +321,20 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-md bg-blue-100 inline-block"></span>
-                  <span>숙박 기간</span>
+                  <span>연박 하이라이트</span>
                 </div>
               </div>
 
               <button
+                disabled={!checkOut}
                 onClick={() => setShowCalendarModal(false)}
-                className="bg-slate-900 text-white font-extrabold text-xs px-7 py-3 rounded-xl hover:bg-blue-600 transition-colors shadow-md"
+                className={`font-extrabold text-xs px-7 py-3 rounded-xl transition-all shadow-md ${
+                  checkOut
+                    ? 'bg-slate-900 hover:bg-blue-600 text-white cursor-pointer'
+                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                }`}
               >
-                날짜 선택 완료
+                일정 확정하기
               </button>
             </div>
 
