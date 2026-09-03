@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, Compass } from 'lucide-react';
+import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
@@ -37,7 +37,7 @@ export const HomePage: React.FC = () => {
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
       {/* 1. Full-bleed Stayfolio Curation Hero with Floating Glass Dock */}
-      <section className="relative h-[580px] sm:h-[640px] w-full overflow-hidden bg-slate-950 flex flex-col justify-between p-6 sm:p-12 text-white">
+      <section className="relative h-[540px] sm:h-[600px] w-full overflow-hidden bg-slate-950 flex flex-col justify-center p-6 sm:p-12 text-white">
         {/* Background Curated Image */}
         {featuredMagazineStay && (
           <img
@@ -48,20 +48,9 @@ export const HomePage: React.FC = () => {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/30"></div>
 
-        {/* Top Tagline */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full flex items-center justify-between">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-100">
-            <Compass className="w-3.5 h-3.5 text-blue-400" />
-            <span>2026 국내 프라이빗 스테이 큐레이션</span>
-          </div>
-          <span className="text-xs font-semibold text-slate-300 hidden sm:block tracking-widest uppercase">
-            HoverStay Exclusive
-          </span>
-        </div>
-
         {/* Center Editorial Magazine Title */}
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4 my-auto">
-          <p className="text-xs sm:text-sm font-extrabold text-blue-300 tracking-widest uppercase">
+          <p className="text-xs sm:text-sm font-extrabold text-blue-300 tracking-widest">
             비일상의 온전한 휴식
           </p>
           <h1 className="text-3xl sm:text-5xl sm:leading-tight font-black tracking-tight text-white">
@@ -69,12 +58,12 @@ export const HomePage: React.FC = () => {
             단 하나의 프라이빗 공간
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-lg mx-auto">
-            엄선된 국내 최상급 호텔과 리조트. 이탈 없는 단독 최저가 혜택으로 지금 떠나보세요.
+            엄선된 국내 최상급 호텔과 리조트. 회원 전용 단독 최저가 혜택으로 지금 떠나보세요.
           </p>
         </div>
 
         {/* Floating Minimal Search Dock */}
-        <div className="relative z-10 max-w-3xl mx-auto w-full">
+        <div className="relative z-10 max-w-3xl mx-auto w-full mt-6">
           <div className="bg-white/95 backdrop-blur-md p-2.5 rounded-2xl sm:rounded-full shadow-2xl border border-white/80 text-slate-900">
             <form
               onSubmit={(e) => {
@@ -116,7 +105,7 @@ export const HomePage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <span className="text-xs font-extrabold text-blue-600 uppercase tracking-widest block mb-1">
-              ISSUE 01. CURATED STAY
+              CURATED STAY
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               이번 주 매거진 추천 컬렉션 🌿
@@ -142,7 +131,7 @@ export const HomePage: React.FC = () => {
                 />
                 <div className="absolute top-4 left-4 bg-slate-900/90 text-white text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>STORY 0{index + 1}</span>
+                  <span>추천 스테이 0{index + 1}</span>
                 </div>
                 <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-sm">
                   100% 최저가 보장
