@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Building2, Search, Ticket, User, ShieldCheck } from 'lucide-react';
+import { Building2, Search, Ticket, User } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const location = useLocation();
@@ -15,15 +15,9 @@ export const Header: React.FC = () => {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-blue-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-primary/20 group-hover:scale-105 transition-all duration-200">
             H
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-extrabold text-gray-900 tracking-tight group-hover:text-primary transition-colors">
-              HoverStay
-            </span>
-            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full bg-blue-50 text-primary font-bold border border-blue-100/80">
-              <ShieldCheck className="w-3 h-3 text-primary" />
-              Verified Stay
-            </span>
-          </div>
+          <span className="text-xl font-extrabold text-gray-900 tracking-tight group-hover:text-primary transition-colors">
+            HoverStay
+          </span>
         </Link>
 
         {/* Navigation */}

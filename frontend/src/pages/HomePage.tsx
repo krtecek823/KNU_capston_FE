@@ -34,11 +34,7 @@ export const HomePage: React.FC = () => {
         <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-5xl mx-auto relative z-10 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-blue-100 border border-white/20 shadow-sm">
-            <Sparkles className="w-4 h-4 text-amber-300" /> 회원 전용 단독 최저가 혜택
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight pt-4">
             완벽한 휴식을 선사하는 <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-amber-300 to-amber-400">
               HoverStay 프리미엄 스테이
