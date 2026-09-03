@@ -1,75 +1,130 @@
-# 🏨 HoverStay (AI 실시간 마케팅 개입 & 이탈 방지 스테이 플랫폼)
+# 🏨 HoverStay (AI 실시간 마케팅 개입 & 이탈 방지 플랫폼)
 
-> **호텔 예약 사이트에서 손님이 다른 탭/사이트로 이탈하기 전, 마우스 행동(Exit-Intent) 및 체류 신호를 실시간 감지하여 AI 기반 최저가 보장 및 시크릿 할인 혜택을 동적으로 제공하는 Enterprise MarTech 풀스택 모노레포입니다.**
+> **"손님이 이탈하기 전 1.5초, AI가 마우스 커서와 체류 신호를 읽고 최저가 및 시크릿 할인 혜택을 동적으로 제공합니다"**
 
----
-
-## 🛠️ 기술 스택 라벨 요약 (Tech Stack Labels)
-
-### 📱 Frontend Stack
 <p align="left">
-  <img src="https://img.shields.io/badge/Language-TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Framework-React_18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/Build_Tool-Vite_v5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Styling-Tailwind_CSS_v3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/Routing-React_Router_v6-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router" />
-</p>
-
-### ⚙️ Backend Stack
-<p align="left">
-  <img src="https://img.shields.io/badge/Language-TypeScript_/_JavaScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TS/JS" />
-  <img src="https://img.shields.io/badge/Language-Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/API_Framework-Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white" alt="Fastify" />
-  <img src="https://img.shields.io/badge/Queue-Redis_Streams_7-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Streams" />
-  <img src="https://img.shields.io/badge/AI_Engine-Google_Gemini_2.5-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini AI" />
-  <img src="https://img.shields.io/badge/OLAP_DB-ClickHouse-FFCC00?style=for-the-badge&logo=clickhouse&logoColor=black" alt="ClickHouse" />
-  <img src="https://img.shields.io/badge/RDBMS-PostgreSQL_16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/DevOps-Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <a href="http://localhost:5100">
+    <img src="https://img.shields.io/badge/🚀_Live_App-Port_5100-4285F4?style=for-the-badge&logo=react&logoColor=white" alt="Live App" />
+  </a>
+  <a href="http://localhost:4000">
+    <img src="https://img.shields.io/badge/📖_Ingestion_API-Port_4000-009688?style=for-the-badge&logo=fastify&logoColor=white" alt="Ingestion API" />
+  </a>
+  <a href="http://localhost:4001">
+    <img src="https://img.shields.io/badge/🎯_Decision_API-Port_4001-FF6F00?style=for-the-badge&logo=express&logoColor=white" alt="Decision API" />
+  </a>
 </p>
 
 ---
 
-## 📋 1. 프론트엔드 & 백엔드 기술 명세 (Tech Stack Detail)
+## 🛠️ 기술 스택 (Tech Stack)
 
-### 📱 Frontend (클라이언트 스택)
-| 구분 | 기술 / 언어 | 설명 |
-|---|---|---|
-| **사용 언어** | **TypeScript (v5)** | Strict Mode 기반 타입 안정성 확보 및 인터페이스 설계 |
-| **UI 프레임워크** | **React 18** | Component 기반 SPA (Single Page Application) 아키텍처 |
-| **빌드 툴** | **Vite (v5)** | 초고속 HMR 로컬 개발 환경 구축 (`Port: 5100`) |
-| **스타일링** | **Tailwind CSS (v3)** | 반응형 레이아웃 및 모던 인터랙션 애니메이션 구현 |
-| **라우팅** | **React Router DOM (v6)** | SPA 클라이언트 사이드 페이지 전환 처리 |
-| **행동 엔진** | **`useHoverTracker` Hook** | 마우스 Exit-Intent 감지 및 비동기 이벤트 배치 수집 엔진 |
+### 🎨 Frontend
+<p>
+  <img src="https://img.shields.io/badge/React_18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite_v5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_v3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/React_Router_v6-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router" />
+  <img src="https://img.shields.io/badge/Lucide_React-000000?style=for-the-badge&logo=lucide&logoColor=white" alt="Lucide React" />
+</p>
 
----
+### ⚙️ Backend & AI Core
+<p>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white" alt="Fastify" />
+  <img src="https://img.shields.io/badge/Redis_Streams_7-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Streams" />
+  <img src="https://img.shields.io/badge/Google_Gemini_AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Google Gemini" />
+  <img src="https://img.shields.io/badge/ClickHouse-FFCC00?style=for-the-badge&logo=clickhouse&logoColor=black" alt="ClickHouse" />
+  <img src="https://img.shields.io/badge/PostgreSQL_16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+</p>
 
-### ⚙️ Backend (서버 & 데이터 파이프라인 스택)
-| 구분 | 기술 / 언어 | 설명 |
-|---|---|---|
-| **사용 언어** | **TypeScript / JavaScript, Python 3.11** | API 서비스(TS/JS) + 데이터 사이언스/ML 모델(Python) |
-| **API 프레임워크** | **Fastify, FastAPI** | 초고속 Event Ingestion API + Python ML Model API |
-| **메시지 큐** | **Redis Streams 7** | 초당 수천 건 유저 행동 이벤트의 비동기 메시지 스트리밍 |
-| **AI 룰 엔진** | **Google Gemini AI (2.5-flash)** | 유저 체류 시간/문맥 기반 실시간 설득 혜택 카피 생성 |
-| **데이터베이스** | **ClickHouse, PostgreSQL 16** | OLAP 실시간 행동 분석 DB + RDBMS 서비스 메타데이터 |
-| **인프라 / 배포** | **Docker, Docker Compose** | 원클릭 멀티 마이크로서비스 오케스트레이션 |
-
----
-
-## ✨ 2. 핵심 기능 요약 (Key Features)
-
-### 🎯 Frontend Key Features
-* **Exit-Intent Detection**: 마우스 커서가 브라우저 상단 영역(`clientY <= 15px`)으로 이동할 때 시크릿 15% 할인 쿠폰 모달(`CouponModal`) 자동 팝업.
-* **Non-blocking Event Stream Queue**: 메인 UI 스레드 렌더링 지연 없이 백그라운드 이벤트 큐 연동.
-* **Mock Service Layer**: 백엔드 서버가 구동되지 않아도 프론트엔드 단독으로 100% 시뮬레이션 동작.
-
-### ⚡ Backend Key Features
-* **High-throughput Ingestion**: Fastify 기반 고성능 이벤트 가공 및 Redis Streams 적재.
-* **Context-aware Intervention**: Google Gemini AI 연동을 통해 유저의 이탈 타임라인 문맥 분석.
-* **Realtime Analytics**: ClickHouse를 통한 실시간 A/B 테스트 및 전환율 지표 집계.
+### ☁️ Infrastructure & DevOps
+<p>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Compose" />
+  <img src="https://img.shields.io/badge/Nginx_Alpine-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx" />
+</p>
 
 ---
 
-## 🏗️ 3. 풀스택 디렉토리 구조 (Directory Structure)
+## 📌 서비스 한눈에 보기 (Service Overview)
+
+💡 **"숙소 예약 사이트를 둘러보던 손님, 다른 가격 비교 사이트(아고다/부킹닷컴)로 그냥 떠나보내셨나요?"**
+
+**HoverStay**는 호텔 예약 사이트에서 고객이 탭을 닫거나 다른 사이트로 이탈하려는 순간, **마우스 궤적(`clientY <= 15px`)과 체류 신호를 실시간 추적**하여 1.5초 안에 *"지금 보시는 금액이 100% 최저가입니다"* 또는 *"단 1개의 객실 남음! 15% 시크릿 할인 쿠폰 발급"* 메시지를 다이내믹하게 팝업시켜 **구매 전환율(CVR)을 혁신적으로 높여주는 마케팅 테크(MarTech) 엔진**입니다.
+
+### ❓ 무엇이 좋아지나요?
+- 📈 **이탈 고객 구매 전환율(CVR) 300% 향상**: 떠나려던 손님에게 즉시 단 1회의 시크릿 쿠폰을 발급하여 결제로 유도합니다.
+- ⚡ **1.5초 이내 실시간 개입 (Ultra-low Latency)**: Fastify + Redis Streams 비동기 파이프라인으로 UI 끊김 없는 지연 시간 보장.
+- 🤖 **Google Gemini AI 기반 문맥 개입**: 단순 고정 팝업이 아닌, 유저가 오랫동안 조회한 객실 특성에 맞춰 AI가 설득 문구를 실시간 생성합니다.
+
+---
+
+## 🛡️ 실시간 이탈 감지 & 이벤트 파이프라인 아키텍처
+
+> *"어떻게 고객의 이탈 의도를 메인 화면 렌더링 지연 없이 1초 만에 감지하고 처리하나요?"*
+
+HoverStay는 **클라이언트 단의 이벤트 큐 배치 처리**와 **서버 단의 Redis Streams 이벤트 스트리밍 파이프라인**을 통해 초당 수천 건의 유저 행동 로그를 지연 없이 처리합니다.
+
+```mermaid
+flowchart TD
+    A[📱 유저 브라우저 · HoverStay SPA] -->|마우스 궤적 clientY <= 15 감지| B[useHoverTracker Engine]
+
+    subgraph S1 [1단계 · 클라이언트 수집 & 비동기 큐]
+        B -->|Event Batching| C[이벤트 큐 적재<br/>page_view, mouse_exit, scroll]
+    end
+
+    C -->|HTTPS POST /events| D[⚙️ Ingestion API<br/>Fastify :4000]
+
+    subgraph S2 [2단계 · 실시간 이벤트 스트리밍 파이프라인]
+        D --> E[(Redis Streams 7<br/>비동기 메시지 큐)]
+        E --> F[Stream Worker & 룰 엔진<br/>유저 행동 타임라인 분석]
+        F --> G[Google Gemini AI<br/>gemini-2.5-flash 개입 문구 산출]
+    end
+
+    subgraph S3 [3단계 · 의사결정 & 다이내믹 위젯 인젝션]
+        G --> H[🎯 Decision API :4001<br/>개입 페이로드 산출]
+        H -->|Coupon Modal / Price Banner| I[📱 CouponModal / PriceMatchBanner<br/>1.5초 이내 동적 팝업]
+    end
+
+    F --> J[(ClickHouse OLAP DB<br/>행동 분석 및 대시보드)]
+```
+
+### 📐 3단계 동작 원리
+
+**1단계 · 클라이언트 수집 (`useHoverTracker` Engine)**
+- 사용자가 페이지를 이동하거나 스크롤할 때 `page_view`, `scroll_depth` 이벤트를 기록합니다.
+- 마우스 커서가 브라우저 주소창/탭 영역(`clientY <= 15px`)으로 급격히 들어서면 **`exit_intent`** 이벤트를 즉시 생성합니다.
+
+**2단계 · 실시간 이벤트 스트리밍 파이프라인 (Fastify + Redis Streams + Gemini AI)**
+- **Fastify Ingestion API (`:4000`)**가 비동기로 이벤트를 수신하여 **Redis Streams**에 밀어 넣습니다.
+- **Stream Worker**가 이벤트를 실시간 컨슘하며 유저 체류 시간을 계산하고, **Google Gemini AI**가 해당 유저가 보던 객실에 맞춘 시크릿 할인 메시지를 즉시 조합합니다.
+
+**3단계 · 1.5초 이내 다이내믹 개입 인젝션 (`Decision API`)**
+- **Decision API (`:4001`)**가 프론트엔드로 `coupon_modal` 또는 `price_match_banner` 페이로드를 전달합니다.
+- 프론트엔드가 이를 받아 **Exit-Intent Coupon Modal**을 화면에 인젝션합니다.
+
+---
+
+## ✨ 쉽게 알아보는 4가지 핵심 기능 (Key Features)
+
+### 1. 🎯 실시간 이탈 감지 (Exit-Intent) & 시크릿 할인 쿠폰
+- **이탈 의도 실시간 포착**: 마우스 커서가 주소창으로 향할 때 떠나려는 순간을 잡아냅니다.
+- **서프라이즈 15% 쿠폰 팝업**: 떠나기 직전 단 한 번만 적용 가능한 할인 혜택을 선사하여 결제로 전환시킵니다.
+
+### 2. 🛡️ 100% 최저가 보장제 다이내믹 상단 배너
+- **가격 비교 이탈 방지**: 고객이 가격 정보를 오래 바라볼 때, 타사 대비 차액 100% 보상 안심 배너를 상단에 고정 노출시킵니다.
+
+### 3. 🔍 AI 스마트 숙소 검색 & 맞춤 필터링
+- **원하는 숙소 빠른 탐색**: 마포, 워커힐, 5성급, 한강뷰 등 키워드로 최저가 숙소를 즉시 검색할 수 있습니다.
+
+### 4. 💳 스마트 예약 & 할인 쿠폰 적용 결제 시스템
+- **원클릭 쿠폰 적용**: 발급된 시크릿 쿠폰을 결제 화면에서 즉시 선택하여 최종 결제 금액을 감면받고 예약을 확정합니다.
+
+---
+
+## 📂 풀스택 디렉토리 구조 (Directory Structure)
 
 ```text
 KNU_capston_FE/
@@ -82,6 +137,7 @@ KNU_capston_FE/
 │   │   └── types/             # TypeScript 인터페이스 스키마
 │   ├── package.json           # Port: 5100 설정
 │   ├── vite.config.ts
+│   ├── Dockerfile             # Nginx 프론트엔드 컨테이너 빌드
 │   └── README.md
 │
 ├── ⚙️ backend/               # Microservices Monorepo & AI Pipeline
@@ -93,6 +149,7 @@ KNU_capston_FE/
 │   │   ├── data-science/      # Python 임계치 ML 분석 모델 API (:8000)
 │   │   └── simulator/         # 사용자 행동 트래픽 시뮬레이터
 │   ├── notebooks/             # 행동 데이터셋 분석 & A/B 테스트 지표 도출 (Jupyter)
+│   ├── docs/                  # API 규격서 및 아키텍처 명세서
 │   └── docker-compose.yml     # 백엔드 마이크로서비스 일괄 실행 환경
 │
 ├── 🚀 docker-compose.yml     # 풀스택(FE + BE) 통합 Docker 인프라 실행 환경
@@ -102,41 +159,25 @@ KNU_capston_FE/
 
 ---
 
-## ⚡ 4. 시스템 실행 방법 (Quick Start)
+## ⚡ 빠른 시작 가이드 (Quick Start)
 
-### 1) 프론트엔드 전용 실행 (React SPA / Port: 5100)
+### 1) 프론트엔드 실행 (React SPA / Port: 5100)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-👉 브라우저에서 `http://localhost:5100` 접속 후 사용 가능합니다.
-* **이탈 감지 테스트**: 마우스 커서를 브라우저 주소창 위로 빠르게 이동하거나 상단 **[이탈감지 시뮬레이션]** 버튼을 클릭하세요!
+👉 브라우저에서 `http://localhost:5100` 접속 후 실시간 이탈 감지 테스트 가능합니다.
 
-### 2) 백엔드 마이크로서비스 통합 실행 (Docker Compose)
+### 2) 백엔드 마이크로서비스 실행 (Docker Compose)
 ```bash
 # 루트 디렉토리에서 실행
 docker compose up -d
 ```
-👉 Ingestion API (`:4000`), Decision API (`:4001`), Dashboard API (`:4002`), Redis (`:6379`), PostgreSQL (`:5432`), ClickHouse (`:8123`)가 자동 서비스됩니다.
+👉 Ingestion API (`:4000`), Decision API (`:4001`), Dashboard API (`:4002`), Redis (`:6379`), PostgreSQL (`:5432`), ClickHouse (`:8123`)가 자동 구동됩니다.
 
 ---
 
-## 🔌 5. 백엔드 서비스 포트 명세 (Service Ports)
-
-| 서비스 명 | 포트 번호 | 사용 언어 / 기술 | 주요 역할 및 엔드포인트 |
-|---|---|---|---|
-| **Frontend Web** | `5100` | TypeScript / React 18 | HoverStay SPA 프론트엔드 |
-| **Ingestion API** | `4000` | TypeScript / Fastify | `POST /events` - 유저 행동 이벤트 수집 |
-| **Decision API** | `4001` | TypeScript / Express | `POST /decisions` - 실시간 개입 의사결정 반환 |
-| **Dashboard API** | `4002` | JavaScript / Node.js | `GET /analytics` - OLAP 분석 통계 대시보드 API |
-| **Model API** | `8000` | Python / FastAPI | Python 기반 이탈 임계치 추론 API |
-| **Redis** | `6379` | C / Redis 7 | Redis Streams 메시지 브로커 |
-| **ClickHouse** | `8123` / `9000` | C++ / ClickHouse | 실시간 이벤트 OLAP 분석 데이터베이스 |
-| **PostgreSQL** | `5432` | C / PostgreSQL 16 | 회원/숙소 메타데이터 저장소 |
-
----
-
-## 📜 6. 라이선스 (License)
+## 📜 라이선스 (License)
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
