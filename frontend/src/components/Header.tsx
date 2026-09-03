@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Building2, Search, User, LogOut } from 'lucide-react';
+import { Building2, Search, User, LogOut, Ticket } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const location = useLocation();
@@ -71,6 +71,7 @@ export const Header: React.FC = () => {
               <Building2 className="w-4 h-4 text-blue-600" /> 홈
             </span>
           </Link>
+
           <Link
             to="/search"
             className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-extrabold transition-colors ${
@@ -83,9 +84,22 @@ export const Header: React.FC = () => {
               <Search className="w-4 h-4 text-blue-600" /> 숙소 검색
             </span>
           </Link>
+
+          <Link
+            to="/my-bookings"
+            className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-extrabold transition-colors ${
+              isActive('/my-bookings')
+                ? 'bg-white text-blue-600 shadow-xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <span className="flex items-center gap-1.5">
+              <Ticket className="w-4 h-4 text-amber-500" /> 내 예약
+            </span>
+          </Link>
         </nav>
 
-        {/* Right User Navigation - Coupon link completely removed */}
+        {/* Right User Navigation */}
         <div className="flex items-center gap-3">
           {user ? (
             <div className="flex items-center gap-2">

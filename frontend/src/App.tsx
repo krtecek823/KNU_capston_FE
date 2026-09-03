@@ -10,6 +10,7 @@ import { HomePage } from './pages/HomePage';
 import { SearchPage } from './pages/SearchPage';
 import { HotelDetailPage } from './pages/HotelDetailPage';
 import { BookingPage } from './pages/BookingPage';
+import { MyBookingsPage } from './pages/MyBookingsPage';
 import { CouponsPage } from './pages/CouponsPage';
 import { LoginPage } from './pages/LoginPage';
 
@@ -32,6 +33,7 @@ const AppContent: React.FC = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/hotels/:id" element={<HotelDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
+          <Route path="/my-bookings" element={<MyBookingsPage />} />
           <Route path="/coupons" element={<CouponsPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Routes>

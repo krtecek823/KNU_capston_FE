@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Star, MapPin, Check, ShieldCheck, Users, ArrowRight, BedDouble, Utensils, X, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
 export const HotelDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<number>(0);
 
@@ -43,7 +45,7 @@ export const HotelDetailPage: React.FC = () => {
     { url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80', title: '05. 프라이빗 스파 & 파노라마 라운지 (Private Spa)' },
   ];
 
-  // Agoda-Style Room Options (Each assigned 1 distinct photo)
+  // Agoda-Style Room Options
   const rooms = [
     {
       id: 0,
@@ -79,6 +81,10 @@ export const HotelDetailPage: React.FC = () => {
       img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
     },
   ];
+
+  const handleStartBooking = () => {
+    navigate(`/booking?hotelId=${hotel.id}&roomId=${selectedRoom}`);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 bg-[#fafafa]">
@@ -278,7 +284,7 @@ export const HotelDetailPage: React.FC = () => {
           </span>
         </div>
 
-        {/* Room Selection Cards (Each Card Has Its Own 1 Dedicated Image) */}
+        {/* Room Selection Cards */}
         <div className="space-y-4">
           {rooms.map((room) => {
             const isSelected = selectedRoom === room.id;
@@ -344,13 +350,18 @@ export const HotelDetailPage: React.FC = () => {
                   </div>
 
                   <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedRoom(room.id);
+                      handleStartBooking();
+                    }}
                     className={`mt-2 text-xs font-extrabold px-5 py-2.5 rounded-xl transition-colors cursor-pointer ${
                       isSelected
                         ? 'bg-blue-600 text-white shadow-sm'
                         : 'bg-slate-900 hover:bg-blue-600 text-white'
                     }`}
                   >
-                    {isSelected ? '선택 완료' : '객실 선택하기'}
+                    {isSelected ? '바로 예약하기' : '객실 선택 후 예약'}
                   </button>
                 </div>
               </div>
@@ -414,10 +425,10 @@ export const HotelDetailPage: React.FC = () => {
             </div>
 
             <button
-              onClick={() => alert(`${hotel.name} - ${rooms[selectedRoom].name} 예약 단계로 이동합니다.`)}
+              onClick={handleStartBooking}
               className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black text-sm py-4 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>지금 바로 예약하기</span>
+              <span>{rooms[selectedRoom].name} 지금 바로 예약하기</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
