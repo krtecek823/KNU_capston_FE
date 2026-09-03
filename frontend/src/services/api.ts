@@ -9,9 +9,9 @@ const DECISION_API_URL = import.meta.env.VITE_DECISION_API || 'http://localhost:
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const api = {
-  // 1. Hotel List (supports keyword filter)
+  // 1. Hotel List (supports keyword filter & tag filtering)
   async getHotels(query?: string): Promise<Hotel[]> {
-    await delay(200);
+    await delay(150);
     if (!query) return MOCK_HOTELS;
     const lower = query.toLowerCase();
     return MOCK_HOTELS.filter(
@@ -24,13 +24,13 @@ export const api = {
 
   // 2. Hotel Detail
   async getHotelById(id: string): Promise<Hotel | undefined> {
-    await delay(150);
+    await delay(100);
     return MOCK_HOTELS.find((h) => h.id === id);
   },
 
   // 3. Coupon Wallet
   async getCoupons(): Promise<Coupon[]> {
-    await delay(150);
+    await delay(100);
     return MOCK_COUPONS;
   },
 
@@ -59,11 +59,10 @@ export const api = {
       });
 
       if (response.ok) {
-        console.log('[Real Ingestion API :4000] Ingested events successfully:', events);
+        console.log('[Real Ingestion API :4000] Ingested events:', events);
         return true;
       }
     } catch (err) {
-      // Backend server offline or CORS - fallback seamlessly
       console.warn('[Ingestion API Offline Mode] Logging events locally:', events);
     }
     return true;
@@ -89,26 +88,40 @@ export const api = {
       console.warn('[Decision API Offline Mode] Utilizing client-side rule fallback for:', triggerReason);
     }
 
-    // Client-side Rule Engine Fallback (when backend container is starting or offline)
-    await delay(150);
+    // Client-side Rule Engine Fallback
+    await delay(100);
+
+    // 1. Mouse Exit Intent Trigger
     if (triggerReason === 'exit_intent') {
       return {
         ab_group: 'variant_a',
         component: 'coupon_modal',
         context: {
           discount_percent: 15,
-          hotel_name: '선택하신 인기 객실',
-          message: '지금 예약하시면 15% 서프라이즈 할인이 적용됩니다!',
+          hotel_name: '선택하신 인기 프리미엄 객실',
+          message: '다른 사이트로 이동하기 전! 15% 시크릿 할인 쿠폰이 발급되었습니다.',
         },
       };
     }
 
-    if (triggerReason === 'price_view_duration') {
+    // 2. Text Copy / Price Search Intent Trigger
+    if (triggerReason === 'copy_intent' || triggerReason === 'clipboard_copy') {
       return {
         ab_group: 'variant_b',
         component: 'price_match_banner',
         context: {
-          message: '⚡ 최저가 보장제: 다른 곳에서 더 저렴한 가격을 발견하면 차액의 100%를 보상해 드립니다.',
+          message: '🔍 타 사이트 가격 비교 중이신가요? HoverStay는 100% 최저가를 보장하며, 결제 시 10,000원 추가 할인이 자동 적용됩니다!',
+        },
+      };
+    }
+
+    // 3. Tab Return / Long View Duration Trigger
+    if (triggerReason === 'price_view_duration' || triggerReason === 'tab_return') {
+      return {
+        ab_group: 'variant_b',
+        component: 'price_match_banner',
+        context: {
+          message: '⚡ [최저가 보장 안내] 타사에서 더 저렴한 가격 발견 시 차액 100% 보상 + 시크릿 쿠폰이 적용됩니다.',
         },
       };
     }

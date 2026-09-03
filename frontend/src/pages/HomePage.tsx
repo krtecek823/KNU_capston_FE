@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, Users, Sparkles, TrendingUp, ShieldCheck, Tag } from 'lucide-react';
+import { Search, MapPin, Calendar, Users, ShieldCheck, Sparkles, Award, Star, ArrowRight } from 'lucide-react';
 import { HotelCard } from '../components/HotelCard';
 import { api } from '../services/api';
 import { Hotel } from '../types';
@@ -26,151 +26,154 @@ export const HomePage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-16 pb-20">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-primary to-blue-950 text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8 overflow-hidden rounded-b-[2.5rem] shadow-2xl">
-        {/* Glow ambient effects */}
-        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="space-y-16 pb-20 bg-[#f8fafc]">
+      {/* Bright Luxury Hero Section */}
+      <section className="relative bg-gradient-to-b from-blue-50/80 via-white to-[#f8fafc] pt-12 pb-20 px-4 sm:px-6 lg:px-8 border-b border-gray-100/80">
+        <div className="max-w-6xl mx-auto text-center space-y-6">
+          <div className="inline-flex items-center gap-2 bg-blue-100/60 text-primary px-4 py-1.5 rounded-full text-xs font-bold border border-blue-200/60 shadow-xs">
+            <Award className="w-4 h-4 text-primary" /> 대한민국 No.1 최저가 보장 프리미엄 스테이
+          </div>
 
-        <div className="max-w-5xl mx-auto relative z-10 text-center space-y-6">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight pt-4">
-            완벽한 휴식을 선사하는 <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-amber-300 to-amber-400">
-              HoverStay 프리미엄 스테이
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+            어디로 떠나시나요? <br />
+            <span className="text-primary bg-clip-text">
+              최저가로 만나는 프리미엄 호텔 & 리조트
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-blue-100/90 max-w-2xl mx-auto font-medium leading-relaxed">
-            최적의 가격과 서프라이즈 혜택을 실시간으로 제안합니다. 지금 바로 나만을 위한 추천 객실을 확인해 보세요.
+          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
+            전 세계 100만 개 객실 실시간 최저가 검색. 타사 대비 더 저렴한 시크릿 회원 혜택을 제공합니다.
           </p>
 
-          {/* Search Card Box */}
-          <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl text-gray-900 max-w-4xl mx-auto border border-white/60 mt-8 transition-all hover:shadow-primary/10">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-left">
-              <div className="md:col-span-2 bg-slate-50 p-3.5 rounded-xl border border-gray-200/80 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                  지역 또는 숙소명
+          {/* Agoda / Booking style Floating Search Box */}
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-xl shadow-slate-200/50 text-slate-900 max-w-4xl mx-auto border border-slate-200/80 mt-8 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <div className="md:col-span-2 bg-slate-50 p-3.5 rounded-xl border border-slate-200 focus-within:border-primary focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  여행지 또는 숙소명
                 </label>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-primary shrink-0" />
                   <input
                     type="text"
                     placeholder="어디로 떠나시나요? (예: 광진구, 마포구, 워커힐)"
-                    className="w-full bg-transparent text-sm font-bold text-gray-900 focus:outline-none placeholder-gray-400"
+                    className="w-full bg-transparent text-sm font-bold text-slate-900 focus:outline-none placeholder-slate-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-xl border border-gray-200/80">
-                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                  일정
+              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  체크인 ~ 체크아웃
                 </label>
-                <div className="flex items-center gap-2 text-sm font-bold text-gray-800">
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
                   <Calendar className="w-4 h-4 text-primary shrink-0" />
                   <span>오늘 ~ 내일 (1박)</span>
                 </div>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-xl border border-gray-200/80">
-                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                  인원
+              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  인원 및 객실
                 </label>
-                <div className="flex items-center gap-2 text-sm font-bold text-gray-800">
+                <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
                   <Users className="w-4 h-4 text-primary shrink-0" />
-                  <span>성인 2명</span>
+                  <span>성인 2명 · 객실 1개</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between">
-              <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-500">
-                <Tag className="w-3.5 h-3.5 text-primary" /> 인기 검색: 광진구 워커힐, 마포 한강뷰, 구로 신도림
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100">
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>추천 지역: 광진구 워커힐, 마포 한강뷰, 구로 신도림</span>
               </div>
+
               <Link
                 to={`/search?q=${encodeURIComponent(searchQuery)}`}
-                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto bg-primary hover:bg-blue-700 text-white font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Search className="w-4 h-4" />
-                <span>최저가 숙소 검색하기</span>
+                <span>최저가 검색</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Value Props */}
+      {/* Trust & Differentiation Value Props */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center shrink-0 font-bold text-xl group-hover:bg-primary group-hover:text-white transition-all">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="font-extrabold text-base text-gray-900 mb-1">실시간 이탈 감지 혜택</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">
-                고객의 이탈 의도를 실시간 감지하여 단 한 번의 시크릿 할인 쿠폰을 자동 제공합니다.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-bold text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center shrink-0 font-bold text-xl">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-gray-900 mb-1">100% 최저가 보장제</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">
-                동일 조건 객실이 타사에서 더 저렴할 경우 차액의 100%를 보상해 드립니다.
+              <h3 className="font-extrabold text-base text-slate-900 mb-1">100% 최저가 보장제</h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                동일 조건 객실이 아고다/부킹닷컴 등 타사에서 더 저렴할 경우 차액의 100%를 즉시 보상합니다.
               </p>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-bold text-xl group-hover:bg-amber-600 group-hover:text-white transition-all">
-              <TrendingUp className="w-6 h-6" />
+          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-bold text-xl">
+              <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-gray-900 mb-1">프리미엄 맞춤 큐레이션</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">
-                평점과 만족도가 높은 검증된 럭셔리 스테이만을 엄선하여 실시간 제안해 드립니다.
+              <h3 className="font-extrabold text-base text-slate-900 mb-1">실시간 시크릿 혜택</h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                고객의 체류 및 이탈 의도를 감지하여 오직 지금만 적용되는 단독 할인 쿠폰을 선사합니다.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-bold text-xl">
+              <Star className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-base text-slate-900 mb-1">검증된 럭셔리 스테이</h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                투숙객 평점 9.0 이상의 엄선된 프리미엄 호텔과 리조트만을 큐레이션합니다.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Hotels Grid */}
+      {/* Featured Hotel Grid Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/60 pb-4">
           <div>
             <span className="text-xs font-bold text-primary uppercase tracking-wider block mb-1">
-              PROMOTION HOTELS
+              BEST RECOMMENDED
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-              이번 주 인기 특가 스테이 🔥
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              이번 주 특가 추천 스테이 🔥
             </h2>
           </div>
           <Link
             to="/search"
-            className="text-sm font-bold text-primary hover:text-primary-container flex items-center gap-1 self-start sm:self-auto"
+            className="text-sm font-bold text-primary hover:text-blue-700 flex items-center gap-1 self-start sm:self-auto group"
           >
-            전체보기 →
+            <span>전체보기</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Category Pills */}
+        {/* Agoda style Category Filters */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 selectedCategory === cat
-                  ? 'bg-gray-900 text-white shadow-md'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100/80'
               }`}
             >
               {cat}
@@ -178,6 +181,7 @@ export const HomePage: React.FC = () => {
           ))}
         </div>
 
+        {/* Hotel Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredHotels.map((hotel) => (
             <HotelCard key={hotel.id} hotel={hotel} />
