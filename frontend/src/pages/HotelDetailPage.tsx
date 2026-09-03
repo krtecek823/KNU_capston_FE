@@ -19,7 +19,7 @@ export const HotelDetailPage: React.FC = () => {
   if (!hotel) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-3"></div>
+        <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto mb-3"></div>
         <p className="text-sm font-bold text-slate-500">객실 및 최저가 혜택 정보를 확인하는 중...</p>
       </div>
     );
@@ -30,7 +30,7 @@ export const HotelDetailPage: React.FC = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 bg-[#f8fafc]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 bg-[#fafafa]">
       {/* Hotel Title Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
         <div>
@@ -41,7 +41,7 @@ export const HotelDetailPage: React.FC = () => {
             <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
               <span>{hotel.rating}</span>
-              <span className="text-slate-400 font-normal">({hotel.reviewCount} 리뷰)</span>
+              <span className="text-slate-400 font-normal">({hotel.reviewCount}개 리뷰)</span>
             </div>
           </div>
 
@@ -60,7 +60,7 @@ export const HotelDetailPage: React.FC = () => {
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-xs bg-rose-100 text-rose-600 font-extrabold px-2 py-0.5 rounded">
-              {discountRate}% OFF
+              {discountRate}% 할인
             </span>
             <span className="text-3xl font-black text-slate-900">
               ₩{hotel.discountPrice.toLocaleString()}
@@ -77,7 +77,7 @@ export const HotelDetailPage: React.FC = () => {
         <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end text-white">
           <div>
             <span className="text-xs bg-white/20 backdrop-blur-md px-3 py-1 rounded-full font-bold">
-              HoverStay Verified
+              HoverStay 안심검증 객실
             </span>
             <h2 className="text-xl font-bold mt-2">{hotel.name} 프리미엄 디럭스 룸</h2>
           </div>
@@ -102,7 +102,7 @@ export const HotelDetailPage: React.FC = () => {
                 {hotel.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="bg-blue-50 text-primary text-xs font-semibold px-3 py-1 rounded-lg border border-blue-100"
+                    className="bg-indigo-50 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-lg border border-indigo-100"
                   >
                     #{tag}
                   </span>
@@ -150,18 +150,18 @@ export const HotelDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200/60">
-              <div className="flex items-center gap-1.5 text-xs font-extrabold text-amber-800 mb-1">
-                <Sparkles className="w-4 h-4 text-amber-600" /> 단독 시크릿 쿠폰 발급 대상
+            <div className="bg-orange-50 p-4 rounded-2xl border border-orange-200/60">
+              <div className="flex items-center gap-1.5 text-xs font-extrabold text-orange-800 mb-1">
+                <Sparkles className="w-4 h-4 text-orange-600" /> 단독 시크릿 쿠폰 발급 대상
               </div>
-              <p className="text-[11px] text-amber-700 font-medium leading-normal">
+              <p className="text-[11px] text-orange-700 font-medium leading-normal">
                 다른 사이트 복사 및 이탈 감지 시 단 1회 무료 15% 시크릿 할인 쿠폰이 자동 증정됩니다.
               </p>
             </div>
 
             <Link
               to={`/booking?hotelId=${hotel.id}`}
-              className="w-full py-4 bg-primary hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md shadow-primary/20 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all"
             >
               <span>이 금액으로 예약하기</span>
               <ArrowRight className="w-4 h-4" />

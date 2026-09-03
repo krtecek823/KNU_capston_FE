@@ -22,11 +22,11 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-          <ShieldCheck className="w-3 h-3 text-emerald-400" />
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
           {hotel.category}
         </div>
         <div className="absolute top-3 right-3 bg-rose-600 text-white font-extrabold text-xs px-2.5 py-1 rounded-lg shadow-md">
-          {discountRate}% OFF
+          {discountRate}% 할인
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
             <span className="text-slate-400 font-normal">({hotel.reviewCount.toLocaleString()}개 평가)</span>
           </div>
 
-          <h3 className="font-extrabold text-base text-slate-900 line-clamp-1 mb-1 group-hover:text-primary transition-colors">
+          <h3 className="font-extrabold text-base text-slate-900 line-clamp-1 mb-1 group-hover:text-indigo-600 transition-colors">
             {hotel.name}
           </h3>
 
@@ -77,7 +77,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel }) => {
 
           <Link
             to={`/hotels/${hotel.id}`}
-            className="bg-primary hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-xs transition-colors"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-xs transition-colors"
           >
             객실 보기
           </Link>
