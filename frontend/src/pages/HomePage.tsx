@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X } from 'lucide-react';
+import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
@@ -9,33 +9,17 @@ export const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedCategory] = useState('전체');
 
-  // Dynamic Date States
-  const todayStr = new Date().toISOString().split('T')[0];
-  const tomorrowStr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  // Dynamic Date States for Visual Calendar
+  const today = new Date();
+  const tomorrow = new Date(Date.now() + 86400000);
 
-  const [checkInDate, setCheckInDate] = useState(todayStr);
-  const [checkOutDate, setCheckOutDate] = useState(tomorrowStr);
-  const [showDatePickerModal, setShowDatePickerModal] = useState(false);
+  const [checkIn, setCheckIn] = useState<Date>(today);
+  const [checkOut, setCheckOut] = useState<Date>(tomorrow);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
 
-  // Calculate Night & Format String
-  const getFormattedDates = () => {
-    const days = ['일', '월', '화', '수', '목', '금', '토'];
-    const d1 = new Date(checkInDate);
-    const d2 = new Date(checkOutDate);
-
-    const diffTime = Math.max(86400000, d2.getTime() - d1.getTime());
-    const nights = Math.round(diffTime / 86400000);
-
-    const format = (d: Date) => {
-      if (isNaN(d.getTime())) return '';
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const date = String(d.getDate()).padStart(2, '0');
-      const dayName = days[d.getDay()];
-      return `${m}.${date}(${dayName})`;
-    };
-
-    return `${format(d1)} ~ ${format(d2)} (${nights}박)`;
-  };
+  // Month navigation in calendar
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth()); // 0-indexed (8 = Sep)
 
   const curations = [
     { id: '전체', label: '전체 스테이' },
@@ -60,12 +44,130 @@ export const HomePage: React.FC = () => {
 
   const recommendedStays = hotels.slice(1, 4);
 
+  // Calculate Night & Format String
+  const getFormattedDates = () => {
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const diffTime = Math.max(86400000, checkOut.getTime() - checkIn.getTime());
+    const nights = Math.round(diffTime / 86400000);
+
+    const format = (d: Date) => {
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const date = String(d.getDate()).padStart(2, '0');
+      const dayName = days[d.getDay()];
+      return `${m}.${date}(${dayName})`;
+    };
+
+    return `${format(checkIn)} ~ ${format(checkOut)} (${nights}박)`;
+  };
+
+  // Calendar Helper Functions
+  const getDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const getFirstDayOfWeek = (year: number, month: number) => {
+    return new Date(year, month, 1).getDay();
+  };
+
+  const handleDateClick = (dayDate: Date) => {
+    // If no checkIn or both checkIn & checkOut are set, reset checkIn
+    if (!checkIn || (checkIn && checkOut)) {
+      setCheckIn(dayDate);
+      const nextDay = new Date(dayDate.getTime() + 86400000);
+      setCheckOut(nextDay);
+    } else if (checkIn && !checkOut) {
+      if (dayDate.getTime() > checkIn.getTime()) {
+        setCheckOut(dayDate);
+      } else {
+        setCheckIn(dayDate);
+        setCheckOut(new Date(dayDate.getTime() + 86400000));
+      }
+    }
+  };
+
+  const isSameDay = (d1: Date, d2: Date) => {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  };
+
+  const isInRange = (d: Date) => {
+    if (!checkIn || !checkOut) return false;
+    return d.getTime() > checkIn.getTime() && d.getTime() < checkOut.getTime();
+  };
+
+  const renderMonthGrid = (year: number, month: number) => {
+    const totalDays = getDaysInMonth(year, month);
+    const firstDay = getFirstDayOfWeek(year, month);
+    const weekHeaders = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const daysArray = [];
+    // Padding blanks
+    for (let i = 0; i < firstDay; i++) {
+      daysArray.push(null);
+    }
+    // Actual days
+    for (let d = 1; d <= totalDays; d++) {
+      daysArray.push(new Date(year, month, d));
+    }
+
+    return (
+      <div className="space-y-3">
+        <div className="text-center font-extrabold text-sm text-slate-900">
+          {year}년 {month + 1}월
+        </div>
+
+        {/* Day of Week Headers */}
+        <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-bold text-slate-400">
+          {weekHeaders.map((w, idx) => (
+            <div key={idx} className={idx === 0 ? 'text-rose-500' : ''}>
+              {w}
+            </div>
+          ))}
+        </div>
+
+        {/* Days Grid */}
+        <div className="grid grid-cols-7 gap-1">
+          {daysArray.map((d, idx) => {
+            if (!d) return <div key={idx} className="h-9"></div>;
+
+            const isStart = isSameDay(d, checkIn);
+            const isEnd = isSameDay(d, checkOut);
+            const inBetween = isInRange(d);
+            const isPast = d.getTime() < new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+
+            let btnStyle = 'hover:bg-slate-100 text-slate-800 font-bold';
+            if (isPast) {
+              btnStyle = 'text-slate-300 pointer-events-none';
+            } else if (isStart || isEnd) {
+              btnStyle = 'bg-blue-600 text-white font-black shadow-xs rounded-xl';
+            } else if (inBetween) {
+              btnStyle = 'bg-blue-50 text-blue-900 font-bold rounded-lg';
+            }
+
+            return (
+              <button
+                key={idx}
+                disabled={isPast}
+                onClick={() => handleDateClick(d)}
+                className={`h-9 w-full flex items-center justify-center text-xs transition-all ${btnStyle}`}
+              >
+                {d.getDate()}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
       {/* 1. Domestic Luxury Hotel Hero with Interactive Floating Search Dock */}
       <section className="relative h-[540px] sm:h-[600px] w-full bg-slate-950 flex flex-col justify-center p-6 sm:p-12 text-white">
-        {/* Iconic Seoul Skyline Luxury Hotel Background */}
         <img
           src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80"
           alt="Hero Stay Background"
@@ -111,7 +213,7 @@ export const HomePage: React.FC = () => {
               {/* Interactive Real Date Range Button */}
               <button
                 type="button"
-                onClick={() => setShowDatePickerModal(true)}
+                onClick={() => setShowCalendarModal(true)}
                 className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-slate-100 sm:bg-transparent hover:bg-slate-200/60 rounded-xl sm:rounded-full border-t sm:border-t-0 sm:border-l border-slate-200 text-xs font-extrabold text-slate-800 whitespace-nowrap transition-colors"
               >
                 <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
@@ -130,60 +232,97 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Global Centered Date Picker Modal Overlay (Never clipped) */}
-      {showDatePickerModal && (
+      {/* Real Visual Monthly Calendar Modal Overlay */}
+      {showCalendarModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white text-slate-900 w-full max-w-md p-6 rounded-3xl shadow-2xl border border-slate-100 space-y-5 animate-in fade-in zoom-in-95">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-blue-600" /> 체크인 & 체크아웃 날짜 설정
-              </h4>
+          <div className="bg-white text-slate-900 w-full max-w-2xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 space-y-6 animate-in fade-in zoom-in-95">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h4 className="text-base font-black text-slate-900 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-blue-600" /> 여행 날짜 선택
+                </h4>
+                <p className="text-xs text-slate-400 font-medium mt-0.5">
+                  체크인 날짜와 체크아웃 날짜를 달력에서 직접 클릭해주세요.
+                </p>
+              </div>
+
               <button
-                onClick={() => setShowDatePickerModal(false)}
-                className="text-slate-400 hover:text-slate-700 p-1 rounded-full transition-colors"
+                onClick={() => setShowCalendarModal(false)}
+                className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Calendar Controls & Dual Month View */}
             <div className="space-y-4">
-              <div>
-                <label className="text-xs font-extrabold text-slate-600 block mb-1">
-                  체크인 날짜
-                </label>
-                <input
-                  type="date"
-                  min={todayStr}
-                  value={checkInDate}
-                  onChange={(e) => setCheckInDate(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
-                />
+              <div className="flex items-center justify-between px-2">
+                <button
+                  onClick={() => {
+                    if (viewMonth === 0) {
+                      setViewMonth(11);
+                      setViewYear(viewYear - 1);
+                    } else {
+                      setViewMonth(viewMonth - 1);
+                    }
+                  }}
+                  className="p-2 rounded-full hover:bg-slate-100 text-slate-600"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <span className="text-xs font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                  {getFormattedDates()}
+                </span>
+
+                <button
+                  onClick={() => {
+                    if (viewMonth === 11) {
+                      setViewMonth(0);
+                      setViewYear(viewYear + 1);
+                    } else {
+                      setViewMonth(viewMonth + 1);
+                    }
+                  }}
+                  className="p-2 rounded-full hover:bg-slate-100 text-slate-600"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
               </div>
-              <div>
-                <label className="text-xs font-extrabold text-slate-600 block mb-1">
-                  체크아웃 날짜
-                </label>
-                <input
-                  type="date"
-                  min={checkInDate}
-                  value={checkOutDate}
-                  onChange={(e) => setCheckOutDate(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
-                />
+
+              {/* Dual Month Calendar Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-2">
+                {renderMonthGrid(viewYear, viewMonth)}
+                {renderMonthGrid(
+                  viewMonth === 11 ? viewYear + 1 : viewYear,
+                  viewMonth === 11 ? 0 : viewMonth + 1
+                )}
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-              <span className="text-xs font-black text-blue-600">
-                선택 일정: {getFormattedDates()}
-              </span>
+            {/* Modal Footer */}
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-4 text-xs font-bold">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-md bg-blue-600 inline-block"></span>
+                  <span>체크인/체크아웃</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-md bg-blue-100 inline-block"></span>
+                  <span>숙박 기간</span>
+                </div>
+              </div>
+
               <button
-                onClick={() => setShowDatePickerModal(false)}
-                className="bg-slate-900 text-white font-extrabold text-xs px-6 py-2.5 rounded-xl hover:bg-blue-600 transition-colors shadow-sm"
+                onClick={() => setShowCalendarModal(false)}
+                className="bg-slate-900 text-white font-extrabold text-xs px-7 py-3 rounded-xl hover:bg-blue-600 transition-colors shadow-md"
               >
-                설정 완료
+                날짜 선택 완료
               </button>
             </div>
+
           </div>
         </div>
       )}
