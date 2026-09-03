@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight } from 'lucide-react';
+import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
@@ -9,23 +9,33 @@ export const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedCategory] = useState('전체');
 
-  // Dynamic Real Date Formatter (e.g. 09.03(목) ~ 09.04(금) (1박))
+  // Dynamic Date States
+  const todayStr = new Date().toISOString().split('T')[0];
+  const tomorrowStr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+
+  const [checkInDate, setCheckInDate] = useState(todayStr);
+  const [checkOutDate, setCheckOutDate] = useState(tomorrowStr);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Calculate Night & Format String
   const getFormattedDates = () => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
-    const today = new Date();
-    const tomorrow = new Date(Date.now() + 86400000);
+    const d1 = new Date(checkInDate);
+    const d2 = new Date(checkOutDate);
+
+    const diffTime = Math.max(86400000, d2.getTime() - d1.getTime());
+    const nights = Math.round(diffTime / 86400000);
 
     const format = (d: Date) => {
+      if (isNaN(d.getTime())) return '';
       const m = String(d.getMonth() + 1).padStart(2, '0');
       const date = String(d.getDate()).padStart(2, '0');
       const dayName = days[d.getDay()];
       return `${m}.${date}(${dayName})`;
     };
 
-    return `${format(today)} ~ ${format(tomorrow)} (1박)`;
+    return `${format(d1)} ~ ${format(d2)} (${nights}박)`;
   };
-
-  const dateString = getFormattedDates();
 
   const curations = [
     { id: '전체', label: '전체 스테이' },
@@ -54,7 +64,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
-      {/* 1. Domestic Luxury Hotel Curation Hero with Floating Glass Search Dock */}
+      {/* 1. Domestic Luxury Hotel Hero with Interactive Floating Search Dock */}
       <section className="relative h-[540px] sm:h-[600px] w-full overflow-hidden bg-slate-950 flex flex-col justify-center p-6 sm:p-12 text-white">
         {/* Background Hotel Image */}
         {featuredStay && (
@@ -101,11 +111,15 @@ export const HomePage: React.FC = () => {
                 />
               </div>
 
-              {/* Dynamic Real Date Range Display */}
-              <div className="hidden md:flex items-center gap-2 px-4 py-2 border-l border-slate-200 text-xs font-extrabold text-slate-800 whitespace-nowrap">
-                <Calendar className="w-3.5 h-3.5 text-blue-600" />
-                <span>{dateString}</span>
-              </div>
+              {/* Interactive Real Date Range Button */}
+              <button
+                type="button"
+                onClick={() => setShowDatePicker(!showDatePicker)}
+                className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-slate-100 sm:bg-transparent hover:bg-slate-200/60 rounded-xl sm:rounded-full border-t sm:border-t-0 sm:border-l border-slate-200 text-xs font-extrabold text-slate-800 whitespace-nowrap transition-colors"
+              >
+                <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+                <span>{getFormattedDates()}</span>
+              </button>
 
               <button
                 type="submit"
@@ -116,10 +130,66 @@ export const HomePage: React.FC = () => {
               </button>
             </form>
           </div>
+
+          {/* Interactive Date Picker Modal Popover */}
+          {showDatePicker && (
+            <div className="absolute left-0 right-0 mt-3 p-5 bg-white text-slate-900 rounded-3xl shadow-2xl border border-slate-200 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                <h4 className="text-xs font-extrabold text-slate-900 flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-blue-600" /> 체크인 & 체크아웃 날짜 선택
+                </h4>
+                <button
+                  onClick={() => setShowDatePicker(false)}
+                  className="text-slate-400 hover:text-slate-700 p-1 rounded-full"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-extrabold text-slate-500 block mb-1">
+                    체크인 날짜
+                  </label>
+                  <input
+                    type="date"
+                    min={todayStr}
+                    value={checkInDate}
+                    onChange={(e) => setCheckInDate(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-extrabold text-slate-500 block mb-1">
+                    체크아웃 날짜
+                  </label>
+                  <input
+                    type="date"
+                    min={checkInDate}
+                    value={checkOutDate}
+                    onChange={(e) => setCheckOutDate(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-xs font-black text-blue-600">
+                  선택 일정: {getFormattedDates()}
+                </span>
+                <button
+                  onClick={() => setShowDatePicker(false)}
+                  className="bg-slate-900 text-white font-bold text-xs px-5 py-2 rounded-xl hover:bg-blue-600 transition-colors"
+                >
+                  적용하기
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* 2. Recommended Stays Section */}
+      {/* 2. Recommended Stays Section (Single-Line Description) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
@@ -130,7 +200,8 @@ export const HomePage: React.FC = () => {
               이번 주 인기 추천 숙소 🔥
             </h2>
           </div>
-          <p className="text-xs text-slate-500 font-medium max-w-xs">
+          {/* Requirement 2: Single-line description */}
+          <p className="text-xs text-slate-500 font-medium whitespace-nowrap hidden sm:block">
             뛰어난 만족도, 최고급 시설, 회원 단독 최저가 혜택을 갖춘 인기 숙소를 엄선했습니다.
           </p>
         </div>
