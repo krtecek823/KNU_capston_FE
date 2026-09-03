@@ -176,8 +176,8 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
-      {/* 1. Domestic Luxury Hotel Hero with Generous Spacing and No Clipping */}
-      <section className="relative min-h-[580px] sm:min-h-[640px] w-full bg-slate-950 flex flex-col items-center justify-center pt-20 pb-24 px-6 sm:px-12 text-white overflow-hidden">
+      {/* 1. Domestic Luxury Hotel Hero with Expanded Large Search Dock */}
+      <section className="relative min-h-[600px] sm:min-h-[680px] w-full bg-slate-950 flex flex-col items-center justify-center pt-20 pb-24 px-6 sm:px-12 text-white overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80"
           alt="Hero Stay Background"
@@ -199,42 +199,44 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
 
-        {/* Floating Minimal Search Dock (Comfortably placed with 60px padding below) */}
-        <div className="relative z-10 max-w-3xl mx-auto w-full">
-          <div className="bg-white/95 backdrop-blur-md p-2.5 rounded-2xl sm:rounded-full shadow-2xl border border-white/80 text-slate-900">
+        {/* Prominent Large Floating Search Dock */}
+        <div className="relative z-10 max-w-4xl sm:max-w-5xl mx-auto w-full">
+          <div className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-3xl sm:rounded-full shadow-2xl border border-white/90 text-slate-900">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
               }}
-              className="flex flex-col sm:flex-row items-center gap-2"
+              className="flex flex-col sm:flex-row items-center gap-3"
             >
-              <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 bg-slate-50/80 sm:bg-transparent rounded-xl">
-                <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
+              {/* Location Input */}
+              <div className="flex-1 w-full flex items-center gap-3 px-5 py-3 bg-slate-50/90 sm:bg-transparent rounded-2xl">
+                <MapPin className="w-5 h-5 text-blue-600 shrink-0" />
                 <input
                   type="text"
                   placeholder="어디로 떠나시나요? (예: 광진구, 워커힐, 해운대, 북촌)"
-                  className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none placeholder-slate-400"
+                  className="w-full bg-transparent text-sm sm:text-base font-extrabold text-slate-900 focus:outline-none placeholder-slate-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
 
-              {/* Interactive Real Date Range Button */}
+              {/* Interactive Date Range Button */}
               <button
                 type="button"
                 onClick={() => setShowCalendarModal(true)}
-                className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-slate-100 sm:bg-transparent hover:bg-slate-200/60 rounded-xl sm:rounded-full border-t sm:border-t-0 sm:border-l border-slate-200 text-xs font-extrabold text-slate-800 whitespace-nowrap transition-colors"
+                className="w-full sm:w-auto flex items-center gap-2.5 px-5 py-3 bg-slate-100 sm:bg-transparent hover:bg-slate-200/70 rounded-2xl sm:rounded-full border-t sm:border-t-0 sm:border-l border-slate-200 text-xs sm:text-sm font-black text-slate-800 whitespace-nowrap transition-colors"
               >
-                <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+                <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
                 <span>{getFormattedDates()}</span>
               </button>
 
+              {/* Big Bold Search Button */}
               <button
                 type="submit"
-                className="w-full sm:w-auto bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs px-7 py-3 rounded-xl sm:rounded-full shadow-md transition-colors flex items-center justify-center gap-2 shrink-0"
+                className="w-full sm:w-auto bg-slate-900 hover:bg-blue-600 text-white font-black text-sm sm:text-base px-9 py-3.5 sm:py-4 rounded-2xl sm:rounded-full shadow-lg transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
               >
-                <Search className="w-3.5 h-3.5" />
+                <Search className="w-4 h-4" />
                 <span>검색</span>
               </button>
             </form>
