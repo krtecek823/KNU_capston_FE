@@ -13,11 +13,11 @@ import { BookingPage } from './pages/BookingPage';
 import { CouponsPage } from './pages/CouponsPage';
 
 const AppContent: React.FC = () => {
-  const { activeWidget, dismissWidget, acceptWidget, triggerExitIntentManual } = useHoverTracker();
+  const { activeWidget, dismissWidget, acceptWidget } = useHoverTracker();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f9f9ff]">
-      <Header onTriggerDemoModal={triggerExitIntentManual} />
+      <Header />
 
       {/* Price Match Banner Intervention */}
       {activeWidget?.component === 'price_match_banner' && (

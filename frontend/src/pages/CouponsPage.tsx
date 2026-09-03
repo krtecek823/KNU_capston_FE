@@ -18,8 +18,8 @@ export const CouponsPage: React.FC = () => {
           <Sparkles className="w-3.5 h-3.5" /> MY COUPON BOX
         </div>
         <h1 className="text-3xl font-black text-gray-900 tracking-tight">내 할인 쿠폰함</h1>
-        <p className="text-xs text-gray-500 mt-1">
-          HoverStay AI 엔진이 발급해 드린 전용 시크릿 할인 쿠폰 목록입니다.
+        <p className="text-xs text-gray-500 mt-1 font-medium">
+          HoverStay 스마트 케어 시스템이 발급해 드린 전용 시크릿 할인 쿠폰 목록입니다.
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export const CouponsPage: React.FC = () => {
 
             <div className="relative z-10 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="bg-amber-500 text-white font-black text-xs px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                <span className="bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
                   <Gift className="w-3.5 h-3.5" /> {coupon.discountPercent}% OFF
                 </span>
                 <span className="text-xs font-semibold text-gray-400">
@@ -45,7 +45,7 @@ export const CouponsPage: React.FC = () => {
                 {coupon.title}
               </h3>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 font-medium">
                 ₩{coupon.minSpend.toLocaleString()} 이상 숙소 예약 시 즉시 적용 가능
               </p>
             </div>
