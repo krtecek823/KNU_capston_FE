@@ -176,8 +176,3 @@ docker compose up -d
 ```
 👉 Ingestion API (`:4000`), Decision API (`:4001`), Dashboard API (`:4002`), Redis (`:6379`), PostgreSQL (`:5432`), ClickHouse (`:8123`)가 자동 구동됩니다.
 
----
-
-## 📜 라이선스 (License)
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
