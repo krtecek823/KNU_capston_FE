@@ -9,6 +9,24 @@ export const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedCategory] = useState('전체');
 
+  // Dynamic Date Formatter (e.g. 09.03(목) ~ 09.04(금) (1박))
+  const getFormattedDates = () => {
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const today = new Date();
+    const tomorrow = new Date(Date.now() + 86400000);
+
+    const format = (d: Date) => {
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const date = String(d.getDate()).padStart(2, '0');
+      const dayName = days[d.getDay()];
+      return `${m}.${date}(${dayName})`;
+    };
+
+    return `${format(today)} ~ ${format(tomorrow)} (1박)`;
+  };
+
+  const dateString = getFormattedDates();
+
   const curations = [
     { id: '전체', label: '전체 스테이' },
     { id: '럭셔리', label: '5성급 럭셔리' },
@@ -83,9 +101,10 @@ export const HomePage: React.FC = () => {
                 />
               </div>
 
-              <div className="hidden md:flex items-center gap-2 px-4 py-2 border-l border-slate-200 text-xs font-bold text-slate-700 whitespace-nowrap">
+              {/* Dynamic Real Date Range Display */}
+              <div className="hidden md:flex items-center gap-2 px-4 py-2 border-l border-slate-200 text-xs font-extrabold text-slate-800 whitespace-nowrap">
                 <Calendar className="w-3.5 h-3.5 text-blue-600" />
-                <span>오늘 ~ 내일 (1박)</span>
+                <span>{dateString}</span>
               </div>
 
               <button

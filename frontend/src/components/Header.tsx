@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Building2, Search, User, Ticket, LogOut } from 'lucide-react';
+import { Building2, Search, User, LogOut } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const location = useLocation();
@@ -85,16 +85,8 @@ export const Header: React.FC = () => {
           </Link>
         </nav>
 
-        {/* Right User Navigation */}
+        {/* Right User Navigation - Coupon link completely removed */}
         <div className="flex items-center gap-3">
-          <Link
-            to="/coupons"
-            className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-blue-600 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors"
-          >
-            <Ticket className="w-4 h-4 text-slate-500" />
-            <span>내 쿠폰함</span>
-          </Link>
-
           {user ? (
             <div className="flex items-center gap-2">
               <span className="text-xs font-extrabold text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl hidden sm:inline">
