@@ -11,6 +11,7 @@ import { SearchPage } from './pages/SearchPage';
 import { HotelDetailPage } from './pages/HotelDetailPage';
 import { BookingPage } from './pages/BookingPage';
 import { CouponsPage } from './pages/CouponsPage';
+import { LoginPage } from './pages/LoginPage';
 
 const AppContent: React.FC = () => {
   const { activeWidget, dismissWidget, acceptWidget } = useHoverTracker();
@@ -32,6 +33,7 @@ const AppContent: React.FC = () => {
           <Route path="/hotels/:id" element={<HotelDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/coupons" element={<CouponsPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </main>
 

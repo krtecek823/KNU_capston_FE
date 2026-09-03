@@ -1,16 +1,35 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Building2, Search, User, Ticket } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Building2, Search, User, Ticket, LogOut } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const isActive = (path: string) => location.pathname === path;
+
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('hoverstay_user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch {
+        setUser(null);
+      }
+    }
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('hoverstay_user');
+    setUser(null);
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand Logo - Solid Clean Styling */}
+        {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center p-2 shadow-xs group-hover:bg-blue-600 transition-colors">
             <svg
@@ -76,12 +95,30 @@ export const Header: React.FC = () => {
             <span>내 쿠폰함</span>
           </Link>
 
-          <button className="flex items-center gap-2 p-1.5 pr-3.5 text-slate-800 hover:text-blue-600 hover:bg-slate-100 rounded-full border border-slate-200 transition-colors">
-            <div className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
-              <User className="w-3.5 h-3.5" />
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl hidden sm:inline">
+                {user.name}님
+              </span>
+              <button
+                onClick={handleLogout}
+                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                title="로그아웃"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
             </div>
-            <span className="text-xs font-bold hidden sm:inline">마이페이지</span>
-          </button>
+          ) : (
+            <Link
+              to="/login"
+              className="flex items-center gap-2 p-1.5 pr-3.5 text-slate-800 hover:text-blue-600 hover:bg-slate-100 rounded-full border border-slate-200 transition-colors"
+            >
+              <div className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                <User className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-xs font-bold hidden sm:inline">로그인 / 회원가입</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>
