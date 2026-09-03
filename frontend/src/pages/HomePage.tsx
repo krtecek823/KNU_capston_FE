@@ -35,7 +35,7 @@ export const HomePage: React.FC = () => {
 
         <div className="max-w-5xl mx-auto relative z-10 text-center space-y-6">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-blue-100 border border-white/20 shadow-sm">
-            <Sparkles className="w-4 h-4 text-amber-300" /> 실시간 고객 맞춤 프리미엄 숙소 케어
+            <Sparkles className="w-4 h-4 text-amber-300" /> 회원 전용 단독 최저가 혜택
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
@@ -137,7 +137,7 @@ export const HomePage: React.FC = () => {
               <TrendingUp className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-gray-900 mb-1">스마트 맞춤 추천</h3>
+              <h3 className="font-extrabold text-base text-gray-900 mb-1">프리미엄 맞춤 큐레이션</h3>
               <p className="text-xs text-gray-500 leading-relaxed">
                 평점과 만족도가 높은 검증된 럭셔리 스테이만을 엄선하여 실시간 제안해 드립니다.
               </p>

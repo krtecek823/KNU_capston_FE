@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
             </span>
             <span className="hidden sm:inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full bg-blue-50 text-primary font-bold border border-blue-100/80">
               <ShieldCheck className="w-3 h-3 text-primary" />
-              Smart Care
+              Verified Stay
             </span>
           </div>
         </Link>
