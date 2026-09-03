@@ -176,8 +176,8 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-20 pb-28 bg-[#fafafa]">
       
-      {/* 1. Domestic Luxury Hotel Hero with Interactive Floating Search Dock */}
-      <section className="relative h-[540px] sm:h-[600px] w-full bg-slate-950 flex flex-col justify-center p-6 sm:p-12 text-white">
+      {/* 1. Domestic Luxury Hotel Hero with Generous Spacing and No Clipping */}
+      <section className="relative min-h-[580px] sm:min-h-[640px] w-full bg-slate-950 flex flex-col items-center justify-center pt-20 pb-24 px-6 sm:px-12 text-white overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80"
           alt="Hero Stay Background"
@@ -186,7 +186,7 @@ export const HomePage: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/20"></div>
 
         {/* Center Title & Subtitle */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4 my-auto">
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4 mb-10">
           <p className="text-xs sm:text-sm font-extrabold text-blue-300 tracking-widest">
             국내 단독 최저가 프리미엄 스테이
           </p>
@@ -199,8 +199,8 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
 
-        {/* Floating Minimal Search Dock */}
-        <div className="relative z-10 max-w-3xl mx-auto w-full mt-6">
+        {/* Floating Minimal Search Dock (Comfortably placed with 60px padding below) */}
+        <div className="relative z-10 max-w-3xl mx-auto w-full">
           <div className="bg-white/95 backdrop-blur-md p-2.5 rounded-2xl sm:rounded-full shadow-2xl border border-white/80 text-slate-900">
             <form
               onSubmit={(e) => {
