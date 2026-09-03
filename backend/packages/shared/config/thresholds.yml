@@ -1,0 +1,29 @@
+# Hover real-time intervention thresholds.
+# BE-A owns analytical updates; BE-C consumes this file at worker runtime.
+
+scenarios:
+  S1:
+    base_match:
+      cart_min_count: 1
+      tab_hidden_seconds: 10
+    intent_score_min: 0.6
+    cooldown_seconds: 86400
+  S2:
+    base_match_any:
+      - clipboard_copy_match: true
+      - broadcast_channel_multi_tab: true
+    intent_score_min: 0.5
+    cooldown_seconds: 86400
+
+booster_weights:
+  clipboard_copy_match: 0.5
+  broadcast_channel_multi_tab: 0.4
+  referrer_price_compare: 0.2
+  session_length_5min: 0.4
+  hidden_repeated: 0.4
+  xgboost_intent_proba: 0.0
+
+global:
+  intervention_per_session_max: 2
+  decision_api_timeout_ms: 800
+  pending_intervention_ttl_seconds: 300
