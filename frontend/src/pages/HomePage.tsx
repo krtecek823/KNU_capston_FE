@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X, ChevronLeft, ChevronRight, RotateCcw, Zap } from 'lucide-react';
+import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
@@ -69,40 +69,6 @@ export const HomePage: React.FC = () => {
     const nights = Math.round(diffTime / 86400000);
 
     return `${format(checkIn)} ~ ${format(checkOut)} (${nights}박)`;
-  };
-
-  // Preset Date Selection Handlers (10/10 UX)
-  const applyPreset = (preset: 'today' | 'this_weekend' | 'next_weekend' | 'week') => {
-    const now = new Date();
-    if (preset === 'today') {
-      const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const d2 = new Date(d1.getTime() + 86400000);
-      setCheckIn(d1);
-      setCheckOut(d2);
-      setIsSelectingCheckOut(false);
-    } else if (preset === 'this_weekend') {
-      const currentDay = now.getDay();
-      const daysUntilSat = (6 - currentDay + 7) % 7;
-      const sat = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilSat);
-      const sun = new Date(sat.getTime() + 86400000);
-      setCheckIn(sat);
-      setCheckOut(sun);
-      setIsSelectingCheckOut(false);
-    } else if (preset === 'next_weekend') {
-      const currentDay = now.getDay();
-      const daysUntilNextSat = ((6 - currentDay + 7) % 7) + 7;
-      const sat = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilNextSat);
-      const sun = new Date(sat.getTime() + 86400000);
-      setCheckIn(sat);
-      setCheckOut(sun);
-      setIsSelectingCheckOut(false);
-    } else if (preset === 'week') {
-      const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const d2 = new Date(d1.getTime() + 7 * 86400000);
-      setCheckIn(d1);
-      setCheckOut(d2);
-      setIsSelectingCheckOut(false);
-    }
   };
 
   const resetSelection = () => {
@@ -312,7 +278,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 10/10 Perfect Score Real Visual Monthly Calendar Modal Overlay */}
+      {/* Real Visual Monthly Calendar Modal Overlay */}
       {showCalendarModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white text-slate-900 w-full max-w-2xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 space-y-6 animate-in fade-in zoom-in-95">
@@ -324,7 +290,7 @@ export const HomePage: React.FC = () => {
                   <Calendar className="w-5 h-5 text-blue-600" /> 체크인 & 체크아웃 일정 선택
                 </h4>
                 <p className="text-xs text-slate-500 font-medium mt-0.5">
-                  달력에서 날짜를 직접 클릭하거나, 상단 빠른 선택 버튼을 눌러보세요.
+                  1차 클릭으로 <span className="font-bold text-blue-600">체크인</span>을, 2차 클릭으로 <span className="font-bold text-blue-600">체크아웃</span> 날짜를 자유롭게 지정해 주세요.
                 </p>
               </div>
 
@@ -342,37 +308,6 @@ export const HomePage: React.FC = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-            </div>
-
-            {/* 10/10 Score Enhancement 1: One-Click Quick Presets */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-              <span className="text-[11px] font-extrabold text-blue-600 flex items-center gap-1 shrink-0 bg-blue-50 px-2.5 py-1 rounded-lg">
-                <Zap className="w-3 h-3" /> 빠른 선택
-              </span>
-              <button
-                onClick={() => applyPreset('today')}
-                className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white transition-all whitespace-nowrap"
-              >
-                오늘부터 1박
-              </button>
-              <button
-                onClick={() => applyPreset('this_weekend')}
-                className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white transition-all whitespace-nowrap"
-              >
-                이번 주말 (토~일)
-              </button>
-              <button
-                onClick={() => applyPreset('next_weekend')}
-                className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white transition-all whitespace-nowrap"
-              >
-                다음 주말 (토~일)
-              </button>
-              <button
-                onClick={() => applyPreset('week')}
-                className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white transition-all whitespace-nowrap"
-              >
-                일주일 힐링 (7박)
-              </button>
             </div>
 
             {/* Calendar Controls & Dual Month View */}
@@ -430,7 +365,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-md bg-blue-100 inline-block"></span>
-                  <span>실시간 선택 하이라이트</span>
+                  <span>연박 하이라이트</span>
                 </div>
               </div>
 
