@@ -34,16 +34,16 @@ export const HotelDetailPage: React.FC = () => {
     ((hotel.originalPrice - hotel.discountPrice) / hotel.originalPrice) * 100
   );
 
-  // Full High-Res Gallery Images for Lightbox
+  // Dedicated 1-by-1 Photos matching user's requested 6 categories
   const galleryPhotos = [
-    { url: hotel.imageUrl, title: `${hotel.name} 대표 전경` },
-    { url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80', title: '디럭스 스위트 룸 (Deluxe Suite)' },
-    { url: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=80', title: '파노라마 뷰 라운지 (Panoramic Lounge)' },
-    { url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80', title: '프리미엄 수영장 & 스파 (Infinity Pool)' },
-    { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80', title: '프렌치 파인 다이닝 레스토랑' },
+    { url: hotel.imageUrl, title: `01. ${hotel.name} 초고층 타워 전경` },
+    { url: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1600&q=80', title: '02. 프리미엄 트윈 스위트 룸 (Twin Suite)' },
+    { url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80', title: '03. 시그니처 킹 스위트 룸 (King Suite)' },
+    { url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80', title: '04. 초고층 실내 인피니티 수영장 (High-rise Pool)' },
+    { url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80', title: '05. 프라이빗 스파 & 파노라마 라운지 (Private Spa)' },
   ];
 
-  // Agoda-Style Room Options
+  // Agoda-Style Room Options (Each assigned 1 distinct photo)
   const rooms = [
     {
       id: 0,
@@ -54,29 +54,29 @@ export const HotelDetailPage: React.FC = () => {
       price: hotel.discountPrice,
       originalPrice: hotel.originalPrice,
       benefits: ['무료 Wi-Fi', '전용 욕조', '무료 미니바'],
-      img: hotel.imageUrl,
+      img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
     },
     {
       id: 1,
-      name: '이그제큐티브 오션/시티 스위트 (Executive Suite)',
-      bed: '킹 베드 1개 + 라운지 혜택',
+      name: '이그제큐티브 트윈 스위트 (Executive Twin Suite)',
+      bed: '트윈 베드 2개 + 라운지 혜택',
       capacity: '기준 2인 / 최대 3인',
       breakfast: '이그제큐티브 라운지 조식 포함',
       price: Math.round(hotel.discountPrice * 1.35),
       originalPrice: Math.round(hotel.originalPrice * 1.35),
       benefits: ['해피아워 주류 무료', '체크아웃 14:00 연장', '무료 발렛파킹'],
-      img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+      img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80',
     },
     {
       id: 2,
-      name: '프리미엄 코너 스위트 (Corner Panorama Suite)',
-      bed: '킹 베드 1개 + 파노라마 전경',
+      name: '프리미엄 코너 파노라마 스위트 (Corner Panorama Suite)',
+      bed: '그랜드 킹 베드 1개 + 파노라마 전경',
       capacity: '기준 2인 / 최대 4인',
       breakfast: '룸서비스 프리미엄 조식 무료',
       price: Math.round(hotel.discountPrice * 1.7),
       originalPrice: Math.round(hotel.originalPrice * 1.7),
       benefits: ['웰컴 샴페인 제공', '야외 수영장 프리패스', '딥티크 풀세트'],
-      img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+      img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
     },
   ];
 
@@ -160,7 +160,7 @@ export const HotelDetailPage: React.FC = () => {
             >
               <img
                 src={galleryPhotos[1].url}
-                alt="Room view"
+                alt="Twin room view"
                 className="w-full h-full object-cover object-center group-hover/sub:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-slate-950/20 group-hover/sub:bg-transparent transition-colors"></div>
@@ -175,7 +175,7 @@ export const HotelDetailPage: React.FC = () => {
             >
               <img
                 src={galleryPhotos[2].url}
-                alt="Pool view"
+                alt="King room view"
                 className="w-full h-full object-cover object-center group-hover/sub:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-slate-950/20 group-hover/sub:bg-transparent transition-colors"></div>
@@ -278,7 +278,7 @@ export const HotelDetailPage: React.FC = () => {
           </span>
         </div>
 
-        {/* Room Selection Cards */}
+        {/* Room Selection Cards (Each Card Has Its Own 1 Dedicated Image) */}
         <div className="space-y-4">
           {rooms.map((room) => {
             const isSelected = selectedRoom === room.id;
@@ -293,7 +293,7 @@ export const HotelDetailPage: React.FC = () => {
                 }`}
               >
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1">
-                  <div className="w-full sm:w-28 h-24 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+                  <div className="w-full sm:w-32 h-28 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/80">
                     <img src={room.img} alt={room.name} className="w-full h-full object-cover" />
                   </div>
 
