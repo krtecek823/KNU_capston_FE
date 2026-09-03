@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Star, MapPin, Check, ShieldCheck, Calendar, Users, ArrowRight, BedDouble, Utensils } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { Star, MapPin, Check, ShieldCheck, Users, ArrowRight, BedDouble, Utensils, X, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
 import { api } from '../services/api';
 import { Hotel } from '../types';
 
@@ -8,6 +8,10 @@ export const HotelDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<number>(0);
+
+  // Gallery Lightbox Modal State
+  const [showGalleryModal, setShowGalleryModal] = useState<boolean>(false);
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0);
 
   useEffect(() => {
     if (id) {
@@ -21,7 +25,7 @@ export const HotelDetailPage: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-3"></div>
-        <p className="text-sm font-bold text-slate-500">실시간 객실 및 아고다 비교 최저가 정보를 확인하는 중...</p>
+        <p className="text-sm font-bold text-slate-500">실시간 객실 및 최저가 정보를 확인하는 중...</p>
       </div>
     );
   }
@@ -29,6 +33,15 @@ export const HotelDetailPage: React.FC = () => {
   const discountRate = Math.round(
     ((hotel.originalPrice - hotel.discountPrice) / hotel.originalPrice) * 100
   );
+
+  // Full High-Res Gallery Images for Lightbox
+  const galleryPhotos = [
+    { url: hotel.imageUrl, title: `${hotel.name} 대표 전경` },
+    { url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80', title: '디럭스 스위트 룸 (Deluxe Suite)' },
+    { url: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=80', title: '파노라마 뷰 라운지 (Panoramic Lounge)' },
+    { url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80', title: '프리미엄 수영장 & 스파 (Infinity Pool)' },
+    { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80', title: '프렌치 파인 다이닝 레스토랑' },
+  ];
 
   // Agoda-Style Room Options
   const rooms = [
@@ -82,7 +95,7 @@ export const HotelDetailPage: React.FC = () => {
               <span className="text-slate-400 font-normal">({hotel.reviewCount}개 평가)</span>
             </div>
             <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
-              아고다 실시간 비교 1위
+              HoverStay 단독 최저가 1위
             </span>
           </div>
 
@@ -111,36 +124,143 @@ export const HotelDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Agoda Photo Gallery Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 h-[380px] sm:h-[450px] rounded-3xl overflow-hidden shadow-md bg-slate-100">
-        <div className="md:col-span-2 relative h-full">
-          <img src={hotel.imageUrl} alt={hotel.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
-          <div className="absolute bottom-6 left-6 text-white">
-            <span className="text-xs bg-white/20 backdrop-blur-md px-3 py-1 rounded-full font-bold">
-              HoverStay 최저가 보장
-            </span>
-            <h2 className="text-2xl font-black mt-2">{hotel.name} 대표 전경</h2>
+      {/* Spacious High-Res Photo Gallery Banner with Lightbox Trigger */}
+      <div className="relative rounded-3xl overflow-hidden shadow-lg bg-slate-900 group">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 min-h-[420px] sm:min-h-[480px]">
+          {/* Main Large Photo */}
+          <div
+            onClick={() => {
+              setActivePhotoIndex(0);
+              setShowGalleryModal(true);
+            }}
+            className="md:col-span-2 relative h-full min-h-[300px] cursor-pointer overflow-hidden bg-slate-900"
+          >
+            <img
+              src={hotel.imageUrl}
+              alt={hotel.name}
+              className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+            <div className="absolute bottom-6 left-6 text-white space-y-1">
+              <span className="text-xs bg-blue-600/90 backdrop-blur-md px-3 py-1 rounded-full font-extrabold shadow-sm inline-block">
+                HoverStay 최저가 보장
+              </span>
+              <h2 className="text-xl sm:text-3xl font-black">{hotel.name} 대표 화보</h2>
+            </div>
+          </div>
+
+          {/* Sub Photos Grid */}
+          <div className="hidden md:grid grid-rows-2 gap-2 sm:gap-3 h-full">
+            <div
+              onClick={() => {
+                setActivePhotoIndex(1);
+                setShowGalleryModal(true);
+              }}
+              className="relative h-full cursor-pointer overflow-hidden bg-slate-900 group/sub"
+            >
+              <img
+                src={galleryPhotos[1].url}
+                alt="Room view"
+                className="w-full h-full object-cover object-center group-hover/sub:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-slate-950/20 group-hover/sub:bg-transparent transition-colors"></div>
+            </div>
+
+            <div
+              onClick={() => {
+                setActivePhotoIndex(2);
+                setShowGalleryModal(true);
+              }}
+              className="relative h-full cursor-pointer overflow-hidden bg-slate-900 group/sub"
+            >
+              <img
+                src={galleryPhotos[2].url}
+                alt="Pool view"
+                className="w-full h-full object-cover object-center group-hover/sub:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-slate-950/20 group-hover/sub:bg-transparent transition-colors"></div>
+            </div>
           </div>
         </div>
 
-        <div className="hidden md:grid grid-rows-2 gap-3 h-full">
-          <div className="relative h-full overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80"
-              alt="Room view"
-              className="w-full h-full object-cover"
-            />
+        {/* Fullscreen Gallery Lightbox Trigger Button */}
+        <button
+          onClick={() => {
+            setActivePhotoIndex(0);
+            setShowGalleryModal(true);
+          }}
+          className="absolute bottom-5 right-5 bg-white/95 hover:bg-white text-slate-900 font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow-xl backdrop-blur-md border border-white/80 transition-all flex items-center gap-2 cursor-pointer z-10"
+        >
+          <ImageIcon className="w-4 h-4 text-blue-600" />
+          <span>전체 사진 5장 확대 보기</span>
+        </button>
+      </div>
+
+      {/* Fullscreen Uncropped Lightbox Modal */}
+      {showGalleryModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-8 text-white animate-in fade-in">
+          {/* Lightbox Header */}
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <div>
+              <h3 className="text-base sm:text-lg font-black">{hotel.name} 전체 사진</h3>
+              <p className="text-xs text-slate-400 font-medium">
+                {galleryPhotos[activePhotoIndex].title} ({activePhotoIndex + 1} / {galleryPhotos.length})
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowGalleryModal(false)}
+              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
-          <div className="relative h-full overflow-hidden">
+
+          {/* Lightbox Uncropped Full Image Display */}
+          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+            <button
+              onClick={() =>
+                setActivePhotoIndex((prev) => (prev === 0 ? galleryPhotos.length - 1 : prev - 1))
+              }
+              className="absolute left-2 sm:left-6 p-3 rounded-full bg-white/10 hover:bg-white/30 text-white transition-colors cursor-pointer z-20"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
             <img
-              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
-              alt="Pool view"
-              className="w-full h-full object-cover"
+              src={galleryPhotos[activePhotoIndex].url}
+              alt={galleryPhotos[activePhotoIndex].title}
+              className="max-h-[75vh] max-w-full object-contain rounded-2xl shadow-2xl transition-all"
             />
+
+            <button
+              onClick={() =>
+                setActivePhotoIndex((prev) => (prev === galleryPhotos.length - 1 ? 0 : prev + 1))
+              }
+              className="absolute right-2 sm:right-6 p-3 rounded-full bg-white/10 hover:bg-white/30 text-white transition-colors cursor-pointer z-20"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Lightbox Thumbnails Strip */}
+          <div className="flex items-center justify-center gap-3 overflow-x-auto pt-2 border-t border-white/10">
+            {galleryPhotos.map((photo, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActivePhotoIndex(idx)}
+                className={`w-16 h-12 rounded-xl overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${
+                  activePhotoIndex === idx
+                    ? 'border-blue-500 scale-110 shadow-lg'
+                    : 'border-transparent opacity-50 hover:opacity-100'
+                }`}
+              >
+                <img src={photo.url} alt={photo.title} className="w-full h-full object-cover" />
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Agoda-Style Room Type Selection List */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
@@ -150,143 +270,156 @@ export const HotelDetailPage: React.FC = () => {
               SELECT ROOM TYPE
             </span>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-              원하시는 객실 타입을 선택하세요
+              실시간 객실 타입 및 가격 옵션
             </h2>
           </div>
-          <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">
-            잔여 객실 마감 임박 🔥
+          <span className="text-xs text-slate-500 font-medium hidden sm:block">
+            아고다 & 야놀자 실시간 최저가 자동 매칭 적용 중
           </span>
         </div>
 
+        {/* Room Selection Cards */}
         <div className="space-y-4">
-          {rooms.map((room) => (
-            <div
-              key={room.id}
-              onClick={() => setSelectedRoom(room.id)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6 ${
-                selectedRoom === room.id
-                  ? 'border-blue-600 bg-blue-50/30 shadow-md ring-1 ring-blue-600'
-                  : 'border-slate-200 hover:border-slate-300 bg-white'
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                <img
-                  src={room.img}
-                  alt={room.name}
-                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl object-cover shrink-0"
-                />
-                <div className="space-y-2">
-                  <h3 className="font-extrabold text-base sm:text-lg text-slate-900">
-                    {room.name}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-semibold">
-                    <span className="flex items-center gap-1">
-                      <BedDouble className="w-3.5 h-3.5 text-blue-600" />
-                      {room.bed}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5 text-blue-600" />
-                      {room.capacity}
-                    </span>
-                    <span className="flex items-center gap-1 text-emerald-700 font-bold">
-                      <Utensils className="w-3.5 h-3.5 text-emerald-600" />
-                      {room.breakfast}
-                    </span>
+          {rooms.map((room) => {
+            const isSelected = selectedRoom === room.id;
+            return (
+              <div
+                key={room.id}
+                onClick={() => setSelectedRoom(room.id)}
+                className={`p-5 sm:p-6 rounded-2xl border-2 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6 ${
+                  isSelected
+                    ? 'border-blue-600 bg-blue-50/30 shadow-md'
+                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                }`}
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1">
+                  <div className="w-full sm:w-28 h-24 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+                    <img src={room.img} alt={room.name} className="w-full h-full object-cover" />
                   </div>
 
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {room.benefits.map((b, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-slate-100 text-slate-700 text-[11px] font-bold px-2.5 py-0.5 rounded-md"
-                      >
-                        ✓ {b}
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-base font-extrabold text-slate-900">{room.name}</h3>
+                      {isSelected && (
+                        <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                          선택됨
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-medium">
+                      <span className="flex items-center gap-1">
+                        <BedDouble className="w-3.5 h-3.5 text-slate-400" /> {room.bed}
                       </span>
-                    ))}
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3.5 h-3.5 text-slate-400" /> {room.capacity}
+                      </span>
+                      <span className="flex items-center gap-1 text-emerald-600 font-bold">
+                        <Utensils className="w-3.5 h-3.5" /> {room.breakfast}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {room.benefits.map((b, i) => (
+                        <span
+                          key={i}
+                          className="bg-slate-100 text-slate-700 text-[11px] font-bold px-2.5 py-0.5 rounded-md"
+                        >
+                          ✓ {b}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex md:flex-col items-end justify-between md:justify-center border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 shrink-0">
-                <div className="text-right">
-                  <span className="text-xs text-slate-400 line-through block font-medium">
-                    ₩{room.originalPrice.toLocaleString()}
-                  </span>
-                  <span className="text-2xl font-black text-slate-900">
-                    ₩{room.price.toLocaleString()}
-                  </span>
-                  <span className="text-[11px] text-slate-500 block font-medium">1박 세금/봉사료 포함</span>
+                <div className="flex md:flex-col items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 shrink-0 text-right">
+                  <div>
+                    <span className="text-xs text-slate-400 line-through block font-medium">
+                      ₩{room.originalPrice.toLocaleString()}
+                    </span>
+                    <span className="text-2xl font-black text-slate-900">
+                      ₩{room.price.toLocaleString()}
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium block">/ 1박</span>
+                  </div>
+
+                  <button
+                    className={`mt-2 text-xs font-extrabold px-5 py-2.5 rounded-xl transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'bg-slate-900 hover:bg-blue-600 text-white'
+                    }`}
+                  >
+                    {isSelected ? '선택 완료' : '객실 선택하기'}
+                  </button>
                 </div>
-
-                <Link
-                  to={`/booking?hotelId=${hotel.id}&roomId=${room.id}`}
-                  className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
-                >
-                  <span>예약하기</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Amenities & Detailed Information */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">
-              숙소 상세 소개
-            </h3>
-            <p className="text-sm text-slate-600 leading-relaxed font-medium">{hotel.description}</p>
+      {/* Hotel Description & Key Features */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+          <div>
+            <h3 className="text-lg font-black text-slate-900 mb-2">숙소 상세 소개</h3>
+            <p className="text-sm text-slate-600 leading-relaxed font-medium">
+              {hotel.description}
+            </p>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
-            <h3 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">
-              주요 편의시설 및 서비스
-            </h3>
+          <div className="pt-4 border-t border-slate-100">
+            <h3 className="text-base font-extrabold text-slate-900 mb-3">대표 시설 및 어메니티</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {hotel.features.map((feat, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-slate-700 font-semibold">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" />
-                  </div>
-                  {feat}
+              {hotel.tags.map((tag, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 p-3 bg-slate-50 rounded-xl text-xs font-bold text-slate-700"
+                >
+                  <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>{tag}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Right Sticky Summary Box */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-lg space-y-6 sticky top-24">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-100">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" /> 100% 아고다 대비 최저가 보장제
+        {/* Instant Booking Action Card */}
+        <div className="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+              <span className="text-xs font-extrabold text-emerald-400 uppercase tracking-wider">
+                100% 최저가 보장제
+              </span>
             </div>
 
-            <div className="space-y-3 text-xs text-slate-600 font-medium">
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="flex items-center gap-1.5 font-semibold">
-                  <Calendar className="w-4 h-4 text-slate-400" /> 체크인 / 체크아웃
-                </span>
-                <span className="font-bold text-slate-900">15:00 / 11:00</span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="flex items-center gap-1.5 font-semibold">
-                  <Users className="w-4 h-4 text-slate-400" /> 선택된 객실
-                </span>
-                <span className="font-bold text-blue-600">{rooms[selectedRoom].name.split('(')[0]}</span>
-              </div>
+            <h3 className="text-2xl font-black text-white leading-snug">
+              회원 전용 시크릿 <br />
+              추가 15% 할인 적용 중
+            </h3>
+
+            <p className="text-xs text-slate-300 leading-relaxed font-medium">
+              지금 바로 예약하시면 추가 쿠폰 자동 적용 및 체크인 시 웰컴 드링크 혜택을 제공받으실 수 있습니다.
+            </p>
+          </div>
+
+          <div className="space-y-3 pt-4 border-t border-slate-800">
+            <div className="flex justify-between items-baseline">
+              <span className="text-xs text-slate-400 font-medium">최종 결제 예상 금액</span>
+              <span className="text-2xl font-black text-white">
+                ₩{(rooms[selectedRoom].price * 0.85).toLocaleString()}
+              </span>
             </div>
 
-            <Link
-              to={`/booking?hotelId=${hotel.id}&roomId=${selectedRoom}`}
-              className="w-full py-4 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all"
+            <button
+              onClick={() => alert(`${hotel.name} - ${rooms[selectedRoom].name} 예약 단계로 이동합니다.`)}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black text-sm py-4 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>선택된 객실 예약 진행하기</span>
+              <span>지금 바로 예약하기</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>
