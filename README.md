@@ -3,7 +3,7 @@
 > **"손님이 이탈하기 전 1.5초, 마우스 커서와 체류 신호를 읽고 최저가 및 시크릿 할인 혜택을 동적으로 제공합니다"**
 
 <p align="left">
-  <a href="https://knu-capston-fe.vercel.app" target="_blank">
+  <a href="https://knu-capston-fe-kreteck.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/🌐_Vercel_Cloud_Live-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Live App" />
   </a>
   <a href="http://localhost:5100">
@@ -18,7 +18,7 @@
 
 ## 🌐 클라우드 라이브 배포 (Vercel Cloud Deployment)
 
-- **공식 라이브 서비스 URL**: [https://knu-capston-fe.vercel.app](https://knu-capston-fe.vercel.app)
+- **공식 라이브 서비스 URL**: [https://knu-capston-fe-kreteck.vercel.app](https://knu-capston-fe-kreteck.vercel.app)
 - **배포 플랫폼**: Vercel Cloud (Hobby Serverless Deployment)
 - **특징**: 별도 설치 없이 모바일/PC 브라우저 어디서나 24시간 실시간 접속 및 테스트 가능
 
@@ -153,7 +153,7 @@ KNU_capston_FE/
 ## ⚡ 빠른 시작 가이드 (Quick Start)
 
 ### 1) 클라우드 라이브 브라우저 접속 (추천)
-👉 [https://knu-capston-fe.vercel.app](https://knu-capston-fe.vercel.app) 접속
+👉 [https://knu-capston-fe-kreteck.vercel.app](https://knu-capston-fe-kreteck.vercel.app) 접속
 
 ### 2) 로컬 환경 실행
 ```bash
