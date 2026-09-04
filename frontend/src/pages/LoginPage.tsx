@@ -69,12 +69,12 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[80vh] bg-[#fafafa] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-6">
+    <div className="min-h-[85vh] bg-[#fafafa] flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl w-full space-y-8">
         {/* Brand Header */}
-        <div className="text-center space-y-2">
-          <Link to="/" className="inline-flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center p-2 shadow-xs group-hover:bg-blue-600 transition-colors">
+        <div className="text-center space-y-3">
+          <Link to="/" className="inline-flex items-center gap-3 group">
+            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center p-2.5 shadow-md group-hover:bg-blue-600 transition-colors">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -82,7 +82,7 @@ export const LoginPage: React.FC = () => {
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-6 h-6 text-white"
+                className="w-7 h-7 text-white"
               >
                 <path d="M3 21h18" />
                 <path d="M5 21V7l7-4 7 4v14" />
@@ -90,29 +90,29 @@ export const LoginPage: React.FC = () => {
                 <circle cx="12" cy="18" r="1" fill="currentColor" />
               </svg>
             </div>
-            <span className="text-2xl font-black tracking-tight text-slate-900">
+            <span className="text-3xl font-black tracking-tight text-slate-900">
               Hover<span className="text-blue-600">Stay</span>
             </span>
           </Link>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-sm text-slate-500 font-semibold">
             {mode === 'login'
               ? 'HoverStay 계정으로 로그인하고 단독 최저가 혜택을 이용하세요'
               : 'HoverStay 회원가입 후 단독 15% 시크릿 할인 쿠폰을 받으세요'}
           </p>
         </div>
 
-        {/* Auth Card */}
-        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+        {/* Auth Card (Expanded size & padding) */}
+        <div className="bg-white p-10 sm:p-12 rounded-3xl border border-slate-200/90 shadow-md space-y-8">
           {/* Mode Switch Tabs */}
-          <div className="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-xl text-center">
+          <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1.5 rounded-2xl text-center">
             <button
               onClick={() => {
                 setMode('login');
                 setErrorMsg('');
                 setSuccessMsg('');
               }}
-              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all cursor-pointer ${
-                mode === 'login' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+              className={`py-3 text-sm font-extrabold rounded-xl transition-all cursor-pointer ${
+                mode === 'login' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               로그인
@@ -123,8 +123,8 @@ export const LoginPage: React.FC = () => {
                 setErrorMsg('');
                 setSuccessMsg('');
               }}
-              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all cursor-pointer ${
-                mode === 'register' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+              className={`py-3 text-sm font-extrabold rounded-xl transition-all cursor-pointer ${
+                mode === 'register' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               회원가입
@@ -133,32 +133,32 @@ export const LoginPage: React.FC = () => {
 
           {/* Success Banner */}
           {successMsg && (
-            <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-3.5 rounded-xl text-xs font-bold flex items-center gap-2 animate-fade-in">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-2xl text-sm font-bold flex items-center gap-3 animate-fade-in">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
               <span>{successMsg}</span>
             </div>
           )}
 
           {/* Error Banner */}
           {errorMsg && (
-            <div className="bg-rose-50 border border-rose-200 text-rose-700 p-3.5 rounded-xl text-xs font-bold flex items-center gap-2 animate-fade-in">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            <div className="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-2xl text-sm font-bold flex items-center gap-3 animate-fade-in">
+              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {mode === 'register' && (
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">성함 *</label>
+                <label className="text-xs sm:text-sm font-bold text-slate-700 block mb-1.5">성함 *</label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <User className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
                   <input
                     type="text"
                     required
                     placeholder="성함을 입력하세요 (예: 홍길동)"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -167,14 +167,14 @@ export const LoginPage: React.FC = () => {
             )}
 
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">이메일 주소 *</label>
+              <label className="text-xs sm:text-sm font-bold text-slate-700 block mb-1.5">이메일 주소 *</label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Mail className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
                 <input
                   type="email"
                   required
                   placeholder="example@hoverstay.com"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -182,14 +182,14 @@ export const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">비밀번호 *</label>
+              <label className="text-xs sm:text-sm font-bold text-slate-700 block mb-1.5">비밀번호 *</label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Lock className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
                 <input
                   type="password"
                   required
                   placeholder="비밀번호를 입력하세요"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -198,10 +198,10 @@ export const LoginPage: React.FC = () => {
 
             {mode === 'register' && (
               <div className="pt-2">
-                <label className="flex items-start gap-2 cursor-pointer text-xs font-medium text-slate-600">
+                <label className="flex items-start gap-2.5 cursor-pointer text-xs sm:text-sm font-semibold text-slate-600">
                   <input
                     type="checkbox"
-                    className="mt-0.5 accent-blue-600 rounded"
+                    className="mt-0.5 accent-blue-600 rounded w-4 h-4"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
                   />
@@ -215,14 +215,14 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 mt-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-4 bg-slate-900 hover:bg-blue-600 text-white font-black text-sm sm:text-base rounded-2xl shadow-md transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-50"
             >
               {loading ? (
-                <Loader2 className="w-4 h-4 animate-spin text-white" />
+                <Loader2 className="w-5 h-5 animate-spin text-white" />
               ) : (
                 <>
                   <span>{mode === 'login' ? '로그인하기' : 'HoverStay 회원가입하기'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </>
               )}
             </button>
