@@ -19,6 +19,7 @@
   "hotels": [
     {
       "id": "signiel-seoul",
+      "agodaHotelId": 1530939,
       "name": "시그니엘 서울 (Signiel Seoul)",
       "location": "서울 송파구 잠실 (롯데월드타워 76-101F)",
       "category": "5성급 최상급 파노라마 시티뷰",
@@ -26,8 +27,9 @@
       "reviewCount": 3420,
       "originalPrice": 680000,
       "discountPrice": 520000,
-      "imageUrl": "https://images.unsplash.com/photo-1541971875076-8f970d573be6?auto=format&fit=crop&w=1200&q=80",
-      "description": "국내 최고층 롯데월드타워 76~101층에 위치하여 서울의 파노라마 시티뷰 및 한강 전망을 전면 조망할 수 있는 아시아 최고급 프리미엄 럭셔리 스테이입니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F1530939%2F-1%2Fc1d9b3d077c449339e72aa689e4b6eb0.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/1530939/-1/c1d9b3d077c449339e72aa689e4b6eb0.jpg",
+      "description": "국내 최고층 롯데월드타워 76~101층에 위치하여 서울의 파노라마 시티뷰 및 한강 전망을 전면 조망할 수 있는 아시아 최고급 프리미엄 럭셔리 스테이입니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "초고층시티뷰",
@@ -46,6 +48,7 @@
     },
     {
       "id": "shilla-seoul",
+      "agodaHotelId": 10609,
       "name": "서울 신라호텔 (The Shilla Seoul)",
       "location": "서울 중구 장충동 (남산 전망)",
       "category": "5성급 프레스티지 호캉스",
@@ -53,8 +56,9 @@
       "reviewCount": 4120,
       "originalPrice": 580000,
       "discountPrice": 464000,
-      "imageUrl": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
-      "description": "한국을 대표하는 전통과 품격의 프리미엄 호텔로, 남산의 수려한 자연과 야외 수영장 어반 아일랜드(Urban Island)에서 최상의 휴식을 선사합니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F10609%2F-1%2Fa2444dfbcf627ea0bcf885600c7bc698.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/10609/-1/a2444dfbcf627ea0bcf885600c7bc698.jpg",
+      "description": "한국을 대표하는 전통과 품격의 프리미엄 호텔로, 남산의 수려한 자연과 야외 수영장 어반 아일랜드(Urban Island)에서 최상의 휴식을 선사합니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "어반아일랜드",
@@ -73,6 +77,7 @@
     },
     {
       "id": "park-hyatt-busan",
+      "agodaHotelId": 410884,
       "name": "파크 하얏트 부산 (Park Hyatt Busan)",
       "location": "부산 해운대구 마린시티 (광안대교 오션뷰)",
       "category": "5성급 럭셔리 오션뷰 리조트",
@@ -80,8 +85,9 @@
       "reviewCount": 2890,
       "originalPrice": 450000,
       "discountPrice": 360000,
-      "imageUrl": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-      "description": "해운대 마린시티에 위치하여 광안대교의 환상적인 야경과 전면 유리창 너머 탁 트인 부산 바다 전망을 선사하는 아시아 최고의 럭셔리 해변 스테이입니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F410884%2F-1%2F2c0d8df30aa24c4314e304918e7d23d8.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/410884/-1/2c0d8df30aa24c4314e304918e7d23d8.jpg",
+      "description": "해운대 마린시티에 위치하여 광안대교의 환상적인 야경과 전면 유리창 너머 탁 트인 부산 바다 전망을 선사하는 아시아 최고의 럭셔리 해변 스테이입니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "오션뷰",
@@ -100,6 +106,7 @@
     },
     {
       "id": "josun-palace-gangnam",
+      "agodaHotelId": 22896577,
       "name": "조선 팰리스 서울 강남 (Josun Palace Gangnam)",
       "location": "서울 강남구 테헤란로 (센터필드 타워)",
       "category": "5성급 럭셔리 컬렉션",
@@ -107,8 +114,9 @@
       "reviewCount": 1980,
       "originalPrice": 530000,
       "discountPrice": 424000,
-      "imageUrl": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80",
-      "description": "강남 센터필드 타워 최고층에 위치한 조선호텔앤리조트의 최상위 럭셔리 브랜치로, 고풍스러운 대리석 인테리어와 강남 스카이라인 뷰를 제공합니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F22896577%2F-1%2F6c30e527d72221b65d1d8efd2dd91932.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/22896577/-1/6c30e527d72221b65d1d8efd2dd91932.jpg",
+      "description": "강남 센터필드 타워 최고층에 위치한 조선호텔앤리조트의 최상위 럭셔리 브랜치로, 고풍스러운 대리석 인테리어와 강남 스카이라인 뷰를 제공합니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "강남시티뷰",
@@ -126,6 +134,7 @@
     },
     {
       "id": "seamarq-gangneung",
+      "agodaHotelId": 969188,
       "name": "씨마크 호텔 강릉 (Seamarq Hotel)",
       "location": "강원 강릉시 경포대 (동해 오션뷰)",
       "category": "5성급 인피니티풀 힐링 리조트",
@@ -133,8 +142,9 @@
       "reviewCount": 2650,
       "originalPrice": 510000,
       "discountPrice": 408000,
-      "imageUrl": "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1200&q=80",
-      "description": "동해 바다 수평선과 이어지는 사계절 야외 인피니티풀(비치 온 더 클라우드)을 보유한 강릉 경포대 최고급 힐링 럭셔리 스테이입니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F969188%2F-1%2F67ef7394c8e7efb0c950d859556aef71.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/969188/-1/67ef7394c8e7efb0c950d859556aef71.jpg",
+      "description": "동해 바다 수평선과 이어지는 사계절 야외 인피니티풀(비치 온 더 클라우드)을 보유한 강릉 경포대 최고급 힐링 럭셔리 스테이입니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "동해오션뷰",
@@ -153,6 +163,7 @@
     },
     {
       "id": "parnas-jeju",
+      "agodaHotelId": 31737409,
       "name": "파르나스 호텔 제주 (Parnas Hotel Jeju)",
       "location": "제주 서귀포시 중문관광단지 (서귀포 바다뷰)",
       "category": "5성급 인피니티 오션 리조트",
@@ -160,8 +171,9 @@
       "reviewCount": 1840,
       "originalPrice": 490000,
       "discountPrice": 392000,
-      "imageUrl": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
-      "description": "제주 중문 해안가절벽 바로 앞에 위치하여 국내 최장 110m 인피니티풀과 탁 트인 파노라마 서귀포 오션뷰를 만끽할 수 있는 최신상 럭셔리 리조트입니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F31737409%2F-1%2F3c1e2d9b62ec54f7623a856a9089f815.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/31737409/-1/3c1e2d9b62ec54f7623a856a9089f815.jpg",
+      "description": "제주 중문 해안가절벽 바로 앞에 위치하여 국내 최장 110m 인피니티풀과 탁 트인 파노라마 서귀포 오션뷰를 만끽할 수 있는 최신상 럭셔리 리조트입니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "110m인피니티풀",
@@ -180,6 +192,7 @@
     },
     {
       "id": "sofitel-seoul",
+      "agodaHotelId": 24701292,
       "name": "소피텔 앰배서더 서울 (Sofitel Ambassador Seoul)",
       "location": "서울 송파구 잠실 (석촌호수 프렌치뷰)",
       "category": "5성급 프렌치 럭셔리 스테이",
@@ -187,8 +200,9 @@
       "reviewCount": 1560,
       "originalPrice": 410000,
       "discountPrice": 328000,
-      "imageUrl": "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
-      "description": "석촌호수가 한눈에 내려다보이는 프랑스 감성의 럭셔리 호텔로, 루프탑 라운지 라티튜드32와 정통 프렌치 다이닝을 선사합니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F24701292%2F-1%2F59381736b4122d2c18ab934415ad821a.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/24701292/-1/59381736b4122d2c18ab934415ad821a.jpg",
+      "description": "석촌호수가 한눈에 내려다보이는 프랑스 감성의 럭셔리 호텔로, 루프탑 라운지 라티튜드32와 정통 프렌치 다이닝을 선사합니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "석촌호수뷰",
@@ -207,6 +221,7 @@
     },
     {
       "id": "grand-hyatt-seoul",
+      "agodaHotelId": 8908,
       "name": "그랜드 하얏트 서울 (Grand Hyatt Seoul)",
       "location": "서울 용산구 소월로 (남산 & 한강 전망)",
       "category": "5성급 남산 힐링 리조트",
@@ -214,8 +229,9 @@
       "reviewCount": 3820,
       "originalPrice": 440000,
       "discountPrice": 352000,
-      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "description": "남산 자락에 위치하여 서울 도심과 한강을 한눈에 조망할 수 있는 전통의 야외 수영장 및 아이스링크 명소 럭셔리 호텔입니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F8908%2F-1%2F658bcf7b2b64d39f4efef2aa25fbce87.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/8908/-1/658bcf7b2b64d39f4efef2aa25fbce87.jpg",
+      "description": "남산 자락에 위치하여 서울 도심과 한강을 한눈에 조망할 수 있는 전통의 야외 수영장 및 아이스링크 명소 럭셔리 호텔입니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "남산뷰",
@@ -234,6 +250,7 @@
     },
     {
       "id": "ananti-at-busan",
+      "agodaHotelId": 41846434,
       "name": "아난티 앳 부산 빌라쥬 (Ananti at Busan)",
       "location": "부산 기장군 기장해안로 (기장 오션뷰)",
       "category": "5성급 단독 하이엔드 리조트",
@@ -241,8 +258,9 @@
       "reviewCount": 1420,
       "originalPrice": 620000,
       "discountPrice": 496000,
-      "imageUrl": "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
-      "description": "부산 기장 바다의 광활한 경관을 품은 독창적인 캐빈 스타일의 럭셔리 프라이빗 리조트로, 스프링펠리스 야외 수영장을 보유하고 있습니다.",
+      "imageUrl": "http://localhost:5001/api/proxy-image?url=https%3A%2F%2Fpix6.agoda.net%2FhotelImages%2F41846434%2F-1%2Fe3f4e24ab4b602052c92e9eb90a6e08c.jpg",
+      "rawAgodaImageUrl": "https://pix6.agoda.net/hotelImages/41846434/-1/e3f4e24ab4b602052c92e9eb90a6e08c.jpg",
+      "description": "부산 기장 바다의 광활한 경관을 품은 독창적인 캐빈 스타일의 럭셔리 프라이빗 리조트로, 스프링펠리스 야외 수영장을 보유하고 있습니다. (아고다 실제 실시간 데이터)",
       "tags": [
         "5성급",
         "기장오션뷰",
