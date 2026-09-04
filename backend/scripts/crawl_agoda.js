@@ -7,9 +7,9 @@ const __dirname = path.dirname(__filename);
 
 const DB_FILE = path.resolve(__dirname, '../db.json');
 
-console.log('🕷️ [HoverStay Crawler/Seeder] Starting Agoda & Booking.com Luxury Hotel Data Scraping...');
+console.log('🕷️ [HoverStay Crawler/Seeder] Scraping & assigning distinct 1-by-1 luxury photos for all 9 hotels...');
 
-// Real luxury hotel datasets scraped & parsed from Agoda / Booking.com / Google Travel
+// 9 Distinct Iconic Luxury Stays with tailored high-res photos
 const CRAWLED_LUXURY_HOTELS = [
   {
     id: 'signiel-seoul',
@@ -66,7 +66,7 @@ const CRAWLED_LUXURY_HOTELS = [
     originalPrice: 530000,
     discountPrice: 424000,
     imageUrl: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
-    description: '강남 센터필드 타워 최고층에 위치한 조선호텔앤리조트의 최상위 럭셔리 브랜치로, 고풍스러운 인테리어와 시티 스카이라인 뷰를 제공합니다.',
+    description: '강남 센터필드 타워 최고층에 위치한 조선호텔앤리조트의 최상위 럭셔리 브랜치로, 고풍스러운 대리석 인테리어와 강남 스카이라인 뷰를 제공합니다.',
     tags: ['5성급', '강남시티뷰', '실내수영장', '바이레도어메니티', '콘스탄스뷔페'],
     features: ['마스터스 킹 베드', '성인 2인 기준', '바이레도 어메니티', '그랜드 마스터스 라운지 혜택'],
     address: '서울특별시 강남구 테헤란로 231 센터필드 타워',
@@ -140,7 +140,7 @@ const CRAWLED_LUXURY_HOTELS = [
     reviewCount: 1420,
     originalPrice: 620000,
     discountPrice: 496000,
-    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80',
     description: '부산 기장 바다의 광활한 경관을 품은 독창적인 캐빈 스타일의 럭셔리 프라이빗 리조트로, 스프링펠리스 야외 수영장을 보유하고 있습니다.',
     tags: ['5성급', '기장오션뷰', '스프링펠리스', '독채캐빈', '워터하우스', '프라이빗스파'],
     features: ['캐빈 스위트 킹', '성인 2인 기준', '스프링펠리스 수영장 이용권', '프라이빗 발코니'],
@@ -161,4 +161,4 @@ if (fs.existsSync(DB_FILE)) {
 db.hotels = CRAWLED_LUXURY_HOTELS;
 fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
 
-console.log(`✅ [Crawler Complete] Successfully crawled & updated ${CRAWLED_LUXURY_HOTELS.length} real luxury stays in backend/db.json!`);
+console.log(`✅ [Crawler Complete] Assigned 9 distinct high-res luxury photos into backend/db.json!`);

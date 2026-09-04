@@ -1,4 +1,5 @@
 import http from 'http';
+import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -73,7 +74,37 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { status: 'ok', message: 'HoverStay REST API Backend Server Running' });
     }
 
-    // 2. Hotels: Get All (from crawled Agoda/Booking.com DB)
+    // 2. Agoda / Booking.com Image Proxy (Bypasses Hotlinking & CORS 403 Forbidden blocks)
+    if (url.startsWith('/api/proxy-image') && method === 'GET') {
+      const queryParams = new URL(url, `http://localhost:${PORT}`).searchParams;
+      const imageUrl = queryParams.get('url');
+
+      if (!imageUrl) {
+        return sendJSON(res, 400, { success: false, message: 'Image URL param required' });
+      }
+
+      const client = imageUrl.startsWith('https') ? https : http;
+      
+      client.get(imageUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Referer': 'https://www.agoda.com/',
+        }
+      }, (proxyRes) => {
+        res.writeHead(proxyRes.statusCode || 200, {
+          'Content-Type': proxyRes.headers['content-type'] || 'image/jpeg',
+          'Cache-Control': 'public, max-age=86400',
+          'Access-Control-Allow-Origin': '*',
+        });
+        proxyRes.pipe(res);
+      }).on('error', (err) => {
+        console.error('Proxy Image Error:', err);
+        sendJSON(res, 500, { success: false, message: 'Failed to proxy image' });
+      });
+      return;
+    }
+
+    // 3. Hotels: Get All (from crawled Agoda/Booking.com DB)
     if (url.startsWith('/api/hotels') && method === 'GET') {
       const db = loadDB();
       const queryParams = new URL(url, `http://localhost:${PORT}`).searchParams;
@@ -103,7 +134,7 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, hotels: hotelsList });
     }
 
-    // 3. Auth: Register
+    // 4. Auth: Register
     if (url === '/api/auth/register' && method === 'POST') {
       const body = await parseBody(req);
       const { name, email, password } = body;
@@ -137,7 +168,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 4. Auth: Login
+    // 5. Auth: Login
     if (url === '/api/auth/login' && method === 'POST') {
       const body = await parseBody(req);
       const { email, password } = body;
@@ -165,7 +196,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 5. Booking: Create
+    // 6. Booking: Create
     if (url === '/api/bookings' && method === 'POST') {
       const body = await parseBody(req);
       const db = loadDB();
@@ -197,7 +228,7 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, booking: newBooking });
     }
 
-    // 6. Booking: Get All / Filtered by email
+    // 7. Booking: Get All / Filtered by email
     if (url.startsWith('/api/bookings') && method === 'GET') {
       const db = loadDB();
       const queryParams = new URL(url, `http://localhost:${PORT}`).searchParams;
@@ -213,7 +244,7 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, bookings: result });
     }
 
-    // 7. Booking: Cancel
+    // 8. Booking: Cancel
     if (url === '/api/bookings/cancel' && method === 'POST') {
       const body = await parseBody(req);
       const { bookingId } = body;
