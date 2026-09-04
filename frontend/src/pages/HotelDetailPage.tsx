@@ -36,31 +36,31 @@ export const HotelDetailPage: React.FC = () => {
     ((hotel.originalPrice - hotel.discountPrice) / hotel.originalPrice) * 100
   );
 
-  // Dedicated 1-by-1 Photos matching user's requested 6 categories
+  // Dynamic Hotel Specific Gallery Photos
   const galleryPhotos = [
-    { url: hotel.imageUrl, title: `01. ${hotel.name} 초고층 타워 전경` },
-    { url: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1600&q=80', title: '02. 프리미엄 트윈 스위트 룸 (Twin Suite)' },
-    { url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80', title: '03. 시그니처 킹 스위트 룸 (King Suite)' },
-    { url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80', title: '04. 초고층 실내 인피니티 수영장 (High-rise Pool)' },
-    { url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80', title: '05. 프라이빗 스파 & 파노라마 라운지 (Private Spa)' },
+    { url: hotel.imageUrl, title: `01. ${hotel.name} 대표 전경` },
+    { url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80', title: `02. ${hotel.name} 프리미엄 디럭스 스위트` },
+    { url: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1600&q=80', title: `03. ${hotel.name} 파노라마 이그제큐티브 스위트` },
+    { url: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80', title: `04. ${hotel.name} 럭셔리 인피니티 수영장 & 라운지` },
+    { url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80', title: `05. ${hotel.name} 프라이빗 힐링 스파` },
   ];
 
-  // Agoda-Style Room Options
+  // Agoda-Style Room Options tailored to hotel
   const rooms = [
     {
       id: 0,
-      name: '디럭스 킹룸 (Deluxe King Room)',
+      name: `${hotel.name.split(' ')[0]} 디럭스 킹룸 (Deluxe King)`,
       bed: '킹 베드 1개',
       capacity: '기준 2인 / 최대 2인',
-      breakfast: '조식 포함 가능 (+30,000원)',
+      breakfast: '조식 포함 옵션 (+30,000원)',
       price: hotel.discountPrice,
       originalPrice: hotel.originalPrice,
-      benefits: ['무료 Wi-Fi', '전용 욕조', '무료 미니바'],
-      img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+      benefits: ['무료 Wi-Fi', '전용 욕조', '무료 미니바 제공'],
+      img: hotel.imageUrl,
     },
     {
       id: 1,
-      name: '이그제큐티브 트윈 스위트 (Executive Twin Suite)',
+      name: `${hotel.name.split(' ')[0]} 이그제큐티브 트윈 스위트 (Executive Twin)`,
       bed: '트윈 베드 2개 + 라운지 혜택',
       capacity: '기준 2인 / 최대 3인',
       breakfast: '이그제큐티브 라운지 조식 포함',
@@ -71,14 +71,14 @@ export const HotelDetailPage: React.FC = () => {
     },
     {
       id: 2,
-      name: '프리미엄 코너 파노라마 스위트 (Corner Panorama Suite)',
+      name: `${hotel.name.split(' ')[0]} 프리미엄 코너 파노라마 스위트 (Panorama Suite)`,
       bed: '그랜드 킹 베드 1개 + 파노라마 전경',
       capacity: '기준 2인 / 최대 4인',
       breakfast: '룸서비스 프리미엄 조식 무료',
       price: Math.round(hotel.discountPrice * 1.7),
       originalPrice: Math.round(hotel.originalPrice * 1.7),
-      benefits: ['웰컴 샴페인 제공', '야외 수영장 프리패스', '딥티크 풀세트'],
-      img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+      benefits: ['웰컴 샴페인 제공', '야외 수영장 프리패스', '프리미엄 어메니티'],
+      img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
     },
   ];
 
@@ -130,7 +130,7 @@ export const HotelDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Spacious High-Res Photo Gallery Banner with Lightbox Trigger */}
+      {/* High-Res Photo Gallery Banner with Lightbox Trigger */}
       <div className="relative rounded-3xl overflow-hidden shadow-lg bg-slate-900 group">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 min-h-[420px] sm:min-h-[480px]">
           {/* Main Large Photo */}
