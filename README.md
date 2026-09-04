@@ -14,15 +14,7 @@
   </a>
 </p>
 
----
 
-## 🌐 클라우드 라이브 배포 (Vercel Cloud Deployment)
-
-- **공식 라이브 서비스 URL**: [https://knu-capston-fe-kreteck.vercel.app](https://knu-capston-fe-kreteck.vercel.app)
-- **배포 플랫폼**: Vercel Cloud (Hobby Serverless Deployment)
-- **특징**: 별도 설치 없이 모바일/PC 브라우저 어디서나 24시간 실시간 접속 및 테스트 가능
-
----
 
 ## 🛠️ 기술 스택 (Tech Stack)
 
