@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { CheckCircle2, Ticket, Sparkles, CreditCard, ShieldCheck, MapPin, ArrowLeft, QrCode, Loader2 } from 'lucide-react';
-import { MOCK_HOTELS, MOCK_COUPONS } from '../services/mockData';
+import { REAL_HOTELS, REAL_COUPONS } from '../services/hotelData';
 import { BookingRecord } from './MyBookingsPage';
 import { api } from '../services/api';
 
@@ -10,9 +10,10 @@ export const BookingPage: React.FC = () => {
   const navigate = useNavigate();
 
   const hotelId = searchParams.get('hotelId') || 'signiel-seoul';
+  const selectedHotel = REAL_HOTELS.find((h) => h.id === hotelId) || REAL_HOTELS[0];
   const roomId = parseInt(searchParams.get('roomId') || '0', 10);
 
-  const hotel = MOCK_HOTELS.find((h) => h.id === hotelId) || MOCK_HOTELS[0];
+  const hotel = selectedHotel;
 
   const roomNames = [
     '디럭스 킹룸 (Deluxe King Room)',
@@ -50,7 +51,7 @@ export const BookingPage: React.FC = () => {
   const checkOutStr = formatDateStr(tomorrow);
   const [createdBooking, setCreatedBooking] = useState<BookingRecord | null>(null);
 
-  const activeCouponObj = MOCK_COUPONS.find((c) => c.id === selectedCoupon);
+  const activeCouponObj = REAL_COUPONS.find((c: any) => c.id === selectedCoupon);
   const discountRate = activeCouponObj ? activeCouponObj.discountPercent : 0;
 
   const discountAmount = Math.round((selectedRoomPrice * discountRate) / 100);
@@ -246,7 +247,7 @@ export const BookingPage: React.FC = () => {
             </h3>
 
             <div className="space-y-3">
-              {MOCK_COUPONS.map((coupon) => (
+              {REAL_COUPONS.map((coupon: any) => (
                 <label
                   key={coupon.id}
                   className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${

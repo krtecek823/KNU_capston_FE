@@ -1,6 +1,6 @@
 import React from 'react';
 import { Gift, Sparkles, Copy, Check } from 'lucide-react';
-import { MOCK_COUPONS } from '../services/mockData';
+import { REAL_COUPONS } from '../services/hotelData';
 
 export const CouponsPage: React.FC = () => {
   const [copiedCode, setCopiedCode] = React.useState<string | null>(null);
@@ -24,7 +24,7 @@ export const CouponsPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {MOCK_COUPONS.map((coupon) => (
+        {REAL_COUPONS.map((coupon) => (
           <div
             key={coupon.id}
             className="bg-white rounded-2xl border border-amber-200/80 p-6 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all"

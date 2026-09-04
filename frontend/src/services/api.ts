@@ -1,5 +1,5 @@
 import { Hotel, Coupon, DecisionResponse, TrackingEvent } from '../types';
-import { MOCK_HOTELS, MOCK_COUPONS } from './mockData';
+import { REAL_HOTELS, REAL_COUPONS } from './hotelData';
 
 // API Base URLs with fallbacks
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API || 'http://localhost:5001';
@@ -101,9 +101,9 @@ export const api = {
       console.warn('[Backend Hotels Fallback]', err);
     }
     await delay(100);
-    if (!query) return MOCK_HOTELS;
+    if (!query) return REAL_HOTELS;
     const lower = query.toLowerCase();
-    return MOCK_HOTELS.filter(
+    return REAL_HOTELS.filter(
       (h) =>
         h.name.toLowerCase().includes(lower) ||
         h.location.toLowerCase().includes(lower) ||
@@ -123,13 +123,13 @@ export const api = {
       console.warn('[Backend Hotel Detail Fallback]', err);
     }
     await delay(100);
-    return MOCK_HOTELS.find((h) => h.id === id);
+    return REAL_HOTELS.find((h) => h.id === id);
   },
 
   // 8. Coupon Wallet
   async getCoupons(): Promise<Coupon[]> {
     await delay(100);
-    return MOCK_COUPONS;
+    return REAL_COUPONS;
   },
 
   // 9. Send Event Streams to Real Ingestion API (:4000)

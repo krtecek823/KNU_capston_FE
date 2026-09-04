@@ -23,7 +23,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Manrope', 'Noto Sans KR', 'sans-serif'],
+        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
       },
     },
   },
