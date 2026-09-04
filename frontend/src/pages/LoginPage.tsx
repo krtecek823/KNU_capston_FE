@@ -97,7 +97,7 @@ export const LoginPage: React.FC = () => {
           <p className="text-xs text-slate-500 font-medium">
             {mode === 'login'
               ? 'HoverStay 계정으로 로그인하고 단독 최저가 혜택을 이용하세요'
-              : 'HoverStay 직영 회원가입 후 단독 15% 시크릿 할인 쿠폰을 받으세요'}
+              : 'HoverStay 회원가입 후 단독 15% 시크릿 할인 쿠폰을 받으세요'}
           </p>
         </div>
 
@@ -221,7 +221,7 @@ export const LoginPage: React.FC = () => {
                 <Loader2 className="w-4 h-4 animate-spin text-white" />
               ) : (
                 <>
-                  <span>{mode === 'login' ? '로그인하기' : 'HoverStay 직영 회원가입 완료하기'}</span>
+                  <span>{mode === 'login' ? '로그인하기' : 'HoverStay 회원가입하기'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
