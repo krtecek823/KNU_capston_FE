@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Mail, Lock, User, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, User, CheckCircle2, ArrowRight, AlertCircle } from 'lucide-react';
+
+interface RegisteredUser {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,26 +18,88 @@ export const LoginPage: React.FC = () => {
   const [name, setName] = useState('');
   const [agreed, setAgreed] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === 'register' && !agreed) {
-      alert('필수 이용약관에 동의해 주세요.');
-      return;
+    setSuccessMsg('');
+    setErrorMsg('');
+
+    // Fetch existing registered users
+    const savedUsersStr = localStorage.getItem('hoverstay_registered_users');
+    let usersList: RegisteredUser[] = [];
+    if (savedUsersStr) {
+      try {
+        usersList = JSON.parse(savedUsersStr);
+      } catch {
+        usersList = [];
+      }
     }
 
     if (mode === 'register') {
-      setSuccessMsg('회원가입이 완료되었습니다! 신규가입 15% 시크릿 쿠폰이 발급되었습니다.');
+      if (!agreed) {
+        setErrorMsg('필수 이용약관에 동의해 주세요.');
+        return;
+      }
+
+      if (!name.trim() || !email.trim() || !password.trim()) {
+        setErrorMsg('모든 필수 항목을 입력해 주세요.');
+        return;
+      }
+
+      // Check if email already registered
+      const existingUser = usersList.find((u) => u.email.toLowerCase() === email.toLowerCase());
+      if (existingUser) {
+        setErrorMsg('이미 가입된 이메일 주소입니다. 로그인해 주세요.');
+        return;
+      }
+
+      // Save new user
+      const newUser: RegisteredUser = { name, email, password };
+      usersList.push(newUser);
+      localStorage.setItem('hoverstay_registered_users', JSON.stringify(usersList));
+
+      setSuccessMsg('회원가입이 완료되었습니다! 가입하신 이메일과 비밀번호로 로그인해 주세요.');
+      
+      // Auto-switch to login mode with prefilled email
       setTimeout(() => {
         setMode('login');
+        setPassword('');
         setSuccessMsg('');
       }, 1500);
+
     } else {
-      localStorage.setItem('hoverstay_user', JSON.stringify({ email, name: name || '회원' }));
-      setSuccessMsg('로그인되었습니다. 환영합니다!');
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
+      // Login Mode
+      const matchedUser = usersList.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+      );
+
+      if (matchedUser) {
+        localStorage.setItem(
+          'hoverstay_user',
+          JSON.stringify({ email: matchedUser.email, name: matchedUser.name })
+        );
+        setSuccessMsg(`${matchedUser.name}님 환영합니다! 로그인되었습니다.`);
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      } else {
+        // Fallback for demo mode if user hasn't registered yet
+        if (email.trim() && password.trim() && usersList.length === 0) {
+          // If no registered users exist yet, allow quick demo login with entered name or default
+          const demoName = name || email.split('@')[0] || '회원';
+          localStorage.setItem(
+            'hoverstay_user',
+            JSON.stringify({ email, name: demoName })
+          );
+          setSuccessMsg(`${demoName}님 환영합니다! 로그인되었습니다.`);
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
+        } else {
+          setErrorMsg('등록되지 않은 이메일이거나 비밀번호가 일치하지 않습니다. 회원가입 후 이용해 주세요.');
+        }
+      }
     }
   };
 
@@ -63,8 +131,8 @@ export const LoginPage: React.FC = () => {
           </Link>
           <p className="text-xs text-slate-500 font-medium">
             {mode === 'login'
-              ? '회원 전용 단독 최저가와 시크릿 혜택을 확인하세요'
-              : '지금 가입하고 단독 15% 시크릿 할인 쿠폰을 받으세요'}
+              ? 'HoverStay 계정으로 로그인하고 단독 최저가 혜택을 이용하세요'
+              : 'HoverStay 직영 회원가입 후 단독 15% 시크릿 할인 쿠폰을 받으세요'}
           </p>
         </div>
 
@@ -73,16 +141,24 @@ export const LoginPage: React.FC = () => {
           {/* Mode Switch Tabs */}
           <div className="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-xl text-center">
             <button
-              onClick={() => setMode('login')}
-              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all ${
+              onClick={() => {
+                setMode('login');
+                setErrorMsg('');
+                setSuccessMsg('');
+              }}
+              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all cursor-pointer ${
                 mode === 'login' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               로그인
             </button>
             <button
-              onClick={() => setMode('register')}
-              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all ${
+              onClick={() => {
+                setMode('register');
+                setErrorMsg('');
+                setSuccessMsg('');
+              }}
+              className={`py-2.5 text-xs font-extrabold rounded-lg transition-all cursor-pointer ${
                 mode === 'register' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
@@ -98,17 +174,25 @@ export const LoginPage: React.FC = () => {
             </div>
           )}
 
+          {/* Error Banner */}
+          {errorMsg && (
+            <div className="bg-rose-50 border border-rose-200 text-rose-700 p-3.5 rounded-xl text-xs font-bold flex items-center gap-2 animate-fade-in">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'register' && (
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">이름</label>
+                <label className="text-xs font-bold text-slate-700 block mb-1">성함 *</label>
                 <div className="relative">
                   <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     type="text"
                     required
-                    placeholder="성함을 입력하세요"
+                    placeholder="성함을 입력하세요 (예: 홍길동)"
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600 transition-colors"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -118,7 +202,7 @@ export const LoginPage: React.FC = () => {
             )}
 
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">이메일 주소</label>
+              <label className="text-xs font-bold text-slate-700 block mb-1">이메일 주소 *</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
@@ -133,7 +217,7 @@ export const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">비밀번호</label>
+              <label className="text-xs font-bold text-slate-700 block mb-1">비밀번호 *</label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
@@ -165,48 +249,19 @@ export const LoginPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 mt-2"
+              className="w-full py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 mt-2 cursor-pointer"
             >
-              <span>{mode === 'login' ? '로그인하기' : '신규 회원가입 및 혜택 받기'}</span>
+              <span>{mode === 'login' ? '로그인하기' : 'HoverStay 직영 회원가입 완료하기'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          {/* Social Quick Auth Options */}
-          <div className="pt-4 border-t border-slate-100 space-y-3">
-            <p className="text-[11px] font-bold text-slate-400 text-center uppercase tracking-wider">
-              간편 SNS 계정으로 시작하기
-            </p>
-
-            <div className="space-y-2">
-              <button
-                onClick={() => {
-                  localStorage.setItem('hoverstay_user', JSON.stringify({ email: 'kakao@hoverstay.com', name: '카카오 회원' }));
-                  navigate('/');
-                }}
-                className="w-full py-2.5 bg-[#FEE500] hover:bg-[#FADA0A] text-[#191919] font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors"
-              >
-                <span>카카오로 3초 만에 시작하기</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  localStorage.setItem('hoverstay_user', JSON.stringify({ email: 'naver@hoverstay.com', name: '네이버 회원' }));
-                  navigate('/');
-                }}
-                className="w-full py-2.5 bg-[#03C75A] hover:bg-[#02B351] text-white font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors"
-              >
-                <span>네이버로 시작하기</span>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Member Perk Banner */}
         <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-900 font-semibold">
           <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
           <p>
-            HoverStay 회원 가입 시 <strong className="font-extrabold">100% 최저가 보장</strong> 및 <strong className="font-extrabold">단독 15% 시크릿 쿠폰</strong>이 자동 적용됩니다.
+            HoverStay 회원 가입 시 <strong className="font-extrabold">100% 최저가 보장</strong> 및 <strong className="font-extrabold">단독 15% 시크릿 쿠폰</strong>이 자동 발급됩니다.
           </p>
         </div>
       </div>
