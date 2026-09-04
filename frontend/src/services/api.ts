@@ -88,9 +88,19 @@ export const api = {
     }
   },
 
-  // 6. Hotel List (supports keyword filter & tag filtering)
+  // 6. Hotel List (fetches from Backend API or fallback)
   async getHotels(query?: string): Promise<Hotel[]> {
-    await delay(150);
+    try {
+      const url = query ? `${BACKEND_API_URL}/api/hotels?q=${encodeURIComponent(query)}` : `${BACKEND_API_URL}/api/hotels`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.hotels) && data.hotels.length > 0) {
+        return data.hotels;
+      }
+    } catch (err) {
+      console.warn('[Backend Hotels Fallback]', err);
+    }
+    await delay(100);
     if (!query) return MOCK_HOTELS;
     const lower = query.toLowerCase();
     return MOCK_HOTELS.filter(
@@ -101,8 +111,17 @@ export const api = {
     );
   },
 
-  // 7. Hotel Detail
+  // 7. Hotel Detail (fetches from Backend API or fallback)
   async getHotelById(id: string): Promise<Hotel | undefined> {
+    try {
+      const res = await fetch(`${BACKEND_API_URL}/api/hotels/${id}`);
+      const data = await res.json();
+      if (data.success && data.hotel) {
+        return data.hotel;
+      }
+    } catch (err) {
+      console.warn('[Backend Hotel Detail Fallback]', err);
+    }
     await delay(100);
     return MOCK_HOTELS.find((h) => h.id === id);
   },

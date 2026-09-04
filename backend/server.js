@@ -11,7 +11,7 @@ const DB_FILE = path.join(__dirname, 'db.json');
 
 const loadDB = () => {
   if (!fs.existsSync(DB_FILE)) {
-    const initialDB = { users: [], bookings: [] };
+    const initialDB = { users: [], bookings: [], hotels: [] };
     fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2), 'utf-8');
     return initialDB;
   }
@@ -19,7 +19,7 @@ const loadDB = () => {
     const content = fs.readFileSync(DB_FILE, 'utf-8');
     return JSON.parse(content);
   } catch (err) {
-    return { users: [], bookings: [] };
+    return { users: [], bookings: [], hotels: [] };
   }
 };
 
@@ -73,7 +73,37 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { status: 'ok', message: 'HoverStay REST API Backend Server Running' });
     }
 
-    // 2. Auth: Register
+    // 2. Hotels: Get All (from crawled Agoda/Booking.com DB)
+    if (url.startsWith('/api/hotels') && method === 'GET') {
+      const db = loadDB();
+      const queryParams = new URL(url, `http://localhost:${PORT}`).searchParams;
+      const query = queryParams.get('q');
+      const idMatch = url.match(/\/api\/hotels\/([a-zA-Z0-9-]+)/);
+
+      if (idMatch && idMatch[1]) {
+        const hotelId = idMatch[1];
+        const target = (db.hotels || []).find((h) => h.id === hotelId);
+        if (target) {
+          return sendJSON(res, 200, { success: true, hotel: target });
+        }
+        return sendJSON(res, 404, { success: false, message: '숙소를 찾을 수 없습니다.' });
+      }
+
+      let hotelsList = db.hotels || [];
+      if (query) {
+        const lower = query.toLowerCase();
+        hotelsList = hotelsList.filter(
+          (h) =>
+            h.name.toLowerCase().includes(lower) ||
+            h.location.toLowerCase().includes(lower) ||
+            (h.tags && h.tags.some((t) => t.toLowerCase().includes(lower)))
+        );
+      }
+
+      return sendJSON(res, 200, { success: true, hotels: hotelsList });
+    }
+
+    // 3. Auth: Register
     if (url === '/api/auth/register' && method === 'POST') {
       const body = await parseBody(req);
       const { name, email, password } = body;
@@ -107,7 +137,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 3. Auth: Login
+    // 4. Auth: Login
     if (url === '/api/auth/login' && method === 'POST') {
       const body = await parseBody(req);
       const { email, password } = body;
@@ -135,7 +165,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 4. Booking: Create
+    // 5. Booking: Create
     if (url === '/api/bookings' && method === 'POST') {
       const body = await parseBody(req);
       const db = loadDB();
@@ -167,7 +197,7 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, booking: newBooking });
     }
 
-    // 5. Booking: Get All / Filtered by email
+    // 6. Booking: Get All / Filtered by email
     if (url.startsWith('/api/bookings') && method === 'GET') {
       const db = loadDB();
       const queryParams = new URL(url, `http://localhost:${PORT}`).searchParams;
@@ -183,7 +213,7 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, bookings: result });
     }
 
-    // 6. Booking: Cancel
+    // 7. Booking: Cancel
     if (url === '/api/bookings/cancel' && method === 'POST') {
       const body = await parseBody(req);
       const { bookingId } = body;
