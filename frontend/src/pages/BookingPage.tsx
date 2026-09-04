@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { CheckCircle2, Ticket, Sparkles, CreditCard, ShieldCheck, MapPin, ArrowLeft, QrCode } from 'lucide-react';
+import { CheckCircle2, Ticket, Sparkles, CreditCard, ShieldCheck, MapPin, ArrowLeft, QrCode, Loader2 } from 'lucide-react';
 import { MOCK_HOTELS, MOCK_COUPONS } from '../services/mockData';
 import { BookingRecord } from './MyBookingsPage';
+import { api } from '../services/api';
 
 export const BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -34,6 +35,7 @@ export const BookingPage: React.FC = () => {
   const [userEmail, setUserEmail] = useState('');
   const [selectedCoupon, setSelectedCoupon] = useState<string>('special-15');
   const [paymentMethod, setPaymentMethod] = useState<'CARD' | 'KAKAO' | 'TOSS'>('CARD');
+  const [loading, setLoading] = useState(false);
 
   // Dates
   const today = new Date();
@@ -54,17 +56,16 @@ export const BookingPage: React.FC = () => {
   const discountAmount = Math.round((selectedRoomPrice * discountRate) / 100);
   const finalPayAmount = selectedRoomPrice - discountAmount;
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userName || !userPhone) {
       alert('예약자 성함과 휴대폰 번호를 정확히 입력해 주세요.');
       return;
     }
 
-    const bookingId = `HSV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    setLoading(true);
 
-    const newBooking: BookingRecord = {
-      id: bookingId,
+    const bookingPayload = {
       hotelId: hotel.id,
       hotelName: hotel.name,
       hotelLocation: hotel.location,
@@ -78,24 +79,16 @@ export const BookingPage: React.FC = () => {
       userEmail: userEmail || 'guest@hoverstay.com',
       paymentMethod: paymentMethod === 'CARD' ? '신용/체크카드' : paymentMethod === 'KAKAO' ? '카카오페이' : '토스페이',
       totalPrice: finalPayAmount,
-      createdAt: new Date().toLocaleDateString(),
-      status: 'COMPLETED',
     };
 
-    // Save to LocalStorage
-    const existing = localStorage.getItem('hoverstay_bookings');
-    let bookingsArr: BookingRecord[] = [];
-    if (existing) {
-      try {
-        bookingsArr = JSON.parse(existing);
-      } catch {
-        bookingsArr = [];
-      }
-    }
-    bookingsArr.unshift(newBooking);
-    localStorage.setItem('hoverstay_bookings', JSON.stringify(bookingsArr));
+    const res = await api.createBooking(bookingPayload);
+    setLoading(false);
 
-    setCreatedBooking(newBooking);
+    if (res.success && res.booking) {
+      setCreatedBooking(res.booking);
+    } else {
+      alert('예약 처리 중 오류가 발생했습니다.');
+    }
   };
 
   if (createdBooking) {
@@ -110,7 +103,7 @@ export const BookingPage: React.FC = () => {
             예약 번호: {createdBooking.id}
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight pt-2">
-            예약 및 결제가 정상 완료되었습니다! 🎉
+            백엔드 DB 예약 및 결제가 완료되었습니다! 🎉
           </h1>
           <p className="text-xs text-slate-500 font-medium">
             <span className="font-extrabold text-slate-900">{createdBooking.userName}</span>님, {createdBooking.hotelName} 확정 안내 문자가 <span className="font-extrabold text-slate-900">{createdBooking.userPhone}</span>(으)로 즉시 발송되었습니다.
@@ -328,9 +321,14 @@ export const BookingPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full py-4 bg-slate-900 hover:bg-blue-600 text-white font-black text-base rounded-2xl shadow-xl transition-all cursor-pointer"
+            disabled={loading}
+            className="w-full py-4 bg-slate-900 hover:bg-blue-600 text-white font-black text-base rounded-2xl shadow-xl transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            ₩{finalPayAmount.toLocaleString()} 결제 및 예약 확정하기
+            {loading ? (
+              <Loader2 className="w-5 h-5 animate-spin text-white" />
+            ) : (
+              <span>₩{finalPayAmount.toLocaleString()} 결제 및 예약 확정하기</span>
+            )}
           </button>
         </form>
 

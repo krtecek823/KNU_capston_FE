@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Ticket, QrCode, ArrowLeft, Trash2 } from 'lucide-react';
+import { Calendar, MapPin, Ticket, QrCode, ArrowLeft, Trash2, Loader2 } from 'lucide-react';
+import { api } from '../services/api';
 
 export interface BookingRecord {
   id: string;
@@ -23,25 +24,37 @@ export interface BookingRecord {
 
 export const MyBookingsPage: React.FC = () => {
   const [bookings, setBookings] = useState<BookingRecord[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchBookings = async () => {
+    setLoading(true);
+    const userStr = localStorage.getItem('hoverstay_user');
+    let email = '';
+    if (userStr) {
+      try {
+        const u = JSON.parse(userStr);
+        email = u.email;
+      } catch {}
+    }
+
+    const res = await api.getBookings(email);
+    setBookings(res);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const saved = localStorage.getItem('hoverstay_bookings');
-    if (saved) {
-      try {
-        setBookings(JSON.parse(saved));
-      } catch {
-        setBookings([]);
-      }
-    }
+    fetchBookings();
   }, []);
 
-  const handleCancelBooking = (bookingId: string) => {
-    if (window.confirm('정말 이 예약을 취소하시겠습니까? 무료 취소 기간 조건에 따라 즉시 환불 처리됩니다.')) {
-      const updated = bookings.map((b) =>
-        b.id === bookingId ? { ...b, status: 'CANCELLED' as const } : b
-      );
-      setBookings(updated);
-      localStorage.setItem('hoverstay_bookings', JSON.stringify(updated));
+  const handleCancelBooking = async (bookingId: string) => {
+    if (window.confirm('정말 이 예약을 취소하시겠습니까? 백엔드 DB에서 즉시 취소 처리됩니다.')) {
+      const res = await api.cancelBooking(bookingId);
+      if (res.success) {
+        alert(res.message);
+        fetchBookings();
+      } else {
+        alert('예약 취소 처리에 실패했습니다.');
+      }
     }
   };
 
@@ -53,7 +66,7 @@ export const MyBookingsPage: React.FC = () => {
             MY RESERVATIONS
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            내 예약 내역 확인
+            내 예약 내역 (HoverStay Backend DB 연동)
           </h1>
         </div>
 
@@ -65,7 +78,12 @@ export const MyBookingsPage: React.FC = () => {
         </Link>
       </div>
 
-      {bookings.length === 0 ? (
+      {loading ? (
+        <div className="py-20 text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-3" />
+          <p className="text-xs font-bold text-slate-500">백엔드 DB에서 예약 내역을 불러오는 중...</p>
+        </div>
+      ) : bookings.length === 0 ? (
         <div className="bg-white p-12 text-center rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
           <div className="w-16 h-16 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
             <Ticket className="w-8 h-8" />
@@ -106,7 +124,7 @@ export const MyBookingsPage: React.FC = () => {
                           : 'bg-rose-100 text-rose-700 border border-rose-200'
                       }`}
                     >
-                      {booking.status === 'COMPLETED' ? '✓ 예약 확정' : '예약 취소됨'}
+                      {booking.status === 'COMPLETED' ? '✓ DB 예약 확정' : '예약 취소됨'}
                     </span>
                     <span className="text-xs text-slate-400 font-mono">예약번호: {booking.id}</span>
                   </div>

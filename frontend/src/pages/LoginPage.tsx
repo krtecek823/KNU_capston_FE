@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Mail, Lock, User, CheckCircle2, ArrowRight, AlertCircle } from 'lucide-react';
-
-interface RegisteredUser {
-  name: string;
-  email: string;
-  password: string;
-}
+import { ShieldCheck, Mail, Lock, User, CheckCircle2, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { api } from '../services/api';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,89 +12,59 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccessMsg('');
     setErrorMsg('');
+    setLoading(true);
 
-    // Fetch existing registered users
-    const savedUsersStr = localStorage.getItem('hoverstay_registered_users');
-    let usersList: RegisteredUser[] = [];
-    if (savedUsersStr) {
-      try {
-        usersList = JSON.parse(savedUsersStr);
-      } catch {
-        usersList = [];
-      }
-    }
+    try {
+      if (mode === 'register') {
+        if (!agreed) {
+          setErrorMsg('필수 이용약관에 동의해 주세요.');
+          setLoading(false);
+          return;
+        }
 
-    if (mode === 'register') {
-      if (!agreed) {
-        setErrorMsg('필수 이용약관에 동의해 주세요.');
-        return;
-      }
+        const res = await api.registerUser(name, email, password);
+        setLoading(false);
 
-      if (!name.trim() || !email.trim() || !password.trim()) {
-        setErrorMsg('모든 필수 항목을 입력해 주세요.');
-        return;
-      }
+        if (res.success) {
+          setSuccessMsg('백엔드 서버에 회원가입이 성공적으로 등록되었습니다! 가입하신 정보로 로그인해 주세요.');
+          setTimeout(() => {
+            setMode('login');
+            setPassword('');
+            setSuccessMsg('');
+          }, 1500);
+        } else {
+          setErrorMsg(res.message || '회원가입에 실패했습니다.');
+        }
 
-      // Check if email already registered
-      const existingUser = usersList.find((u) => u.email.toLowerCase() === email.toLowerCase());
-      if (existingUser) {
-        setErrorMsg('이미 가입된 이메일 주소입니다. 로그인해 주세요.');
-        return;
-      }
-
-      // Save new user
-      const newUser: RegisteredUser = { name, email, password };
-      usersList.push(newUser);
-      localStorage.setItem('hoverstay_registered_users', JSON.stringify(usersList));
-
-      setSuccessMsg('회원가입이 완료되었습니다! 가입하신 이메일과 비밀번호로 로그인해 주세요.');
-      
-      // Auto-switch to login mode with prefilled email
-      setTimeout(() => {
-        setMode('login');
-        setPassword('');
-        setSuccessMsg('');
-      }, 1500);
-
-    } else {
-      // Login Mode
-      const matchedUser = usersList.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-      );
-
-      if (matchedUser) {
-        localStorage.setItem(
-          'hoverstay_user',
-          JSON.stringify({ email: matchedUser.email, name: matchedUser.name })
-        );
-        setSuccessMsg(`${matchedUser.name}님 환영합니다! 로그인되었습니다.`);
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
       } else {
-        // Fallback for demo mode if user hasn't registered yet
-        if (email.trim() && password.trim() && usersList.length === 0) {
-          // If no registered users exist yet, allow quick demo login with entered name or default
-          const demoName = name || email.split('@')[0] || '회원';
-          localStorage.setItem(
-            'hoverstay_user',
-            JSON.stringify({ email, name: demoName })
-          );
-          setSuccessMsg(`${demoName}님 환영합니다! 로그인되었습니다.`);
+        // Login Mode via Backend REST API
+        const res = await api.loginUser(email, password);
+        setLoading(false);
+
+        if (res.success && res.user) {
+          localStorage.setItem('hoverstay_user', JSON.stringify(res.user));
+          if (res.token) {
+            localStorage.setItem('hoverstay_auth_token', res.token);
+          }
+          setSuccessMsg(`${res.user.name}님 환영합니다! 로그인되었습니다.`);
           setTimeout(() => {
             navigate('/');
           }, 1000);
         } else {
-          setErrorMsg('등록되지 않은 이메일이거나 비밀번호가 일치하지 않습니다. 회원가입 후 이용해 주세요.');
+          setErrorMsg(res.message || '이메일 또는 비밀번호가 일치하지 않습니다.');
         }
       }
+    } catch (err: any) {
+      setLoading(false);
+      setErrorMsg('서버와 통신하는 도중 오류가 발생했습니다.');
     }
   };
 
@@ -249,10 +214,17 @@ export const LoginPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 mt-2 cursor-pointer"
+              disabled={loading}
+              className="w-full py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 mt-2 cursor-pointer disabled:opacity-50"
             >
-              <span>{mode === 'login' ? '로그인하기' : 'HoverStay 직영 회원가입 완료하기'}</span>
-              <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+              ) : (
+                <>
+                  <span>{mode === 'login' ? '로그인하기' : 'HoverStay 직영 회원가입 완료하기'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
         </div>
@@ -261,7 +233,7 @@ export const LoginPage: React.FC = () => {
         <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-900 font-semibold">
           <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
           <p>
-            HoverStay 회원 가입 시 <strong className="font-extrabold">100% 최저가 보장</strong> 및 <strong className="font-extrabold">단독 15% 시크릿 쿠폰</strong>이 자동 발급됩니다.
+            HoverStay 백엔드 DB 연동 완료 — 가입된 계정으로 <strong className="font-extrabold">100% 최저가 보장</strong> 및 <strong className="font-extrabold">단독 시크릿 혜택</strong>을 누리세요.
           </p>
         </div>
       </div>
