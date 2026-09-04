@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Mail, Lock, User, CheckCircle2, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, CheckCircle2, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
 
 export const LoginPage: React.FC = () => {
@@ -34,7 +34,7 @@ export const LoginPage: React.FC = () => {
         setLoading(false);
 
         if (res.success) {
-          setSuccessMsg('백엔드 서버에 회원가입이 성공적으로 등록되었습니다! 가입하신 정보로 로그인해 주세요.');
+          setSuccessMsg('회원가입이 완료되었습니다! 가입하신 정보로 로그인해 주세요.');
           setTimeout(() => {
             setMode('login');
             setPassword('');
@@ -227,14 +227,6 @@ export const LoginPage: React.FC = () => {
               )}
             </button>
           </form>
-        </div>
-
-        {/* Member Perk Banner */}
-        <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-center gap-3 text-xs text-blue-900 font-semibold">
-          <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
-          <p>
-            HoverStay 백엔드 DB 연동 완료 — 가입된 계정으로 <strong className="font-extrabold">100% 최저가 보장</strong> 및 <strong className="font-extrabold">단독 시크릿 혜택</strong>을 누리세요.
-          </p>
         </div>
       </div>
     </div>
