@@ -3,16 +3,24 @@
 > **"손님이 이탈하기 전 1.5초, 마우스 커서와 체류 신호를 읽고 최저가 및 시크릿 할인 혜택을 동적으로 제공합니다"**
 
 <p align="left">
+  <a href="https://knu-capston-fe.vercel.app" target="_blank">
+    <img src="https://img.shields.io/badge/🌐_Vercel_Cloud_Live-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Live App" />
+  </a>
   <a href="http://localhost:5100">
-    <img src="https://img.shields.io/badge/🚀_Live_App-Port_5100-4285F4?style=for-the-badge&logo=react&logoColor=white" alt="Live App" />
+    <img src="https://img.shields.io/badge/🚀_Local_App-Port_5100-4285F4?style=for-the-badge&logo=react&logoColor=white" alt="Local App" />
   </a>
-  <a href="http://localhost:4000">
-    <img src="https://img.shields.io/badge/📖_Ingestion_API-Port_4000-009688?style=for-the-badge&logo=fastify&logoColor=white" alt="Ingestion API" />
-  </a>
-  <a href="http://localhost:4001">
-    <img src="https://img.shields.io/badge/🎯_Decision_API-Port_4001-FF6F00?style=for-the-badge&logo=express&logoColor=white" alt="Decision API" />
+  <a href="http://localhost:5001">
+    <img src="https://img.shields.io/badge/📖_REST_API-Port_5001-009688?style=for-the-badge&logo=express&logoColor=white" alt="REST API" />
   </a>
 </p>
+
+---
+
+## 🌐 클라우드 라이브 배포 (Vercel Cloud Deployment)
+
+- **공식 라이브 서비스 URL**: [https://knu-capston-fe.vercel.app](https://knu-capston-fe.vercel.app)
+- **배포 플랫폼**: Vercel Cloud (Hobby Serverless Deployment)
+- **특징**: 별도 설치 없이 모바일/PC 브라우저 어디서나 24시간 실시간 접속 및 테스트 가능
 
 ---
 
@@ -24,25 +32,24 @@
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Vite_v5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/Tailwind_CSS_v3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Pretendard_Font-007AFF?style=for-the-badge&logo=font&logoColor=white" alt="Pretendard" />
   <img src="https://img.shields.io/badge/React_Router_v6-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router" />
   <img src="https://img.shields.io/badge/Lucide_React-000000?style=for-the-badge&logo=lucide&logoColor=white" alt="Lucide React" />
 </p>
 
 ### ⚙️ Backend & Streaming Engine
 <p>
+  <img src="https://img.shields.io/badge/Express_REST_API-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white" alt="Fastify" />
   <img src="https://img.shields.io/badge/Redis_Streams_7-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Streams" />
-  <img src="https://img.shields.io/badge/ClickHouse-FFCC00?style=for-the-badge&logo=clickhouse&logoColor=black" alt="ClickHouse" />
-  <img src="https://img.shields.io/badge/PostgreSQL_16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
 </p>
 
 ### ☁️ Infrastructure & DevOps
 <p>
+  <img src="https://img.shields.io/badge/Vercel_Cloud-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
   <img src="https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Compose" />
-  <img src="https://img.shields.io/badge/Nginx_Alpine-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx" />
 </p>
 
 ---
@@ -62,10 +69,6 @@
 
 ## 🛡️ 실시간 이탈 감지 & 이벤트 파이프라인 아키텍처
 
-> *"어떻게 고객의 이탈 의도를 메인 화면 렌더링 지연 없이 1초 만에 감지하고 처리하나요?"*
-
-HoverStay는 **클라이언트 단의 이벤트 큐 배치 처리**와 **서버 단의 Redis Streams 이벤트 스트리밍 파이프라인**을 통해 초당 수천 건의 유저 행동 로그를 지연 없이 처리합니다.
-
 ```mermaid
 flowchart TD
     A[📱 유저 브라우저 · HoverStay SPA] -->|마우스 궤적 clientY <= 15 감지| B[useHoverTracker Engine]
@@ -79,15 +82,13 @@ flowchart TD
     subgraph S2 [2단계 · 실시간 이벤트 스트리밍 파이프라인]
         D --> E[(Redis Streams 7<br/>비동기 메시지 큐)]
         E --> F[Stream Worker & 룰 엔진<br/>유저 행동 타임라인 분석]
-        F --> G[개입 문구 & 혜택 산출 Engine]
+        G[개입 문구 & 혜택 산출 Engine] <-- F
     end
 
     subgraph S3 [3단계 · 의사결정 & 다이내믹 위젯 인젝션]
         G --> H[🎯 Decision API :4001<br/>개입 페이로드 산출]
         H -->|Coupon Modal / Price Banner| I[📱 CouponModal / PriceMatchBanner<br/>1.5초 이내 동적 팝업]
     end
-
-    F --> J[(ClickHouse OLAP DB<br/>행동 분석 및 대시보드)]
 ```
 
 ### 📐 3단계 동작 원리
@@ -115,8 +116,8 @@ flowchart TD
 ### 2. 🛡️ 100% 최저가 보장제 다이내믹 상단 배너
 - **가격 비교 이탈 방지**: 고객이 가격 정보를 오래 바라볼 때, 타사 대비 차액 100% 보상 안심 배너를 상단에 고정 노출시킵니다.
 
-### 3. 🔍 스마트 숙소 검색 & 맞춤 필터링
-- **원하는 숙소 빠른 탐색**: 마포, 워커힐, 5성급, 한강뷰 등 키워드로 최저가 숙소를 즉시 검색할 수 있습니다.
+### 3. 🔍 아고다 / 부킹닷컴 실사 숙소 검색 & 맞춤 필터링
+- **원하는 숙소 빠른 탐색**: 시그니엘, 신라호텔, 파크하얏트, 5성급, 한강뷰 등 키워드로 최저가 숙소를 즉시 검색할 수 있습니다.
 
 ### 4. 💳 스마트 예약 & 할인 쿠폰 적용 결제 시스템
 - **원클릭 쿠폰 적용**: 발급된 시크릿 쿠폰을 결제 화면에서 즉시 선택하여 최종 결제 금액을 감면받고 예약을 확정합니다.
@@ -132,45 +133,32 @@ KNU_capston_FE/
 │   │   ├── components/        # Header, Footer, HotelCard, CouponModal, PriceMatchBanner
 │   │   ├── hooks/             # useHoverTracker (Exit-Intent 실시간 감지 커스텀 훅)
 │   │   ├── pages/             # HomePage, SearchPage, HotelDetailPage, BookingPage, CouponsPage
-│   │   ├── services/          # api.ts (백엔드 연동 & Mock 서비스) 및 mockData.ts
+│   │   ├── services/          # api.ts (백엔드 연동) 및 hotelData.ts
 │   │   └── types/             # TypeScript 인터페이스 스키마
 │   ├── package.json           # Port: 5100 설정
-│   ├── vite.config.ts
-│   ├── Dockerfile             # Nginx 프론트엔드 컨테이너 빌드
-│   └── README.md
+│   └── vite.config.ts
 │
-├── ⚙️ backend/               # Microservices Monorepo
-│   ├── packages/
-│   │   ├── ingestion-api/     # Fastify 고성능 이벤트 수집 API (:4000)
-│   │   ├── decision-api/      # 실시간 개입 의사결정 API (:4001)
-│   │   ├── stream-worker/     # Redis Stream Consumer & 룰 엔진
-│   │   ├── dashboard-api/     # OLAP 분석 & 대시보드 API (:4002)
-│   │   ├── data-science/      # Python 임계치 ML 분석 모델 API (:8000)
-│   │   └── simulator/         # 사용자 행동 트래픽 시뮬레이터
-│   ├── notebooks/             # 행동 데이터셋 분석 & A/B 테스트 지표 도출 (Jupyter)
-│   ├── docs/                  # API 규격서 및 아키텍처 명세서
-│   └── docker-compose.yml     # 백엔드 마이크로서비스 일괄 실행 환경
+├── ⚙️ backend/               # REST API & Microservices Engine
+│   ├── server.js              # Express REST API Server (:5001)
+│   ├── db.json                # 아고다/부킹닷컴 실사 숙소 데이터베이스
+│   └── scripts/               # crawl_real_hotel_details.js
 │
-├── 🚀 docker-compose.yml     # 풀스택(FE + BE) 통합 Docker 인프라 실행 환경
-├── 📄 package.json           # 모노레포 스크립트
-└── 📘 README.md              # 메인 포트폴리오 안내 문서
+├── 🌐 api/                   # Vercel Cloud Serverless API Handler (index.js)
+├── 🚀 vercel.json            # Vercel Deployment Configuration
+└── 📘 README.md              # 프로젝트 안내서
 ```
 
 ---
 
 ## ⚡ 빠른 시작 가이드 (Quick Start)
 
-### 1) 프론트엔드 실행 (React SPA / Port: 5100)
+### 1) 클라우드 라이브 브라우저 접속 (추천)
+👉 [https://knu-capston-fe.vercel.app](https://knu-capston-fe.vercel.app) 접속
+
+### 2) 로컬 환경 실행
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-👉 브라우저에서 `http://localhost:5100` 접속 후 실시간 이탈 감지 테스트 가능합니다.
-
-### 2) 백엔드 마이크로서비스 실행 (Docker Compose)
-```bash
-# 루트 디렉토리에서 실행
-docker compose up -d
-```
-👉 Ingestion API (`:4000`), Decision API (`:4001`), Dashboard API (`:4002`), Redis (`:6379`), PostgreSQL (`:5432`), ClickHouse (`:8123`)가 자동 구동됩니다.
+👉 브라우저에서 `http://localhost:5100` 접속 후 테스트 가능합니다.
