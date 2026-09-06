@@ -65,6 +65,9 @@ export function useHoverTracker() {
 
   // 1. Auto track page views on route change & setup mobile history interceptor
   useEffect(() => {
+    // Reset trigger flag on route change to allow testing on new pages
+    hasTriggeredExitIntent.current = false;
+
     trackEvent('page_view', {
       pathname: location.pathname,
       search: location.search,
@@ -78,9 +81,9 @@ export function useHoverTracker() {
     }
   }, [location, trackEvent, isMobileDevice]);
 
-  // 2. PC Mouse Exit-Intent Detection (clientY <= 15px)
+  // 2. PC Mouse Exit-Intent Detection (mousemove or mouseleave at clientY <= 15px)
   useEffect(() => {
-    const handleMouseLeave = (e: MouseEvent) => {
+    const handleMousePosition = (e: MouseEvent) => {
       if (e.clientY <= 15 && !hasTriggeredExitIntent.current) {
         hasTriggeredExitIntent.current = true;
         trackEvent('exit_intent_detected', { clientY: e.clientY, device: 'desktop' });
@@ -88,9 +91,11 @@ export function useHoverTracker() {
       }
     };
 
-    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mousemove', handleMousePosition);
+    document.addEventListener('mouseleave', handleMousePosition);
     return () => {
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove', handleMousePosition);
+      document.removeEventListener('mouseleave', handleMousePosition);
     };
   }, [trackEvent, checkDecision]);
 
@@ -130,10 +135,9 @@ export function useHoverTracker() {
         const endY = e.changedTouches[0].clientY;
         const endTime = Date.now();
 
-        const deltaY = endY - startY; // positive = scroll down, negative = scroll up
+        const deltaY = endY - startY;
         const duration = endTime - startTime;
 
-        // Rapid scroll up near top of page (deltaY < -150px within 200ms and scrollY < 100px)
         if (
           deltaY < -150 &&
           duration < 200 &&
@@ -203,6 +207,10 @@ export function useHoverTracker() {
       trackEvent('widget_dismissed', { component: activeWidget.component });
     }
     setActiveWidget(null);
+    // Allow re-testing on subsequent mouse moves
+    setTimeout(() => {
+      hasTriggeredExitIntent.current = false;
+    }, 1000);
   }, [activeWidget, trackEvent]);
 
   // Accept/click widget offer
