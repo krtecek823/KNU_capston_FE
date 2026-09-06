@@ -63,24 +63,12 @@
 
 ---
 
-## 🚀 고도화 및 핵심 차별화 포인트 (Major Enhancements)
+## 🚀 핵심 고도화 및 차별성 (Major Enhancements)
 
-### 1. ⚡ TanStack Query (v5) + Zustand 전역 상태 관리
-- **TanStack Query (v5)**: 숙소 데이터 및 상세 조회 시 `staleTime: 5분`, `gcTime: 10분` 캐싱을 적용하여 불필요한 서버 재요청을 방지하고, Skeleton UI를 통합 제공합니다.
-- **Zustand Store**: 유저 Auth 상태(`useAuthStore`) 및 쿠폰 지갑 상태(`useCouponStore`)를 전역 스토어로 일원화하고 `localStorage`와 동기화(`persist`)했습니다.
-
-### 2. 📱 크로스 디바이스 이탈 감지 엔진 (Cross-Device Exit-Intent Engine)
-- **PC 데스크톱**: 화면 상단 15px 영역에 마우스 커서 접촉 시 `mousemove` 및 `mouseleave` 감지로 0.01초 만에 이탈 포착.
-- **모바일 웹 (Mobile Web)**: 
-  - History API `popstate` 인터셉트로 모바일 뒤로가기 / 제스처 포착.
-  - `touchstart` / `touchend` 터치 플링 알고리즘으로 상단 주소창 방향의 패스트 스크롤업 감지.
-
-### 3. 🧪 Vitest + React Testing Library 자동화 단위 테스트
-- `Vitest`와 `@testing-library/react`를 활용하여 주요 커스텀 훅 및 Zustand 전역 스토어, React 컴포넌트의 유닛 테스트 스위트를 구축했습니다. (`npm test` ➔ 100% PASS)
-
-### 4. 📊 B2B 마케터 전용 A/B 테스트 & 전환율 시각화 대시보드 (`/admin`)
-- **B2C/B2B 완벽 분리**: 일반 고객용 헤더 메뉴는 B2C 쇼핑에 집중시키고, 마케터 및 애널리스트 전용 대시보드는 푸터 하단 및 독립 경로(`/admin`)로 격리 배치.
-- **Recharts 시각화**: 일별 이탈 포착 및 결제 전환 트렌드 차트(`AreaChart`), A/B 테스트 그룹별 CVR 비교 차트(`BarChart`), 실시간 이벤트 수집 테이블을 제공합니다.
+- ⚡ **TanStack Query (v5) & Zustand**: 5분 데이터 캐싱, 스켈레톤 UI, 유저/쿠폰 전역 상태 동기화
+- 📱 **크로스 디바이스 이탈 감지**: PC 마우스 궤적(`mousemove` 15px) & 모바일 뒤로가기(`popstate`) / 패스트 스크롤 포착
+- 🧪 **Vitest 단위 테스트**: Zustand 스토어 및 핵심 컴포넌트 자동화 유닛 테스트 (`npm test` 100% PASS)
+- 📊 **B2B 마케팅 대시보드 (`/admin`)**: Recharts 기반 A/B 테스트 CVR 전환율 시각화 및 B2C/B2B 경로 완벽 분리
 
 ---
 
