@@ -13,6 +13,7 @@ import { BookingPage } from './pages/BookingPage';
 import { MyBookingsPage } from './pages/MyBookingsPage';
 import { CouponsPage } from './pages/CouponsPage';
 import { LoginPage } from './pages/LoginPage';
+import { AdminPage } from './pages/AdminPage';
 
 const AppContent: React.FC = () => {
   const { activeWidget, triggerDevice, dismissWidget, acceptWidget } = useHoverTracker();
@@ -36,10 +37,11 @@ const AppContent: React.FC = () => {
           <Route path="/my-bookings" element={<MyBookingsPage />} />
           <Route path="/coupons" element={<CouponsPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </main>
 
-      {/* Exit-Intent Coupon Modal Intervention with Device Badge */}
+      {/* Exit-Intent Coupon Modal Intervention */}
       {activeWidget?.component === 'coupon_modal' && (
         <CouponModal
           data={activeWidget}
