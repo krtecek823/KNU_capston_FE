@@ -19,18 +19,6 @@
 
 ---
 
-## 📸 주요 화면 스크린샷 미리보기 (Screen Previews)
-
-| 🏠 1. B2C 메인 & 최저가 검색 화면 | 🎁 2. 크로스 디바이스 이탈 감지 시크릿 쿠폰 모달 |
-| :---: | :---: |
-| <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" width="100%" alt="Main Home & Hotel Search" /><br><sub>**5성급 럭셔리 숙소 큐레이션 및 TanStack Query 5분 캐싱**</sub> | <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" width="100%" alt="Exit-Intent Coupon Intervention" /><br><sub>**PC 상단 15px 마우스 궤적 & 모바일 뒤로가기 포착 즉시 팝업**</sub> |
-
-| 📊 3. B2B 마케터 A/B 테스트 & CVR 대시보드 (`/admin`) | 🧪 4. Vitest 자동화 단위 테스트 (100% PASS) |
-| :---: | :---: |
-| <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" width="100%" alt="B2B Marketing Analytics Dashboard" /><br><sub>**Recharts 시각화: 일별 이탈 포착, CVR 전환율, 실시간 이벤트 스트림**</sub> | <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&w=800&q=80" width="100%" alt="Vitest Unit Testing Suite" /><br><sub>**Zustand 스토어 및 React 컴포넌트 단위 테스트 100% 검증**</sub> |
-
----
-
 ## 🛠️ 기술 스택 (Tech Stack)
 
 ### 🎨 Frontend Core & Architecture
