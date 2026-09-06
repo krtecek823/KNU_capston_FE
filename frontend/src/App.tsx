@@ -15,7 +15,7 @@ import { CouponsPage } from './pages/CouponsPage';
 import { LoginPage } from './pages/LoginPage';
 
 const AppContent: React.FC = () => {
-  const { activeWidget, dismissWidget, acceptWidget } = useHoverTracker();
+  const { activeWidget, triggerDevice, dismissWidget, acceptWidget } = useHoverTracker();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f9f9ff]">
@@ -39,10 +39,11 @@ const AppContent: React.FC = () => {
         </Routes>
       </main>
 
-      {/* Exit-Intent Coupon Modal Intervention */}
+      {/* Exit-Intent Coupon Modal Intervention with Device Badge */}
       {activeWidget?.component === 'coupon_modal' && (
         <CouponModal
           data={activeWidget}
+          triggerDevice={triggerDevice}
           onClose={dismissWidget}
           onAccept={acceptWidget}
         />

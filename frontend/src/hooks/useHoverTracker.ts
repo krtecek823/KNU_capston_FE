@@ -22,6 +22,12 @@ export function useHoverTracker() {
   const hasTriggeredCopyIntent = useRef<boolean>(false);
 
   const [activeWidget, setActiveWidget] = useState<DecisionResponse | null>(null);
+  const [triggerDevice, setTriggerDevice] = useState<'desktop' | 'mobile'>('desktop');
+
+  // Helper to detect mobile device
+  const isMobileDevice = useCallback(() => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  }, []);
 
   // Helper to append and flush events
   const trackEvent = useCallback((type: string, payload: Record<string, unknown> = {}) => {
@@ -45,8 +51,9 @@ export function useHoverTracker() {
   }, []);
 
   // Check decision engine for dynamic interventions
-  const checkDecision = useCallback(async (triggerReason?: string) => {
+  const checkDecision = useCallback(async (triggerReason?: string, deviceType: 'desktop' | 'mobile' = 'desktop') => {
     try {
+      setTriggerDevice(deviceType);
       const decision = await api.checkDecision(sessionIdRef.current, triggerReason);
       if (decision.component) {
         setActiveWidget(decision);
@@ -56,22 +63,28 @@ export function useHoverTracker() {
     }
   }, []);
 
-  // 1. Auto track page views on route change
+  // 1. Auto track page views on route change & setup mobile history interceptor
   useEffect(() => {
     trackEvent('page_view', {
       pathname: location.pathname,
       search: location.search,
       title: document.title,
+      device: isMobileDevice() ? 'mobile' : 'desktop',
     });
-  }, [location, trackEvent]);
 
-  // 2. Mouse Exit-Intent Detection (clientY <= 15px)
+    // Mobile Push State Interceptor for Back Button Exit-Intent
+    if (isMobileDevice()) {
+      window.history.pushState({ hoverstay_intercepted: true }, '', window.location.href);
+    }
+  }, [location, trackEvent, isMobileDevice]);
+
+  // 2. PC Mouse Exit-Intent Detection (clientY <= 15px)
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 15 && !hasTriggeredExitIntent.current) {
         hasTriggeredExitIntent.current = true;
-        trackEvent('exit_intent_detected', { clientY: e.clientY });
-        checkDecision('exit_intent');
+        trackEvent('exit_intent_detected', { clientY: e.clientY, device: 'desktop' });
+        checkDecision('exit_intent', 'desktop');
       }
     };
 
@@ -81,14 +94,81 @@ export function useHoverTracker() {
     };
   }, [trackEvent, checkDecision]);
 
-  // 3. Hotel Name / Text Copy Detection (Detect price comparison searching on Agoda/Naver)
+  // 3. Mobile Back Button Intercept (`popstate` event)
+  useEffect(() => {
+    const handlePopState = () => {
+      if (!hasTriggeredExitIntent.current) {
+        hasTriggeredExitIntent.current = true;
+        trackEvent('exit_intent_detected', { trigger: 'mobile_back_button', device: 'mobile' });
+        checkDecision('exit_intent', 'mobile');
+
+        // Push state again so next back press will actually navigate
+        window.history.pushState(null, '', window.location.href);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [trackEvent, checkDecision]);
+
+  // 4. Mobile Fast Scroll Up (Flinging towards address bar)
+  useEffect(() => {
+    let startY = 0;
+    let startTime = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        startY = e.touches[0].clientY;
+        startTime = Date.now();
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (e.changedTouches.length === 1) {
+        const endY = e.changedTouches[0].clientY;
+        const endTime = Date.now();
+
+        const deltaY = endY - startY; // positive = scroll down, negative = scroll up
+        const duration = endTime - startTime;
+
+        // Rapid scroll up near top of page (deltaY < -150px within 200ms and scrollY < 100px)
+        if (
+          deltaY < -150 &&
+          duration < 200 &&
+          window.scrollY < 100 &&
+          !hasTriggeredExitIntent.current
+        ) {
+          hasTriggeredExitIntent.current = true;
+          trackEvent('exit_intent_detected', {
+            trigger: 'mobile_fast_scroll_up',
+            deltaY,
+            duration,
+            device: 'mobile',
+          });
+          checkDecision('exit_intent', 'mobile');
+        }
+      }
+    };
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [trackEvent, checkDecision]);
+
+  // 5. Hotel Name / Text Copy Detection (Detect price comparison searching)
   useEffect(() => {
     const handleCopy = () => {
       const selectedText = window.getSelection()?.toString().trim() || '';
       if (selectedText.length >= 2 && !hasTriggeredCopyIntent.current) {
         hasTriggeredCopyIntent.current = true;
         trackEvent('clipboard_copy', { copied_text: selectedText.substring(0, 100) });
-        checkDecision('copy_intent');
+        checkDecision('copy_intent', isMobileDevice() ? 'mobile' : 'desktop');
       }
     };
 
@@ -96,9 +176,9 @@ export function useHoverTracker() {
     return () => {
       document.removeEventListener('copy', handleCopy);
     };
-  }, [trackEvent, checkDecision]);
+  }, [trackEvent, checkDecision, isMobileDevice]);
 
-  // 4. Tab Switch / Visibility Change Detection
+  // 6. Tab Switch / Visibility Change Detection
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -106,8 +186,8 @@ export function useHoverTracker() {
         document.title = '🎁 [최저가 보장] 선택하신 객실 혜택 유효 중!';
       } else {
         trackEvent('visibility_change', { state: 'visible' });
-        document.title = 'HoverStay - 프리미엄 스테이 예약';
-        checkDecision('tab_return');
+        document.title = 'HoverStay - 국내 단독 최저가 프리미엄 스테이';
+        checkDecision('tab_return', isMobileDevice() ? 'mobile' : 'desktop');
       }
     };
 
@@ -115,7 +195,7 @@ export function useHoverTracker() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [trackEvent, checkDecision]);
+  }, [trackEvent, checkDecision, isMobileDevice]);
 
   // Close active widget modal/banner
   const dismissWidget = useCallback(() => {
@@ -137,8 +217,9 @@ export function useHoverTracker() {
     sessionId: sessionIdRef.current,
     trackEvent,
     activeWidget,
+    triggerDevice,
     dismissWidget,
     acceptWidget,
-    triggerExitIntentManual: () => checkDecision('exit_intent')
+    triggerExitIntentManual: () => checkDecision('exit_intent', isMobileDevice() ? 'mobile' : 'desktop'),
   };
 }
