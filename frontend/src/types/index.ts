@@ -23,6 +23,25 @@ export interface Coupon {
   validUntil: string;
 }
 
+export interface BookingRecord {
+  id: string;
+  hotelId: string;
+  hotelName: string;
+  hotelLocation: string;
+  hotelImage: string;
+  roomName: string;
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  userName: string;
+  userPhone: string;
+  userEmail: string;
+  paymentMethod: string;
+  totalPrice: number;
+  createdAt: string;
+  status: 'COMPLETED' | 'CANCELLED';
+}
+
 export interface TrackingEvent {
   event_id: string;
   ts: number;

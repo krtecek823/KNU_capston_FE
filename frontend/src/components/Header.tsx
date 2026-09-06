@@ -1,28 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Building2, Search, User, LogOut, Ticket } from 'lucide-react';
+import { useAuthStore } from '../store/useAuthStore';
 
 export const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isActive = (path: string) => location.pathname === path;
 
-  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('hoverstay_user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch {
-        setUser(null);
-      }
-    }
-  }, [location]);
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   const handleLogout = () => {
-    localStorage.removeItem('hoverstay_user');
-    setUser(null);
+    logout();
     navigate('/');
   };
 
@@ -101,7 +90,7 @@ export const Header: React.FC = () => {
 
         {/* Right User Navigation */}
         <div className="flex items-center gap-3">
-          {user ? (
+          {isAuthenticated && user ? (
             <div className="flex items-center gap-2">
               <span className="text-xs font-extrabold text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl hidden sm:inline">
                 {user.name}님

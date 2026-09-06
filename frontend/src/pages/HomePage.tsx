@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, Calendar, ShieldCheck, Star, ArrowUpRight, X, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
-import { api } from '../services/api';
-import { Hotel } from '../types';
+import { useHotels } from '../hooks/useHotelQueries';
+import { HotelCardSkeleton } from '../components/HotelCardSkeleton';
 
 export const HomePage: React.FC = () => {
-  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const { data: hotels = [], isLoading } = useHotels();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedCategory] = useState('전체');
 
@@ -21,7 +21,7 @@ export const HomePage: React.FC = () => {
 
   // Month navigation in calendar
   const [viewYear, setViewYear] = useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = useState(today.getMonth()); // 0-indexed (8 = Sep)
+  const [viewMonth, setViewMonth] = useState(today.getMonth()); // 0-indexed
 
   const curations = [
     { id: '전체', label: '전체 스테이' },
@@ -30,10 +30,6 @@ export const HomePage: React.FC = () => {
     { id: '독채', label: '프라이빗 독채' },
     { id: '스파', label: '힐링 스파' },
   ];
-
-  useEffect(() => {
-    api.getHotels().then(setHotels);
-  }, []);
 
   const filteredHotels = hotels.filter((h) => {
     if (selectedTag === '전체') return true;
@@ -108,209 +104,178 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  const isSameDay = (d1: Date | null, d2: Date | null) => {
-    if (!d1 || !d2) return false;
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
-  };
-
-  const isInRange = (d: Date) => {
-    if (checkIn && checkOut) {
-      return d.getTime() > checkIn.getTime() && d.getTime() < checkOut.getTime();
-    }
-    if (checkIn && !checkOut && hoverDate && hoverDate.getTime() > checkIn.getTime()) {
-      return d.getTime() > checkIn.getTime() && d.getTime() < hoverDate.getTime();
-    }
-    return false;
-  };
-
   const renderMonthGrid = (year: number, month: number) => {
-    const totalDays = getDaysInMonth(year, month);
-    const firstDay = getFirstDayOfWeek(year, month);
-    const weekHeaders = ['일', '월', '화', '수', '목', '금', '토'];
+    const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+    const daysInMonth = getDaysInMonth(year, month);
+    const startDay = getFirstDayOfWeek(year, month);
 
-    const daysArray = [];
-    for (let i = 0; i < firstDay; i++) {
-      daysArray.push(null);
+    const days = [];
+    for (let i = 0; i < startDay; i++) {
+      days.push(<div key={`empty-${i}`} className="h-10"></div>);
     }
-    for (let d = 1; d <= totalDays; d++) {
-      daysArray.push(new Date(year, month, d));
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dayDate = new Date(year, month, d);
+      const dayTime = dayDate.getTime();
+      const inTime = checkIn.getTime();
+      const outTime = checkOut ? checkOut.getTime() : hoverDate ? hoverDate.getTime() : null;
+
+      const isToday = dayDate.toDateString() === today.toDateString();
+      const isPast = dayDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      const isStart = dayTime === inTime;
+      const isEnd = checkOut ? dayTime === checkOut.getTime() : false;
+      const isInRange = outTime && dayTime > inTime && dayTime < outTime;
+
+      let btnStyle = 'text-slate-700 hover:bg-blue-50 hover:text-blue-600 font-medium';
+      if (isPast) {
+        btnStyle = 'text-slate-300 cursor-not-allowed';
+      } else if (isStart || isEnd) {
+        btnStyle = 'bg-blue-600 text-white font-black shadow-md rounded-xl';
+      } else if (isInRange) {
+        btnStyle = 'bg-blue-100 text-blue-800 font-bold rounded-none';
+      } else if (isToday) {
+        btnStyle = 'border border-blue-500 text-blue-600 font-bold';
+      }
+
+      days.push(
+        <button
+          key={d}
+          disabled={isPast}
+          onClick={() => handleDateClick(dayDate)}
+          onMouseEnter={() => {
+            if (isSelectingCheckOut) setHoverDate(dayDate);
+          }}
+          className={`h-10 text-xs sm:text-sm flex items-center justify-center transition-all ${btnStyle}`}
+        >
+          {d}
+        </button>
+      );
     }
 
     return (
       <div className="space-y-3">
-        <div className="text-center font-black text-sm text-slate-900">
-          {year}년 {month + 1}월
+        <div className="text-center font-black text-slate-800 text-sm">
+          {year}년 {monthNames[month]}
         </div>
-
-        {/* Day of Week Headers with Sunday Red / Saturday Blue */}
-        <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-bold">
-          {weekHeaders.map((w, idx) => (
-            <div
-              key={idx}
-              className={
-                idx === 0 ? 'text-rose-500 font-extrabold' : idx === 6 ? 'text-blue-500 font-extrabold' : 'text-slate-400'
-              }
-            >
-              {w}
-            </div>
-          ))}
+        <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-extrabold text-slate-400">
+          <span className="text-rose-500">일</span>
+          <span>월</span>
+          <span>화</span>
+          <span>수</span>
+          <span>목</span>
+          <span>금</span>
+          <span className="text-blue-500">토</span>
         </div>
-
-        {/* Days Grid */}
-        <div className="grid grid-cols-7 gap-1">
-          {daysArray.map((d, idx) => {
-            if (!d) return <div key={idx} className="h-10"></div>;
-
-            const isStart = isSameDay(d, checkIn);
-            const isEnd = isSameDay(d, checkOut);
-            const isHoverTarget = isSameDay(d, hoverDate) && isSelectingCheckOut && d.getTime() > checkIn.getTime();
-            const inBetween = isInRange(d);
-            const isPast = d.getTime() < new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-            const isToday = isSameDay(d, today);
-
-            let btnStyle = 'hover:bg-slate-100 text-slate-800 font-bold rounded-xl';
-            if (isPast) {
-              btnStyle = 'text-slate-300 pointer-events-none';
-            } else if (isStart || isEnd) {
-              btnStyle = 'bg-blue-600 text-white font-black shadow-md rounded-xl scale-105 z-10';
-            } else if (isHoverTarget) {
-              btnStyle = 'bg-blue-500 text-white font-black rounded-xl border-2 border-blue-400';
-            } else if (inBetween) {
-              btnStyle = 'bg-blue-100 text-blue-900 font-extrabold rounded-none';
-            } else if (d.getDay() === 0) {
-              btnStyle += ' text-rose-600';
-            } else if (d.getDay() === 6) {
-              btnStyle += ' text-blue-600';
-            }
-
-            return (
-              <button
-                key={idx}
-                disabled={isPast}
-                onClick={() => handleDateClick(d)}
-                onMouseEnter={() => setHoverDate(d)}
-                className={`h-10 w-full flex flex-col items-center justify-center text-xs transition-all relative ${btnStyle}`}
-              >
-                <span>{d.getDate()}</span>
-                {isToday && !isStart && !isEnd && (
-                  <span className="text-[9px] font-extrabold text-blue-600 -mt-1 block">오늘</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
+        <div className="grid grid-cols-7 gap-1">{days}</div>
       </div>
     );
   };
 
   return (
-    <div className="space-y-20 pb-28 bg-[#fafafa]">
-      
-      {/* 1. Domestic Luxury Hotel Hero with Perfectly Balanced Floating Search Dock */}
-      <section className="relative min-h-[560px] sm:min-h-[620px] w-full bg-slate-950 flex flex-col items-center justify-center pt-16 pb-20 px-6 sm:px-12 text-white overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80"
-          alt="Hero Stay Background"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 scale-105 transition-transform duration-1000"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/20"></div>
+    <div className="space-y-16 pb-20">
+      {/* 1. Hero Search Section */}
+      <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white overflow-hidden rounded-b-3xl">
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-        {/* Center Title & Subtitle */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4 mb-8">
-          <p className="text-xs sm:text-sm font-extrabold text-blue-300 tracking-widest">
-            국내 단독 최저가 프리미엄 스테이
-          </p>
-          <h1 className="text-3xl sm:text-5xl sm:leading-tight font-black tracking-tight text-white">
-            당신의 특별한 날을 완성하는 <br />
-            단 하나의 프라이빗 공간
+        <div className="relative max-w-5xl mx-auto text-center space-y-6">
+          <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 px-4 py-1.5 rounded-full text-xs font-extrabold backdrop-blur-md">
+            <ShieldCheck className="w-4 h-4 text-blue-400" /> 국내 단독 최저가 프리미엄 스테이
+          </span>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+            당신의 특별한 날을 완성하는 <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-300">
+              단 하나의 프라이빗 공간
+            </span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 font-medium max-w-lg mx-auto">
+
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-medium">
             엄선된 국내 최상급 호텔과 리조트. 회원 전용 단독 최저가 혜택으로 지금 떠나보세요.
           </p>
-        </div>
 
-        {/* Perfectly Proportioned Balanced Search Dock */}
-        <div className="relative z-10 max-w-3xl sm:max-w-4xl mx-auto w-full">
-          <div className="bg-white/95 backdrop-blur-md p-2.5 sm:p-3 rounded-2xl sm:rounded-full shadow-2xl border border-white/90 text-slate-900">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-              }}
-              className="flex flex-col sm:flex-row items-center gap-2"
-            >
-              {/* Location Input */}
-              <div className="flex-1 w-full flex items-center gap-2.5 px-4 py-2 bg-slate-50/80 sm:bg-transparent rounded-xl">
-                <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
+          {/* Interactive Search Dock */}
+          <div className="pt-6">
+            <div className="bg-white/95 backdrop-blur-xl p-3 rounded-2xl sm:rounded-full shadow-2xl border border-white/20 text-slate-900 max-w-3xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="flex-1 flex items-center gap-3 px-4 py-2 border-b sm:border-b-0 sm:border-r border-slate-200">
+                <MapPin className="w-5 h-5 text-blue-600 shrink-0" />
                 <input
                   type="text"
                   placeholder="어디로 떠나시나요? (예: 광진구, 워커힐, 해운대, 북촌)"
-                  className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none placeholder-slate-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-hidden placeholder:text-slate-400 placeholder:font-normal"
                 />
               </div>
 
-              {/* Interactive Date Range Button */}
+              {/* Dynamic Range Trigger */}
               <button
-                type="button"
                 onClick={() => setShowCalendarModal(true)}
-                className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-slate-100 sm:bg-transparent hover:bg-slate-200/60 rounded-xl sm:rounded-full border-t sm:border-t-0 sm:border-l border-slate-200 text-xs sm:text-sm font-extrabold text-slate-800 whitespace-nowrap transition-colors"
+                className="flex items-center gap-3 px-4 py-2 text-left border-b sm:border-b-0 border-slate-200 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
               >
-                <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>{getFormattedDates()}</span>
+                <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+                    CHECK-IN / OUT
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-slate-800">
+                    {getFormattedDates()}
+                  </span>
+                </div>
               </button>
 
-              {/* Balanced Search Button */}
-              <button
-                type="submit"
-                className="w-full sm:w-auto bg-slate-900 hover:bg-blue-600 text-white font-extrabold text-xs sm:text-sm px-7 py-3 rounded-xl sm:rounded-full shadow-md transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+              <Link
+                to={`/search?q=${encodeURIComponent(searchQuery)}`}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-6 py-3.5 rounded-xl sm:rounded-full flex items-center justify-center gap-2 transition-all shadow-md shrink-0"
               >
-                <Search className="w-3.5 h-3.5" />
-                <span>검색</span>
-              </button>
-            </form>
+                <Search className="w-4 h-4" />
+                <span className="text-sm">검색</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Real Visual Monthly Calendar Modal Overlay */}
+      {/* Visual Multi-Night Range Picker Modal */}
       {showCalendarModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white text-slate-900 w-full max-w-2xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 space-y-6 animate-in fade-in zoom-in-95">
-            
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 space-y-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
-                <h4 className="text-base font-black text-slate-900 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-blue-600" /> 체크인 & 체크아웃 일정 선택
-                </h4>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">
-                  1차 클릭으로 <span className="font-bold text-blue-600">체크인</span>을, 2차 클릭으로 <span className="font-bold text-blue-600">체크아웃</span> 날짜를 자유롭게 지정해 주세요.
+                <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-blue-600" /> 체크인 / 체크아웃 날짜 선택
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5 font-medium">
+                  원하시는 체크인 날짜와 체크아웃 날짜를 순서대로 클릭해 주세요.
                 </p>
               </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={resetSelection}
-                  className="flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-900 bg-slate-100 px-3 py-1.5 rounded-xl transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" /> 선택 초기화
-                </button>
-                <button
-                  onClick={() => setShowCalendarModal(false)}
-                  className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+              <button
+                onClick={() => setShowCalendarModal(false)}
+                className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {/* Calendar Controls & Dual Month View */}
+            {/* Selected Range Display Bar */}
+            <div className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between border border-slate-200/60">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-500">선택된 일정:</span>
+                <span className="text-xs font-black text-blue-600 bg-blue-50 px-3.5 py-1.5 rounded-full">
+                  {getFormattedDates()}
+                </span>
+              </div>
+
+              <button
+                onClick={resetSelection}
+                className="text-xs font-bold text-slate-500 hover:text-rose-600 flex items-center gap-1 hover:bg-rose-50 px-2.5 py-1 rounded-lg transition-colors"
+              >
+                <RotateCcw className="w-3.5 h-3.5" /> 초기화
+              </button>
+            </div>
+
+            {/* Dual Month Calendar View */}
             <div className="space-y-4">
               <div className="flex items-center justify-between px-2">
                 <button
@@ -378,92 +343,91 @@ export const HomePage: React.FC = () => {
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                 }`}
               >
-                일정 확정하기
+                선택 완료
               </button>
             </div>
-
           </div>
         </div>
       )}
 
-      {/* 2. Recommended Stays Section (Single-Line Description) */}
+      {/* 2. Top Recommended Stays */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
+        <div className="flex items-end justify-between border-b border-slate-200 pb-5">
           <div>
             <span className="text-xs font-extrabold text-blue-600 uppercase tracking-widest block mb-1">
-              BEST SELECTION
+              WEEKLY BEST SELECTION
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              이번 주 인기 추천 숙소 🔥
+              이번 주 가장 사랑받은 호캉스 스테이
             </h2>
           </div>
-          <p className="text-xs text-slate-500 font-medium whitespace-nowrap hidden sm:block">
-            뛰어난 만족도, 최고급 시설, 회원 단독 최저가 혜택을 갖춘 인기 숙소를 엄선했습니다.
-          </p>
+          <Link
+            to="/search"
+            className="text-xs font-extrabold text-slate-600 hover:text-blue-600 flex items-center gap-1 transition-colors"
+          >
+            전체보기 <ArrowUpRight className="w-4 h-4" />
+          </Link>
         </div>
 
-        {/* Recommended Hotel Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {recommendedStays.map((stay, index) => (
-            <div
-              key={stay.id}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div className="relative h-64 overflow-hidden bg-slate-100">
-                <img
-                  src={stay.imageUrl}
-                  alt={stay.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 bg-slate-900/90 text-white text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>인기 추천 0{index + 1}</span>
-                </div>
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-sm">
-                  100% 최저가 보장
-                </div>
-              </div>
-
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-1 text-xs text-amber-500 font-bold">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <span>{stay.rating}</span>
-                    <span className="text-slate-400 font-normal">({stay.reviewCount} 리뷰)</span>
-                  </div>
-
-                  <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
-                    {stay.name}
-                  </h3>
-
-                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed font-medium">
-                    {stay.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-xs text-slate-400 line-through block font-medium">
-                      ₩{stay.originalPrice.toLocaleString()}
-                    </span>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-xl font-black text-slate-900">
-                        ₩{stay.discountPrice.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-slate-500 font-medium">/ 1박</span>
+        {/* Stays Grid with TanStack Query Loading Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {isLoading
+            ? [1, 2, 3].map((n) => <HotelCardSkeleton key={n} />)
+            : recommendedStays.map((stay) => (
+                <div
+                  key={stay.id}
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                >
+                  <div className="relative h-64 overflow-hidden bg-slate-100">
+                    <img
+                      src={stay.imageUrl}
+                      alt={stay.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1.5 rounded-full">
+                      {stay.category}
+                    </div>
+                    <div className="absolute top-4 right-4 bg-amber-500 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 fill-white" /> {stay.rating}
                     </div>
                   </div>
 
-                  <Link
-                    to={`/hotels/${stay.id}`}
-                    className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 flex items-center justify-center transition-all shadow-xs"
-                  >
-                    <ArrowUpRight className="w-5 h-5" />
-                  </Link>
+                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div>
+                      <span className="text-xs font-bold text-blue-600 flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5" /> {stay.location}
+                      </span>
+                      <h3 className="text-lg font-black text-slate-900 mt-1 group-hover:text-blue-600 transition-colors">
+                        {stay.name}
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                        {stay.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                      <div>
+                        <span className="text-xs text-slate-400 line-through block font-medium">
+                          ₩{stay.originalPrice.toLocaleString()}
+                        </span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl font-black text-slate-900">
+                            ₩{stay.discountPrice.toLocaleString()}
+                          </span>
+                          <span className="text-xs text-slate-500 font-medium">/ 1박</span>
+                        </div>
+                      </div>
+
+                      <Link
+                        to={`/hotels/${stay.id}`}
+                        className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-slate-900 group-hover:text-white text-slate-700 flex items-center justify-center transition-all shadow-xs"
+                      >
+                        <ArrowUpRight className="w-5 h-5" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
         </div>
       </section>
 
@@ -497,68 +461,70 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* All Stays Grid */}
+        {/* All Stays Grid with Skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredHotels.map((hotel) => (
-            <div
-              key={hotel.id}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between group"
-            >
-              <div className="relative h-56 overflow-hidden bg-slate-100">
-                <img
-                  src={hotel.imageUrl}
-                  alt={hotel.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 bg-slate-900/90 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
-                  {hotel.category}
-                </div>
-                <div className="absolute top-3 right-3 bg-rose-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-lg">
-                  최저가 보장
-                </div>
-              </div>
-
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                  <div className="flex items-center gap-1 text-xs text-amber-500 font-bold mb-1">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <span>{hotel.rating}</span>
-                    <span className="text-slate-400 font-normal">({hotel.reviewCount}개 평가)</span>
-                  </div>
-
-                  <h3 className="font-extrabold text-base text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
-                    {hotel.name}
-                  </h3>
-
-                  <p className="text-xs text-slate-500 flex items-center gap-1 mt-1 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    {hotel.location}
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-end justify-between">
-                  <div>
-                    <span className="text-xs text-slate-400 line-through block font-medium">
-                      ₩{hotel.originalPrice.toLocaleString()}
-                    </span>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-xl font-black text-slate-900">
-                        ₩{hotel.discountPrice.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-slate-500 font-medium">/ 1박</span>
+          {isLoading
+            ? [1, 2, 3, 4, 5, 6].map((n) => <HotelCardSkeleton key={n} />)
+            : filteredHotels.map((hotel) => (
+                <div
+                  key={hotel.id}
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between group"
+                >
+                  <div className="relative h-56 overflow-hidden bg-slate-100">
+                    <img
+                      src={hotel.imageUrl}
+                      alt={hotel.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 left-3 bg-slate-900/90 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
+                      {hotel.category}
+                    </div>
+                    <div className="absolute top-3 right-3 bg-rose-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-lg">
+                      최저가 보장
                     </div>
                   </div>
 
-                  <Link
-                    to={`/hotels/${hotel.id}`}
-                    className="bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors"
-                  >
-                    상세보기
-                  </Link>
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                    <div>
+                      <div className="flex items-center gap-1 text-xs text-amber-500 font-bold mb-1">
+                        <Star className="w-3.5 h-3.5 fill-amber-400" />
+                        <span>{hotel.rating}</span>
+                        <span className="text-slate-400 font-normal">({hotel.reviewCount}개 평가)</span>
+                      </div>
+
+                      <h3 className="font-extrabold text-base text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                        {hotel.name}
+                      </h3>
+
+                      <p className="text-xs text-slate-500 flex items-center gap-1 mt-1 font-medium">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                        {hotel.location}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-end justify-between">
+                      <div>
+                        <span className="text-xs text-slate-400 line-through block font-medium">
+                          ₩{hotel.originalPrice.toLocaleString()}
+                        </span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl font-black text-slate-900">
+                            ₩{hotel.discountPrice.toLocaleString()}
+                          </span>
+                          <span className="text-xs text-slate-500 font-medium">/ 1박</span>
+                        </div>
+                      </div>
+
+                      <Link
+                        to={`/hotels/${hotel.id}`}
+                        className="bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors"
+                      >
+                        상세보기
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
         </div>
       </section>
     </div>
