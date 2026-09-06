@@ -19,10 +19,10 @@ import {
   BarChart3,
   Smartphone,
   Monitor,
-  Sparkles,
   ArrowUpRight,
   ShieldCheck,
   Filter,
+  Lock,
 } from 'lucide-react';
 
 // Mock Performance Time Series Data for Recharts
@@ -59,8 +59,8 @@ export const AdminPage: React.FC = () => {
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs font-bold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" /> HoverStay 마케팅 애널리틱스 & A/B 엔진
+          <div className="inline-flex items-center gap-1.5 bg-slate-900 border border-slate-800 text-amber-300 px-3 py-1 rounded-full text-xs font-bold mb-2 shadow-xs">
+            <Lock className="w-3.5 h-3.5 text-amber-400" /> 🔒 HoverStay B2B 마케터/관리자 콘솔
           </div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">
             이탈 감지 & 실시간 전환율 대시보드

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Building2, Search, User, LogOut, Ticket, BarChart3 } from 'lucide-react';
+import { Building2, Search, User, LogOut, Ticket } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 
 export const Header: React.FC = () => {
@@ -84,19 +84,6 @@ export const Header: React.FC = () => {
           >
             <span className="flex items-center gap-1.5">
               <Ticket className="w-4 h-4 text-amber-500" /> 내 예약
-            </span>
-          </Link>
-
-          <Link
-            to="/admin"
-            className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-extrabold transition-colors ${
-              isActive('/admin')
-                ? 'bg-white text-blue-600 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              <BarChart3 className="w-4 h-4 text-indigo-600" /> 대시보드
             </span>
           </Link>
         </nav>

@@ -68,10 +68,16 @@ export const Footer: React.FC = () => {
 
         <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
           <p>© 2026 HoverStay. All rights reserved.</p>
-          <div className="flex gap-4 font-medium">
+          <div className="flex gap-4 font-medium items-center">
             <span className="hover:text-slate-300 cursor-pointer transition-colors">이용약관</span>
             <span className="hover:text-slate-300 cursor-pointer transition-colors">개인정보처리방침</span>
             <span className="hover:text-slate-300 cursor-pointer transition-colors">사업자정보확인</span>
+            <a
+              href="/admin"
+              className="hover:text-slate-300 transition-colors flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800"
+            >
+              🔒 마케터/관리자 콘솔
+            </a>
           </div>
         </div>
       </div>
