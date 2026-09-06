@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Gift, ArrowRight, Smartphone, Monitor } from 'lucide-react';
+import { X, Gift, ArrowRight, Sparkles } from 'lucide-react';
 import { DecisionResponse } from '../types';
 
 interface CouponModalProps {
@@ -11,12 +11,11 @@ interface CouponModalProps {
 
 export const CouponModal: React.FC<CouponModalProps> = ({
   data,
-  triggerDevice = 'desktop',
   onClose,
   onAccept,
 }) => {
   const discountPercent = data.context?.discount_percent || 15;
-  const hotelName = data.context?.hotel_name || '프리미엄 인기 객실';
+  const hotelName = data.context?.hotel_name || '선택하신 인기 프리미엄 객실';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-fade-in">
@@ -30,19 +29,10 @@ export const CouponModal: React.FC<CouponModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          {/* Dynamic Cross-Device Badge */}
-          <div className="inline-flex items-center gap-1.5 bg-slate-800 border border-slate-700 px-3.5 py-1 rounded-full text-xs font-bold mb-3 text-blue-300 shadow-inner">
-            {triggerDevice === 'mobile' ? (
-              <>
-                <Smartphone className="w-3.5 h-3.5 text-amber-400" />
-                <span>📱 모바일 이탈 감지 엔진 가동중</span>
-              </>
-            ) : (
-              <>
-                <Monitor className="w-3.5 h-3.5 text-blue-400" />
-                <span>💻 데스크톱 마우스 궤적 감지</span>
-              </>
-            )}
+          {/* Clean Natural B2C Marketing Badge */}
+          <div className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700/80 px-3.5 py-1 rounded-full text-xs font-bold mb-3 text-amber-300 shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>HoverStay 회원 전용 시크릿 혜택</span>
           </div>
 
           <h2 className="text-2xl font-black tracking-tight mb-1">
