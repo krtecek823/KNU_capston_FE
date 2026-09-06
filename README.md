@@ -65,10 +65,10 @@
 
 ## 🚀 핵심 고도화 및 차별성 (Major Enhancements)
 
-- ⚡ **TanStack Query (v5) & Zustand**: 5분 데이터 캐싱, 스켈레톤 UI, 유저/쿠폰 전역 상태 동기화
-- 📱 **크로스 디바이스 이탈 감지**: PC 마우스 궤적(`mousemove` 15px) & 모바일 뒤로가기(`popstate`) / 패스트 스크롤 포착
-- 🧪 **Vitest 단위 테스트**: Zustand 스토어 및 핵심 컴포넌트 자동화 유닛 테스트 (`npm test` 100% PASS)
-- 📊 **B2B 마케팅 대시보드 (`/admin`)**: Recharts 기반 A/B 테스트 CVR 전환율 시각화 및 B2C/B2B 경로 완벽 분리
+- **TanStack Query (v5) & Zustand**: 5분 데이터 캐싱, 스켈레톤 UI, 유저/쿠폰 전역 상태 동기화
+- **크로스 디바이스 이탈 감지**: PC 마우스 궤적(`mousemove` 15px) & 모바일 뒤로가기(`popstate`) / 패스트 스크롤 포착
+- **Vitest 단위 테스트**: Zustand 스토어 및 핵심 컴포넌트 자동화 유닛 테스트 (`npm test` 100% PASS)
+- **B2B 마케팅 대시보드 (`/admin`)**: Recharts 기반 A/B 테스트 CVR 전환율 시각화 및 B2C/B2B 경로 완벽 분리
 
 ---
 
